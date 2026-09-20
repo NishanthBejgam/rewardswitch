@@ -1,0 +1,66 @@
+# Reward Switch - the two-hourly build that makes this a website.
+#
+# GitHub re-reads every Amazon Pay reward page we know (logged out - the pages
+# answer with status, headline, category and window), writes catalog.json
+# beside the page and publishes the pair to Pages. No server, no login, no bill.
+#
+# Same lessons as Karat Board: GitHub's free cron drops slots, so ask on odd
+# minutes in two entries, and let an outside clock poke repository_dispatch.
+# Amazon answered plain curl from a runner on 2026-09-20 (coupon-watch); if it
+# ever refuses, RS_PROXY_URL/RS_PROXY_KEY reroute the fetches.
+
+name: Build and publish
+
+on:
+  repository_dispatch:
+    types: [sweep]
+  schedule:
+    - cron: "13 */2 * * *"
+    - cron: "43 1-23/2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Read every reward page and build the site
+        env:
+          RS_TAG: ycj05-21
+          RS_PACE: "6"
+          RS_BUDGET: "1200"
+          RS_SEED_URL: https://rewardswitch.yourcardjourney.store/catalog.json
+          RS_PROXY_URL: ${{ secrets.RS_PROXY_URL }}
+          RS_PROXY_KEY: ${{ secrets.RS_PROXY_KEY }}
+        run: python tools/build_site.py _site
+
+      - run: cp CNAME _site/CNAME
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

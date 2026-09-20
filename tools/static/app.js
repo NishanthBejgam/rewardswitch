@@ -1,0 +1,172 @@
+/* Reward Switch — public site. Reads catalog.json (built every two hours) and never
+   touches the visitor's Amazon account: "Collect" is a link to Amazon's own page. */
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inr = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+
+  const SEC_ORDER = ["S", "C", "F", "T", "B", "O", "M", "W", "U", "X"];
+  const ICON = {
+    S: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>',
+    C: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 16.4 6.7 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>',
+    F: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 0 0-16 0z"/><path d="M3 15h18"/><path d="M5 19h14"/></svg>',
+    T: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 12-3-6z"/></svg>',
+    B: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>',
+    O: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M10 20v-6h4v6"/></svg>',
+    M: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></svg>',
+    W: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0"/></svg>',
+    U: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0"/></svg>',
+    X: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m8 7 4-4 4 4"/></svg>',
+    All: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
+  };
+
+  const S = { cat: null, rewards: [], sections: {}, amount: 0, cat: "", browse: false, section: "All", state: "live", q: "" };
+
+  // ---- theme
+  const theme = localStorage.getItem("rs-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = theme;
+  $("#themeBtn").onclick = () => { const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = t; localStorage.setItem("rs-theme", t); };
+
+  // ---- helpers
+  function snack(msg) { const el = $("#snack"); el.textContent = msg; el.className = "snack show"; clearTimeout(el._t); el._t = setTimeout(() => (el.className = "snack"), 3200); }
+  function titleCase(s) { return s.replace(/\band\b/g, "&").replace(/\b([a-z])/g, (m) => m.toUpperCase()).replace(/\bOtc\b/, "OTC").replace(/\bUpi\b/, "UPI"); }
+  function categoryOf(r) { return r.category ? titleCase(r.category.trim().replace(/\s+shopping$/i, "")) : ""; }
+  function isMission(r) { return r.sec === "W" || r.sec === "U" || (!!r.unlock && !r.category); }
+  function isSitewide(r) { return /^(all )?amazon( shopping)?$/i.test(categoryOf(r)); }
+  function isLive(r) { return r.status === "CAN_BE_COLLECTED"; }
+  function logoName(r) { const n = (r.logo || "").split("/").pop().split(".")[0].replace(/_CB\d+/g, "").replace(/logo|text|temp|merch|final|new|\d+|D\d+_IN_[A-Z]+/gi, " ").replace(/[-_]+/g, " ").trim(); return n.split(" ").filter(Boolean).map((w) => (w === w.toLowerCase() ? w[0].toUpperCase() + w.slice(1) : w)).join(" "); }
+  function displayName(r) { if (isMission(r)) return r.headline && !/offers worth|surprise/i.test(r.headline) ? r.headline : (r.unlock || logoName(r) || "Mission"); return categoryOf(r) || logoName(r) || r.headline || r.ad; }
+  function methodOf(r) { const b = (r.badge || "").trim(); if (!b || /just for prime|top brand/i.test(b)) return ""; return titleCase(b.replace(/^using\s*/i, "").toLowerCase()).replace(/\bSbi\b/, "SBI").replace(/\bHdfc\b/, "HDFC").replace(/\bScb\b/, "SCB"); }
+  function effective(r, amt) {
+    if (!amt) return null; const min = r.minOrder || 0; if (amt < min) return { short: min - amt, value: 0 };
+    let v = 0; if (r.pct && r.cap) v = Math.min((r.pct / 100) * amt, r.cap); else if (r.pct) v = (r.pct / 100) * amt; else v = r.cap || 0;
+    return { value: v, lucky: r.lucky, capped: r.pct && r.cap && (r.pct / 100) * amt > r.cap };
+  }
+  function maxValue(r) { return r.worth || r.cap || 0; }
+  function offerLine(r) { if (r.worth) return `${r.worthCount ? r.worthCount + " offers worth " : ""}${inr(r.worth)}`; if (r.pct && r.cap) return `${r.pct}% back, up to ${inr(r.cap)}`; if (r.pct) return `${r.pct}% back`; if (r.lucky) return `win up to ${inr(r.cap)}`; if (r.cap) return `flat ${inr(r.cap)} back`; return r.headline || ""; }
+  function windowText(r) { return r.window ? r.window.replace(/-20\d\d/g, "").replace(" to ", " → ") : (r.validTill ? "till " + r.validTill : ""); }
+  function statusTag(r) { return isLive(r) ? '<span class="tag live">Live</span>' : r.status === "LOCKED" ? '<span class="tag locked">Locked</span>' : '<span class="tag off">Not live</span>'; }
+  function primeTag(r) { return /prime/i.test(r.badge) ? '<span class="tag prime">Prime</span>' : ""; }
+  function collectBtn(r, grad) {
+    if (isMission(r) || !isLive(r)) return `<a class="btn btn-tonal btn-sm link-btn" href="${esc(r.collectUrl)}" target="_blank" rel="noopener sponsored">${isMission(r) ? "See on Amazon" : "View on Amazon"} ↗</a>`;
+    return `<a class="btn ${grad ? "btn-grad" : "btn-filled"} btn-sm link-btn" href="${esc(r.collectUrl)}" target="_blank" rel="noopener sponsored">Collect on Amazon ↗</a>`;
+  }
+
+  // ---- planner
+  function shopping() { return S.rewards.filter((r) => (r.sec === "S" || r.sec === "C" || r.sec === "X") && !isMission(r) && categoryOf(r)); }
+  function categories() { const m = new Map(); for (const r of shopping()) { const c = categoryOf(r); if (isSitewide(r)) continue; m.set(c, (m.get(c) || 0) + (isLive(r) ? 1 : 0)); } return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0])); }
+  function rows() {
+    if (!S.cat) return [];
+    const amt = S.amount;
+    return shopping().filter((r) => S.cat === "__any" ? isSitewide(r) : (categoryOf(r) === S.cat || isSitewide(r)))
+      .map((r) => ({ r, e: amt ? effective(r, amt) : null }))
+      .sort((a, b) => (isLive(b.r) - isLive(a.r)) || (amt ? (b.e.value - a.e.value) || (a.e.short || 0) - (b.e.short || 0) : maxValue(b.r) - maxValue(a.r)));
+  }
+  function renderPlanner() {
+    $("#quick").innerHTML = [500, 1000, 2500, 5000, 15000].map((v) => `<button data-v="${v}"${S.amount === v ? ' class="is-active"' : ""}>${inr(v)}</button>`).join("");
+    $$("#quick button").forEach((b) => (b.onclick = () => { $("#amount").value = b.dataset.v; S.amount = +b.dataset.v; renderPlanner(); }));
+    const cats = categories();
+    $("#catRow").innerHTML = cats.map(([c, live]) => `<button class="chip plain${S.cat === c ? " is-active" : ""}" data-cat="${esc(c)}">${esc(c)}${live ? `<span class="count">${live}</span>` : ""}</button>`).join("") +
+      `<button class="chip plain${S.cat === "__any" ? " is-active" : ""}" data-cat="__any">Anything else</button>`;
+    $$("#catRow button").forEach((b) => (b.onclick = () => { S.cat = S.cat === b.dataset.cat ? "" : b.dataset.cat; renderPlanner(); }));
+    const list = $("#planList"), note = $("#planNote"), title = $("#planTitle");
+    if (!S.cat) { title.textContent = "Applicable rewards"; list.innerHTML = `<div class="plan-empty">Pick a category above — only the rewards that apply to it will show here, best first.</div>`; note.textContent = ""; return; }
+    const rs = rows(); const amt = S.amount;
+    const best = amt ? rs.find((x) => isLive(x.r) && x.e && x.e.value > 0) : null; const bestId = best ? best.r.ad : null;
+    title.textContent = `Applicable rewards for ${S.cat === "__any" ? "any Amazon order" : S.cat}` + (amt ? ` at ${inr(amt)}` : "");
+    if (!rs.length) { list.innerHTML = `<div class="plan-empty">No known reward covers this right now.</div>`; note.textContent = ""; return; }
+    list.innerHTML = rs.map(({ r, e }, i) => {
+      const name = displayName(r); const short = amt && e && e.short; const off = !isLive(r);
+      const val = !amt ? `<b>${r.lucky ? "≤" : ""}${inr(maxValue(r))}</b><small>max</small>` : short ? `<b class="dim">${inr(r.minOrder)}</b><small>min order</small>` : `<b>${inr(e.value)}</b><small>you get</small>`;
+      const bits = [offerLine(r)]; if (r.minOrder) bits.push("min " + inr(r.minOrder)); const m = methodOf(r); if (m) bits.push("pay with " + m); const w = windowText(r); if (w) bits.push(w);
+      return `<div class="prow${r.ad === bestId ? " is-best" : ""}${short ? " is-short" : ""}${off ? " is-off" : ""}">
+        <span class="rank">${i + 1}</span>
+        <div class="p-main">
+          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : ""}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
+          <div class="p-sub">${esc(bits.join(" · "))}${short ? ` · <span class="warn">needs ${inr(e.short)} more</span>` : ""}</div>
+        </div>
+        <div class="p-val">${val}</div>
+        <div class="p-act">${collectBtn(r, r.ad === bestId)}<button class="icon-btn sm" title="Details" data-details="${esc(r.ad)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button></div>
+      </div>`;
+    }).join("");
+    note.textContent = amt ? (rs.length > 1 ? "One reward applies per order — they can't be clubbed. Collect the top one, then shop." : "") : "Enter the amount to see the exact ₹ you'd get back.";
+    $$("button[data-details]", list).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
+  }
+
+  // ---- browse
+  function renderFilters() {
+    const counts = {}; for (const r of S.rewards) counts[r.sec] = (counts[r.sec] || 0) + 1;
+    const keys = ["All", ...SEC_ORDER.filter((k) => counts[k])];
+    $("#sectionRow").innerHTML = keys.map((k) => `<button class="chip${S.section === k ? " is-active" : ""}" data-sec="${k}"><span class="glyph">${ICON[k] || ICON.All}</span>${k === "All" ? "All" : esc(S.sections[k] || k)}<span class="count">${k === "All" ? S.rewards.length : counts[k]}</span></button>`).join("");
+    $$("#sectionRow button").forEach((b) => (b.onclick = () => { S.section = b.dataset.sec; renderFilters(); renderBoard(); }));
+    $$("#stateSeg button").forEach((b) => { b.classList.toggle("is-active", b.dataset.v === S.state); b.onclick = () => { S.state = b.dataset.v; renderFilters(); renderBoard(); }; });
+  }
+  function filtered() {
+    const q = S.q.trim().toLowerCase();
+    return S.rewards.filter((r) => {
+      if (S.section !== "All" && r.sec !== S.section) return false;
+      if (S.state === "live" && !isLive(r) && r.status !== "LOCKED") return false;
+      if (q) { const hay = [displayName(r), r.headline, r.sub, r.badge, r.category, r.unlock, logoName(r)].join(" ").toLowerCase(); if (!hay.includes(q)) return false; }
+      return true;
+    });
+  }
+  function renderBoard() {
+    const board = $("#board"); const list = filtered();
+    if (!list.length) { board.innerHTML = `<div class="empty">Nothing matches.</div>`; return; }
+    const groups = new Map(); for (const r of list) { if (!groups.has(r.sec)) groups.set(r.sec, []); groups.get(r.sec).push(r); }
+    board.innerHTML = SEC_ORDER.filter((k) => groups.has(k)).map((k) => {
+      const g = groups.get(k).sort((a, b) => (isLive(b) - isLive(a)) || maxValue(b) - maxValue(a));
+      return `<section><div class="section-head"><span class="glyph">${ICON[k]}</span><span class="title">${esc(S.sections[k] || k)}</span><span class="count">${g.length}</span></div><div class="grid">${g.map(card).join("")}</div></section>`;
+    }).join("");
+    $$("button[data-details]", board).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
+  }
+  function card(r) {
+    const name = displayName(r); const mission = isMission(r);
+    const tags = [statusTag(r), primeTag(r)]; const m = methodOf(r); if (m) tags.push(`<span class="tag method">${esc(m)}</span>`); if (r.lucky) tags.push('<span class="tag lucky">Scratch</span>'); if (r.timesPerUser > 1) tags.push(`<span class="tag">${r.timesPerUser}× uses</span>`);
+    const big = mission ? (r.worth ? `${inr(r.worth)}<small>${r.worthCount ? r.worthCount + " offers" : "to unlock"}</small>` : esc(r.headline || "Surprise")) : r.pct ? `${r.pct}%<small>back</small>` : r.cap ? `${r.lucky ? "≤" : ""}${inr(r.cap)}<small>${r.flat ? "flat" : "back"}</small>` : esc(r.headline);
+    const capTxt = !mission && r.pct && r.cap ? `up to ${inr(r.cap)}` : "";
+    const meta = []; if (r.minOrder) meta.push(`min <b>${inr(r.minOrder)}</b>`); const w = windowText(r); if (w) meta.push(esc(w));
+    const logo = r.logo ? `<img src="${esc(r.logo)}" alt="" loading="lazy" data-fallback="${esc(name.slice(0, 3).toUpperCase())}">` : `<span class="fallback">${esc(name.slice(0, 3).toUpperCase())}</span>`;
+    const body = mission
+      ? `<div class="mission-step"><span class="n">Do</span><span class="card-title">${esc(r.unlock || name)}</span></div><div class="mission-step"><span class="n">Get</span><span class="card-offer"><span class="big">${big}</span></span></div>`
+      : `<div class="card-title">${esc(name)}</div><div class="card-offer"><span class="big">${big}</span>${capTxt ? `<span class="cap">${capTxt}</span>` : ""}</div>`;
+    return `<article class="card${mission ? " is-mission" : ""}${!isLive(r) ? " is-expired" : ""}">
+      <div class="card-top"><span class="logo">${logo}</span><div class="tags">${tags.join("")}</div></div>
+      ${body}
+      <div class="meta">${meta.map((x) => `<span class="k">${x}</span>`).join("")}</div>
+      <div class="card-actions"><span class="grow">${collectBtn(r, false)}</span><button class="icon-btn" style="width:34px;height:34px" title="Details" data-details="${esc(r.ad)}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button></div>
+    </article>`;
+  }
+
+  // ---- details sheet
+  function openSheet(ad) {
+    const r = S.rewards.find((x) => x.ad === ad); if (!r) return;
+    const kv = [[isMission(r) ? "Mission" : "Category", isMission(r) ? (r.unlock || displayName(r)) : (categoryOf(r) || "—")], ["Offer", offerLine(r)], ["Min order", r.minOrder ? inr(r.minOrder) : "—"], ["Window", r.window || ("till " + (r.validTill || "—"))], ["Uses per user", r.timesPerUser || "—"], ["Pay with", methodOf(r) || "any"], ["Status on Amazon", r.status || "—"], ["Last checked", r.readAt ? new Date(r.readAt).toLocaleString("en-IN") : "—"]];
+    const host = $("#sheetHost");
+    host.innerHTML = `<div class="sheet-scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-head"><h3>${esc(displayName(r))}</h3><button class="icon-btn" id="closeSheet" title="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="kv">${kv.map(([k, v]) => `<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div>
+      ${r.steps ? `<h4>How to redeem</h4><div class="prose">${esc(r.steps.replace(/ (\d)\. /g, "\n$1. ").replace(/Steps to redeem Follow the steps below to redeem the reward: ?/, ""))}</div>` : ""}
+      ${r.terms ? `<h4>Terms &amp; conditions</h4><div class="prose terms">${esc(r.terms.replace(/ (\d{1,2})\. /g, "\n$1. "))}</div>` : ""}
+      <p style="margin-top:14px">${collectBtn(r, isLive(r) && !isMission(r))}</p>
+    </div></div>`;
+    const close = () => (host.innerHTML = "");
+    $("#closeSheet").onclick = close; $("#scrim").onclick = (e) => { if (e.target.id === "scrim") close(); };
+    document.addEventListener("keydown", function esc_(e) { if (e.key === "Escape") { close(); document.removeEventListener("keydown", esc_); } });
+  }
+
+  // ---- wiring
+  document.addEventListener("error", (e) => { const img = e.target; if (img && img.tagName === "IMG" && img.dataset.fallback !== undefined) img.parentNode.innerHTML = `<span class="fallback">${esc(img.dataset.fallback)}</span>`; }, true);
+  $("#amount").addEventListener("input", (e) => { S.amount = +e.target.value || 0; renderPlanner(); });
+  $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderBoard(); });
+  $("#browseBtn").onclick = () => { S.browse = !S.browse; $("#browse").hidden = !S.browse; $("#browseBtn").classList.toggle("is-open", S.browse); $("#browseLbl").textContent = S.browse ? "Hide all rewards" : "Browse all rewards"; if (S.browse) renderBoard(); };
+
+  fetch("catalog.json", { cache: "no-store" }).then((r) => r.json()).then((c) => {
+    S.rewards = (c.rewards || []).filter((r) => r.readAt); S.sections = c.sections || {};
+    const live = S.rewards.filter(isLive).length;
+    $("#stamp").innerHTML = `<b>${live}</b> live of ${S.rewards.length}<br>checked ${new Date(c.builtAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}`;
+    $("#browseCount").textContent = S.rewards.length;
+    renderPlanner(); renderFilters();
+  }).catch((e) => { $("#planList").innerHTML = `<div class="plan-empty">Could not load the catalogue: ${esc(e.message)}</div>`; });
+})();

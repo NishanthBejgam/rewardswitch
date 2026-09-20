@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reward Switch — Amazon Pay rewards, decoded</title>
+  <meta name="description" content="Every Amazon Pay cashback reward, with the category it actually applies to. Enter what you're buying, see which reward pays the most, collect it on Amazon." />
+  <link rel="icon" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="8" width="18" height="8" rx="4" stroke="#fff" stroke-width="1.8"/>
+          <circle class="an-knob" cx="8.5" cy="12" r="2.6" fill="#fff"/>
+          <g class="an-ray" stroke="#fff" stroke-width="1.6" stroke-linecap="round">
+            <path d="M15.5 5.5v-2"/><path d="M19 7l1.4-1.4"/><path d="M12 7l-1.4-1.4"/>
+          </g>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-tag">Your Card Journey</span>
+        <span class="brand-name">Reward Switch</span>
+      </span>
+    </a>
+    <div class="topbar-actions">
+      <div class="stamp" id="stamp"></div>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme">
+        <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="content">
+  <div class="hero">
+    <div>
+      <h1>Amazon Pay rewards, decoded.</h1>
+      <p>Amazon shows every reward as "GET UP TO ₹300 BACK" and a logo. Here each one is named by the category it actually applies to, so you can pick the right one before you shop — then collect it on Amazon with your own login.</p>
+    </div>
+  </div>
+
+  <section class="panel planner">
+    <div class="step"><span class="step-n">1</span><div class="step-body">
+      <div class="step-title">How much are you spending?</div>
+      <div class="amount-row">
+        <label class="amount"><span class="cur">₹</span><input id="amount" type="number" inputmode="numeric" min="0" placeholder="0" /></label>
+        <div class="quick" id="quick"></div>
+      </div>
+    </div></div>
+    <div class="step"><span class="step-n">2</span><div class="step-body">
+      <div class="step-title">What are you buying?</div>
+      <div class="cat-row" id="catRow"></div>
+    </div></div>
+    <div class="step"><span class="step-n">3</span><div class="step-body">
+      <div class="step-title" id="planTitle">Applicable rewards</div>
+      <div class="plan-list" id="planList"></div>
+      <div class="plan-note" id="planNote"></div>
+    </div></div>
+  </section>
+
+  <button class="browse-toggle" id="browseBtn"><span id="browseLbl">Browse all rewards</span> <span class="count" id="browseCount"></span> <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>
+  <div id="browse" hidden>
+    <div class="filterbar" id="filterbar">
+      <div class="cat-row" id="sectionRow"></div>
+      <span class="spacer"></span>
+      <div class="seg" id="stateSeg">
+        <button data-v="live" class="is-active">Live now</button>
+        <button data-v="all">Everything</button>
+      </div>
+      <label class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" placeholder="Search Swiggy, HDFC, kitchen…" />
+      </label>
+    </div>
+    <div id="board"></div>
+  </div>
+
+  <div class="how">
+    <div><b>1. Pick</b>Enter the amount and category; the list shows only the rewards that apply, best first.</div>
+    <div><b>2. Collect on Amazon</b>Collect opens Amazon's own reward page. Sign in there if asked — Amazon says on that page whether your account is eligible.</div>
+    <div><b>3. Shop</b>Cashback lands in your Amazon Pay balance after the order ships. One reward per order; they don't club.</div>
+  </div>
+  <p class="disclosure">Rewards are Amazon's; terms, eligibility and cashback are decided by Amazon on your own account. Refreshed every two hours from Amazon's reward pages. As an Amazon Associate, YourCardJourney earns from qualifying purchases.</p>
+
+  <div class="site-credit">
+    <img class="credit-logo" src="yourcardjourney.png" alt="YourCardJourney" onerror="this.style.display='none'">
+    <div class="credit-text">Shared by <span class="handle">@YourCardJourney</span></div>
+  </div>
+</main>
+
+<div class="snack" id="snack"></div>
+<div id="sheetHost"></div>
+<script src="app.js"></script>
+</body>
+</html>
