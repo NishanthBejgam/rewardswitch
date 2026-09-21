@@ -6,9 +6,10 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const inr = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
 
-  const SEC_ORDER = ["S", "C", "F", "T", "B", "O", "M", "W", "U", "X"];
+  const SEC_ORDER = ["S", "G", "C", "F", "T", "B", "O", "M", "W", "U", "X"];
   const ICON = {
     S: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>',
+    G: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-2-3-6-3-6 0s4 2 6 0c2-3 6-3 6 0s-4 2-6 0"/></svg>',
     C: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 16.4 6.7 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>',
     F: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 0 0-16 0z"/><path d="M3 15h18"/><path d="M5 19h14"/></svg>',
     T: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-8-6 12-3-6z"/></svg>',
@@ -54,7 +55,7 @@
   }
 
   // ---- planner
-  function shopping() { return S.rewards.filter((r) => (r.sec === "S" || r.sec === "C" || r.sec === "X") && !isMission(r) && categoryOf(r)); }
+  function shopping() { return S.rewards.filter((r) => (r.sec === "S" || r.sec === "G" || r.sec === "C" || r.sec === "X") && !isMission(r) && categoryOf(r)); }
   function categories() { const m = new Map(); for (const r of shopping()) { const c = categoryOf(r); if (isSitewide(r)) continue; m.set(c, (m.get(c) || 0) + (isLive(r) ? 1 : 0)); } return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0])); }
   function rows() {
     if (!S.cat) return [];

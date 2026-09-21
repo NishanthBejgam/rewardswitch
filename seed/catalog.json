@@ -1,95 +1,479 @@
 {
   "_note": "Seed for Reward Switch. Each entry is an Amazon Pay reward-ad id (the part after amzn1.rewards.rewardAd.). The build re-reads every page logged-out for status / headline / category / window, so this file only carries what the public page does not say: which section the card sat in and its list-only badge (Prime / payment method). Harvested from a real Rewards page on 2026-09-20; add new ids here as they appear (deal groups, the Rewards page, the extension's Export button).",
   "sections": {
-    "W": "Welcome missions", "S": "Shopping", "U": "Top Brand unlocks", "M": "Money transfer",
-    "B": "Bills, recharges & Add Money", "F": "Food & grocery apps", "T": "Travel", "O": "Stores near you",
-    "C": "Festive categories", "X": "Shared by deal groups"
+    "W": "Welcome missions",
+    "S": "Shopping",
+    "U": "Top Brand unlocks",
+    "M": "Money transfer",
+    "B": "Bills, recharges & Add Money",
+    "F": "Food & grocery apps",
+    "T": "Travel",
+    "O": "Stores near you",
+    "C": "Festive categories",
+    "X": "Shared by deal groups",
+    "G": "Gift cards & vouchers"
   },
   "rewards": [
-    {"ad": "TAFI63OWJQVTC", "sec": "W", "badge": ""},
-    {"ad": "YLIV5EMZUPPLU", "sec": "W", "badge": "JUST FOR PRIME"},
-    {"ad": "CKRQJBV33WAS6", "sec": "W", "badge": ""},
-    {"ad": "WBSAPQID3VAEA", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "3JXDTA6GDAMVQ", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "47YK26ZZXTSEY", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "3YCGTN2MSOFI6", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "LEXZYWWB6VG2A", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "YFM3O5WJ4LBYM", "sec": "S", "badge": ""},
-    {"ad": "HRGL6CF5SMLGY", "sec": "S", "badge": "JUST FOR PRIME"},
-    {"ad": "OSKZYEKGAQSVS", "sec": "S", "badge": ""},
-    {"ad": "TFVPMJIMQN4Y4", "sec": "S", "badge": "USING AMAZON PAY LATER"},
-    {"ad": "2UIMCLU5BQXXK", "sec": "S", "badge": ""},
-    {"ad": "FZ4A26ADSAOE4", "sec": "S", "badge": ""},
-    {"ad": "IPSH5LSF36CF4", "sec": "S", "badge": ""},
-    {"ad": "rechargeOrPayBills", "sec": "U", "badge": ""},
-    {"ad": "sendMoney", "sec": "U", "badge": ""},
-    {"ad": "scanNPay", "sec": "U", "badge": ""},
-    {"ad": "addMoney", "sec": "U", "badge": ""},
-    {"ad": "shopOnAmazon", "sec": "U", "badge": ""},
-    {"ad": "receiveMoney", "sec": "U", "badge": ""},
-    {"ad": "swiggy", "sec": "U", "badge": ""},
-    {"ad": "64L4YVR5HSC62", "sec": "M", "badge": ""},
-    {"ad": "AHYEE5NIHNLVA", "sec": "M", "badge": ""},
-    {"ad": "ZTXR274BOACH4", "sec": "B", "badge": ""},
-    {"ad": "MHRITKWFR3BNC", "sec": "B", "badge": "USING SBI CREDIT CARD"},
-    {"ad": "NNG4Q4RKYKN6K", "sec": "B", "badge": "USING HDFC BANK CREDIT CARD"},
-    {"ad": "6XXCSA4OLLAJM", "sec": "B", "badge": "USING AXIS BANK CREDIT CARD"},
-    {"ad": "3O5ALFAUMSF4Y", "sec": "B", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "77W2LHEYGYJPQ", "sec": "B", "badge": "USING SELECT PAYMENT METHODS"},
-    {"ad": "6BSNWZWSYSUJG", "sec": "B", "badge": "USING AMAZON PAY UPI"},
-    {"ad": "TOE3AQ6QMBTLM", "sec": "B", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "ILOZNU622OODW", "sec": "B", "badge": "USING SELECT PAYMENT METHODS"},
-    {"ad": "UKT4FL4SWHZHG", "sec": "B", "badge": "USING SCB CREDIT CARD"},
-    {"ad": "NATN5CMU4DVC4", "sec": "B", "badge": "USING AMAZON PAY UPI"},
-    {"ad": "RQQB6NWI6USKA", "sec": "B", "badge": ""},
-    {"ad": "SNG4PMSM4SBM2", "sec": "B", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "RYHX3LEZKMMZK", "sec": "B", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "YTVNYSJWXPQ5E", "sec": "B", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "VIXUISMJZOTG4", "sec": "F", "badge": ""},
-    {"ad": "COFJYH6U3NM2Y", "sec": "F", "badge": ""},
-    {"ad": "DM76T2N4NGYM2", "sec": "F", "badge": ""},
-    {"ad": "K6LVIDAKSBI44", "sec": "F", "badge": ""},
-    {"ad": "CIR2DYOWKF7H4", "sec": "F", "badge": ""},
-    {"ad": "KDJTUCD2OZOZG", "sec": "F", "badge": ""},
-    {"ad": "EC4PW5TMVUEIQ", "sec": "F", "badge": ""},
-    {"ad": "M4UZMVHCLZ5NI", "sec": "F", "badge": ""},
-    {"ad": "DJ6E5IU6TL63G", "sec": "F", "badge": ""},
-    {"ad": "3SPCXYEDWCFTK", "sec": "F", "badge": ""},
-    {"ad": "3S57HHNDVA56A", "sec": "F", "badge": ""},
-    {"ad": "YRTERRGVS3UHI", "sec": "F", "badge": ""},
-    {"ad": "L4XJ7ZYJCAXZI", "sec": "F", "badge": ""},
-    {"ad": "XSYN4F7K24R7C", "sec": "F", "badge": ""},
-    {"ad": "JMCDQ35M6WJMO", "sec": "F", "badge": ""},
-    {"ad": "Q2O5HES6MAURK", "sec": "T", "badge": ""},
-    {"ad": "PBFYRZN73G7WM", "sec": "T", "badge": ""},
-    {"ad": "MMNM222GO43FS", "sec": "T", "badge": ""},
-    {"ad": "VTGZGINZV5E4W", "sec": "T", "badge": ""},
-    {"ad": "KWSSIOCOWIR7E", "sec": "T", "badge": ""},
-    {"ad": "X2OFHF4N72G6U", "sec": "T", "badge": ""},
-    {"ad": "7J5LOH25WV3OC", "sec": "O", "badge": "USING AMAZON PAY UPI"},
-    {"ad": "SE4GQGFMU7JSS", "sec": "O", "badge": "USING AMAZON PAY BALANCE"},
-    {"ad": "4TVFY3BZVKUWY", "sec": "O", "badge": ""},
-    {"ad": "UXP5QYYZDX66S", "sec": "O", "badge": ""},
-    {"ad": "LXOG5X4TYU72W", "sec": "O", "badge": ""},
-    {"ad": "TE4GQRLT34O54", "sec": "O", "badge": ""},
-    {"ad": "OWVGTT7AGVC3W", "sec": "O", "badge": ""},
-    {"ad": "3OCF3PNMDAE3C", "sec": "O", "badge": ""},
-    {"ad": "UFOIVQMDEEC5K", "sec": "O", "badge": ""},
-    {"ad": "SQ62NAJ2AAFKC", "sec": "O", "badge": ""},
-    {"ad": "XB6MB5KR2YCPC", "sec": "O", "badge": ""},
-    {"ad": "Y2MHULNSDCHDS", "sec": "O", "badge": ""},
-    {"ad": "jewellery", "sec": "C", "badge": ""},
-    {"ad": "books", "sec": "C", "badge": ""},
-    {"ad": "toys", "sec": "C", "badge": ""},
-    {"ad": "furniture", "sec": "C", "badge": ""},
-    {"ad": "watches", "sec": "C", "badge": ""},
-    {"ad": "shoes", "sec": "C", "badge": ""},
-    {"ad": "sports", "sec": "C", "badge": ""},
-    {"ad": "office", "sec": "C", "badge": ""},
-    {"ad": "L3P53D3ELM36M", "sec": "X", "badge": ""},
-    {"ad": "SSHSMOH7WJOEA", "sec": "X", "badge": ""},
-    {"ad": "6TYRY3PUH4R3O", "sec": "X", "badge": ""},
-    {"ad": "YQZQRRYLJITTO", "sec": "X", "badge": ""},
-    {"ad": "BQILCLYQHAPOS", "sec": "X", "badge": ""}
+    {
+      "ad": "TAFI63OWJQVTC",
+      "sec": "W",
+      "badge": ""
+    },
+    {
+      "ad": "YLIV5EMZUPPLU",
+      "sec": "W",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "CKRQJBV33WAS6",
+      "sec": "W",
+      "badge": ""
+    },
+    {
+      "ad": "WBSAPQID3VAEA",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "3JXDTA6GDAMVQ",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "47YK26ZZXTSEY",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "3YCGTN2MSOFI6",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "LEXZYWWB6VG2A",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "YFM3O5WJ4LBYM",
+      "sec": "S",
+      "badge": ""
+    },
+    {
+      "ad": "HRGL6CF5SMLGY",
+      "sec": "S",
+      "badge": "JUST FOR PRIME"
+    },
+    {
+      "ad": "OSKZYEKGAQSVS",
+      "sec": "S",
+      "badge": ""
+    },
+    {
+      "ad": "TFVPMJIMQN4Y4",
+      "sec": "S",
+      "badge": "USING AMAZON PAY LATER"
+    },
+    {
+      "ad": "2UIMCLU5BQXXK",
+      "sec": "S",
+      "badge": ""
+    },
+    {
+      "ad": "FZ4A26ADSAOE4",
+      "sec": "S",
+      "badge": ""
+    },
+    {
+      "ad": "IPSH5LSF36CF4",
+      "sec": "S",
+      "badge": ""
+    },
+    {
+      "ad": "rechargeOrPayBills",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "sendMoney",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "scanNPay",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "addMoney",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "shopOnAmazon",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "receiveMoney",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "swiggy",
+      "sec": "U",
+      "badge": ""
+    },
+    {
+      "ad": "64L4YVR5HSC62",
+      "sec": "M",
+      "badge": ""
+    },
+    {
+      "ad": "AHYEE5NIHNLVA",
+      "sec": "M",
+      "badge": ""
+    },
+    {
+      "ad": "ZTXR274BOACH4",
+      "sec": "B",
+      "badge": ""
+    },
+    {
+      "ad": "MHRITKWFR3BNC",
+      "sec": "B",
+      "badge": "USING SBI CREDIT CARD"
+    },
+    {
+      "ad": "NNG4Q4RKYKN6K",
+      "sec": "B",
+      "badge": "USING HDFC BANK CREDIT CARD"
+    },
+    {
+      "ad": "6XXCSA4OLLAJM",
+      "sec": "B",
+      "badge": "USING AXIS BANK CREDIT CARD"
+    },
+    {
+      "ad": "3O5ALFAUMSF4Y",
+      "sec": "B",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "77W2LHEYGYJPQ",
+      "sec": "B",
+      "badge": "USING SELECT PAYMENT METHODS"
+    },
+    {
+      "ad": "6BSNWZWSYSUJG",
+      "sec": "B",
+      "badge": "USING AMAZON PAY UPI"
+    },
+    {
+      "ad": "TOE3AQ6QMBTLM",
+      "sec": "B",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "ILOZNU622OODW",
+      "sec": "B",
+      "badge": "USING SELECT PAYMENT METHODS"
+    },
+    {
+      "ad": "UKT4FL4SWHZHG",
+      "sec": "B",
+      "badge": "USING SCB CREDIT CARD"
+    },
+    {
+      "ad": "NATN5CMU4DVC4",
+      "sec": "B",
+      "badge": "USING AMAZON PAY UPI"
+    },
+    {
+      "ad": "RQQB6NWI6USKA",
+      "sec": "B",
+      "badge": ""
+    },
+    {
+      "ad": "SNG4PMSM4SBM2",
+      "sec": "B",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "RYHX3LEZKMMZK",
+      "sec": "B",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "YTVNYSJWXPQ5E",
+      "sec": "B",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "VIXUISMJZOTG4",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "COFJYH6U3NM2Y",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "DM76T2N4NGYM2",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "K6LVIDAKSBI44",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "CIR2DYOWKF7H4",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "KDJTUCD2OZOZG",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "EC4PW5TMVUEIQ",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "M4UZMVHCLZ5NI",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "DJ6E5IU6TL63G",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "3SPCXYEDWCFTK",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "3S57HHNDVA56A",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "YRTERRGVS3UHI",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "L4XJ7ZYJCAXZI",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "XSYN4F7K24R7C",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "JMCDQ35M6WJMO",
+      "sec": "F",
+      "badge": ""
+    },
+    {
+      "ad": "Q2O5HES6MAURK",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "PBFYRZN73G7WM",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "MMNM222GO43FS",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "VTGZGINZV5E4W",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "KWSSIOCOWIR7E",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "X2OFHF4N72G6U",
+      "sec": "T",
+      "badge": ""
+    },
+    {
+      "ad": "7J5LOH25WV3OC",
+      "sec": "O",
+      "badge": "USING AMAZON PAY UPI"
+    },
+    {
+      "ad": "SE4GQGFMU7JSS",
+      "sec": "O",
+      "badge": "USING AMAZON PAY BALANCE"
+    },
+    {
+      "ad": "4TVFY3BZVKUWY",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "UXP5QYYZDX66S",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "LXOG5X4TYU72W",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "TE4GQRLT34O54",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "OWVGTT7AGVC3W",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "3OCF3PNMDAE3C",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "UFOIVQMDEEC5K",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "SQ62NAJ2AAFKC",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "XB6MB5KR2YCPC",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "Y2MHULNSDCHDS",
+      "sec": "O",
+      "badge": ""
+    },
+    {
+      "ad": "jewellery",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "books",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "toys",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "furniture",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "watches",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "shoes",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "sports",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "office",
+      "sec": "C",
+      "badge": ""
+    },
+    {
+      "ad": "L3P53D3ELM36M",
+      "sec": "X",
+      "badge": ""
+    },
+    {
+      "ad": "SSHSMOH7WJOEA",
+      "sec": "X",
+      "badge": ""
+    },
+    {
+      "ad": "6TYRY3PUH4R3O",
+      "sec": "X",
+      "badge": ""
+    },
+    {
+      "ad": "YQZQRRYLJITTO",
+      "sec": "X",
+      "badge": ""
+    },
+    {
+      "ad": "BQILCLYQHAPOS",
+      "sec": "X",
+      "badge": ""
+    },
+    {
+      "ad": "JL4CQOLXICU2A",
+      "sec": "G",
+      "badge": "",
+      "source": "user:2026-09-21"
+    },
+    {
+      "ad": "JW4BHSH7KJVK4",
+      "sec": "G",
+      "badge": "",
+      "source": "probe:2026-09-21"
+    },
+    {
+      "ad": "1mg",
+      "sec": "U",
+      "badge": "",
+      "source": "probe:2026-09-21"
+    },
+    {
+      "ad": "uber",
+      "sec": "U",
+      "badge": "",
+      "source": "probe:2026-09-21"
+    },
+    {
+      "ad": "ola",
+      "sec": "U",
+      "badge": "",
+      "source": "probe:2026-09-21"
+    },
+    {
+      "ad": "dominos",
+      "sec": "U",
+      "badge": "",
+      "source": "probe:2026-09-21"
+    }
   ]
 }

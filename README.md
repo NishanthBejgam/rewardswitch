@@ -21,6 +21,9 @@ GitHub Actions, every 2 h (13 and 43 past, alternating)
                                           └─ _site/catalog.json + the page → Pages
 ```
 
+- `tools/harvest.py` — runs first in every build: scrapes DesiDime's new-deals feed and public Telegram
+  channel previews for `rewardAd.<ID>` links (following shortened URLs) and appends new ids to the seed.
+  Gift-card / brand rewards are targeted and never show on a Rewards page, so this is how they arrive.
 - `seed/catalog.json` — the ids we know: harvested from a real Rewards page (section
   + list-only badge per id), the stable vanity slugs (`sendMoney`, `jewellery`, …) and
   ids shared by deal groups. Add new ids here; everything else is read from Amazon.

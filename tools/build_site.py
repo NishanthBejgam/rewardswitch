@@ -177,7 +177,13 @@ def fetch_json(url):
         return None
 
 
-def build(out_dir, quick=False):
+def build(out_dir, quick=False, harvest=True):
+    if harvest:
+        try:
+            import harvest as hv
+            hv.run(log)
+        except Exception as e:  # noqa: BLE001 - a dead feed must not stop the build
+            log("harvest skipped: %s" % e)
     seed = load_json(SEED, {"sections": {}, "rewards": []})
     known = {}
     for src in (load_json(PUBLISHED, None), fetch_json(SEED_URL)):
@@ -227,6 +233,11 @@ def build(out_dir, quick=False):
         sys.exit(1)
 
     for r in rewards:
+        cat = (r.get("category") or "")
+        if re.search(r"gift ?card|voucher|app store code|e-?gift", cat, re.I):
+            r["sec"] = "G"
+        elif r["sec"] == "X" and cat and not r.get("unlock"):
+            r["sec"] = "S"
         r["url"] = REWARD_URL.format(id=r["ad"])
         r["collectUrl"] = r["url"] + "&tag=" + TAG
     catalog = {
@@ -247,4 +258,4 @@ def build(out_dir, quick=False):
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    build(args[0] if args else os.path.join(ROOT, "_site"), quick="--quick" in sys.argv)
+    build(args[0] if args else os.path.join(ROOT, "_site"), quick="--quick" in sys.argv, harvest="--no-harvest" not in sys.argv)
