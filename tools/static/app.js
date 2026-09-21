@@ -72,11 +72,11 @@
       `<button class="chip plain${S.cat === "__any" ? " is-active" : ""}" data-cat="__any">Anything else</button>`;
     $$("#catRow button").forEach((b) => (b.onclick = () => { S.cat = S.cat === b.dataset.cat ? "" : b.dataset.cat; renderPlanner(); }));
     const list = $("#planList"), note = $("#planNote"), title = $("#planTitle");
-    if (!S.cat) { title.textContent = "Applicable rewards"; list.innerHTML = `<div class="plan-empty">Pick a category above — only the rewards that apply to it will show here, best first.</div>`; note.textContent = ""; return; }
+    if (!S.cat) { title.textContent = "Applicable rewards"; list.innerHTML = `<div class="plan-empty">Pick a category above — only the rewards that apply to it will show here, best first.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     const rs = rows(); const amt = S.amount;
     const best = amt ? rs.find((x) => isLive(x.r) && x.e && x.e.value > 0) : null; const bestId = best ? best.r.ad : null;
     title.textContent = `Applicable rewards for ${S.cat === "__any" ? "any Amazon order" : S.cat}` + (amt ? ` at ${inr(amt)}` : "");
-    if (!rs.length) { list.innerHTML = `<div class="plan-empty">No known reward covers this right now.</div>`; note.textContent = ""; return; }
+    if (!rs.length) { list.innerHTML = `<div class="plan-empty">No known reward covers this right now.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     list.innerHTML = rs.map(({ r, e }, i) => {
       const name = displayName(r); const short = amt && e && e.short; const off = !isLive(r);
       const val = !amt ? `<b>${r.lucky ? "≤" : ""}${inr(maxValue(r))}</b><small>max</small>` : short ? `<b class="dim">${inr(r.minOrder)}</b><small>min order</small>` : `<b>${inr(e.value)}</b><small>you get</small>`;
@@ -93,6 +93,34 @@
     }).join("");
     note.textContent = amt ? (rs.length > 1 ? "One reward applies per order — they can't be clubbed. Collect the top one, then shop." : "") : "Enter the amount to see the exact ₹ you'd get back.";
     $$("button[data-details]", list).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
+    renderVerdict(rs, bestId);
+  }
+  function renderVerdict(rs, bestId) {
+    const v = $("#verdict"), runners = $("#runners");
+    const liveCount = S.rewards.filter(isLive).length;
+    if (!S.cat) {
+      v.className = "verdict empty";
+      v.innerHTML = `<div class="v-eyebrow">Your pick will appear here</div><div class="v-title">${liveCount} rewards are live right now</div><div class="v-sub">Enter what you're spending and pick a category on the left — the reward that pays the most shows up here with a Collect button.</div>`;
+      runners.innerHTML = ""; return;
+    }
+    const amt = S.amount;
+    const top = amt ? rs.find((x) => x.r.ad === bestId) : rs.find((x) => isLive(x.r));
+    if (!top) {
+      const nearest = amt ? rs.filter((x) => x.e && x.e.short).sort((a, b) => a.e.short - b.e.short)[0] : null;
+      v.className = "verdict empty";
+      v.innerHTML = `<div class="v-eyebrow">Nothing pays out yet</div><div class="v-title">${nearest ? `${esc(displayName(nearest.r))} needs ${inr(nearest.e.short)} more` : "No live reward covers this"}</div><div class="v-sub">${nearest ? `Min order is ${inr(nearest.r.minOrder)}.` : "Check back after the next refresh, or browse everything below."}</div>`;
+      runners.innerHTML = ""; return;
+    }
+    const r = top.r, e = top.e;
+    v.className = "verdict";
+    v.innerHTML = `<div class="v-eyebrow">Switch on this one</div>
+      <div class="v-amount">${e ? (e.lucky ? "up to " : "") + inr(e.value) : (r.lucky ? "≤" : "") + inr(maxValue(r))}<small>${e ? "back on " + inr(amt) : "max back"}</small></div>
+      <div class="v-title">${esc(displayName(r))} · ${esc(offerLine(r))}</div>
+      <div class="v-sub">${esc([r.minOrder ? "min order " + inr(r.minOrder) : "", windowText(r), r.timesPerUser === 1 ? "once per user" : r.timesPerUser ? r.timesPerUser + "× per user" : "", methodOf(r) ? "pay with " + methodOf(r) : ""].filter(Boolean).join(" · "))}${e && e.capped ? " · capped at " + inr(r.cap) : ""}</div>
+      <div class="v-actions"><a class="btn btn-white btn-sm link-btn" href="${esc(r.collectUrl)}" target="_blank" rel="noopener sponsored">Collect on Amazon ↗</a><button class="btn btn-ghost btn-sm" data-details="${esc(r.ad)}">Details</button></div>`;
+    $$("button[data-details]", v).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
+    const rest = rs.filter((x) => x.r !== r && isLive(x.r) && (!amt || (x.e && x.e.value > 0))).slice(0, 3);
+    runners.innerHTML = rest.map((x) => `<div class="runner"><span class="r-name">${esc(displayName(x.r))}</span><span class="r-why">${esc(offerLine(x.r))}</span><span class="r-amt">${amt ? (x.e.lucky ? "≤" : "") + inr(x.e.value) : "≤" + inr(maxValue(x.r))}</span></div>`).join("") + (rest.length ? `<div class="small muted" style="padding:2px 6px">Rewards can't be clubbed — one applies per order.</div>` : "");
   }
 
   // ---- browse
@@ -161,13 +189,12 @@
   document.addEventListener("error", (e) => { const img = e.target; if (img && img.tagName === "IMG" && img.dataset.fallback !== undefined) img.parentNode.innerHTML = `<span class="fallback">${esc(img.dataset.fallback)}</span>`; }, true);
   $("#amount").addEventListener("input", (e) => { S.amount = +e.target.value || 0; renderPlanner(); });
   $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderBoard(); });
-  $("#browseBtn").onclick = () => { S.browse = !S.browse; $("#browse").hidden = !S.browse; $("#browseBtn").classList.toggle("is-open", S.browse); $("#browseLbl").textContent = S.browse ? "Hide all rewards" : "Browse all rewards"; if (S.browse) renderBoard(); };
 
   fetch("catalog.json", { cache: "no-store" }).then((r) => r.json()).then((c) => {
     S.rewards = (c.rewards || []).filter((r) => r.readAt); S.sections = c.sections || {};
     const live = S.rewards.filter(isLive).length;
     $("#stamp").innerHTML = `<b>${live}</b> live of ${S.rewards.length}<br>checked ${new Date(c.builtAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}`;
     $("#browseCount").textContent = S.rewards.length;
-    renderPlanner(); renderFilters();
+    renderPlanner(); renderFilters(); renderBoard();
   }).catch((e) => { $("#planList").innerHTML = `<div class="plan-empty">Could not load the catalogue: ${esc(e.message)}</div>`; });
 })();

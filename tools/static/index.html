@@ -45,6 +45,7 @@
     </div>
   </div>
 
+  <div class="planner-wrap">
   <section class="panel planner">
     <div class="step"><span class="step-n">1</span><div class="step-body">
       <div class="step-title">How much are you spending?</div>
@@ -63,9 +64,14 @@
       <div class="plan-note" id="planNote"></div>
     </div></div>
   </section>
+  <aside class="verdict-col">
+    <div class="verdict empty" id="verdict"></div>
+    <div class="runners" id="runners"></div>
+  </aside>
+  </div>
 
-  <button class="browse-toggle" id="browseBtn"><span id="browseLbl">Browse all rewards</span> <span class="count" id="browseCount"></span> <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>
-  <div id="browse" hidden>
+  <div class="browse-head"><span class="eyebrow">All rewards</span><h2>Browse everything we know <span class="count" id="browseCount"></span></h2></div>
+  <div id="browse">
     <div class="filterbar" id="filterbar">
       <div class="cat-row" id="sectionRow"></div>
       <span class="spacer"></span>
