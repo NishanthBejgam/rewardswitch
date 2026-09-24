@@ -48,6 +48,7 @@
   function offerLine(r) { if (r.worth) return `${r.worthCount ? r.worthCount + " offers worth " : ""}${inr(r.worth)}`; if (r.pct && r.cap) return `${r.pct}% back, up to ${inr(r.cap)}`; if (r.pct) return `${r.pct}% back`; if (r.lucky) return `win up to ${inr(r.cap)}`; if (r.cap) return `flat ${inr(r.cap)} back`; return r.headline || ""; }
   function windowText(r) { return r.window ? r.window.replace(/-20\d\d/g, "").replace(" to ", " → ") : (r.validTill ? "till " + r.validTill : ""); }
   function statusTag(r) { return isLive(r) ? '<span class="tag live">Live</span>' : r.status === "LOCKED" ? '<span class="tag locked">Locked</span>' : '<span class="tag off">Not live</span>'; }
+  function newTag(r) { const t = r.found ? Date.parse(r.found.replace(/([+-]\d{2})(\d{2})$/, "$1:$2")) : NaN; return t && Date.now() - t < 72 * 3600e3 ? '<span class="tag new">New</span>' : ""; }
   function primeTag(r) { return /prime/i.test(r.badge) ? '<span class="tag prime">Prime</span>' : ""; }
   function collectBtn(r, grad) {
     if (isMission(r) || !isLive(r)) return `<a class="btn btn-tonal btn-sm link-btn" href="${esc(r.collectUrl)}" target="_blank" rel="noopener sponsored">${isMission(r) ? "See on Amazon" : "View on Amazon"} ↗</a>`;
@@ -84,7 +85,7 @@
       return `<div class="prow${r.ad === bestId ? " is-best" : ""}${short ? " is-short" : ""}${off ? " is-off" : ""}">
         <span class="rank">${i + 1}</span>
         <div class="p-main">
-          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : ""}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
+          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : ""}${newTag(r)}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
           <div class="p-sub">${esc(bits.join(" · "))}${short ? ` · <span class="warn">needs ${inr(e.short)} more</span>` : ""}</div>
         </div>
         <div class="p-val">${val}</div>
@@ -152,7 +153,7 @@
   }
   function card(r) {
     const name = displayName(r); const mission = isMission(r);
-    const tags = [statusTag(r), primeTag(r)]; const m = methodOf(r); if (m) tags.push(`<span class="tag method">${esc(m)}</span>`); if (r.lucky) tags.push('<span class="tag lucky">Scratch</span>'); if (r.timesPerUser > 1) tags.push(`<span class="tag">${r.timesPerUser}× uses</span>`);
+    const tags = [newTag(r), statusTag(r), primeTag(r)]; const m = methodOf(r); if (m) tags.push(`<span class="tag method">${esc(m)}</span>`); if (r.lucky) tags.push('<span class="tag lucky">Scratch</span>'); if (r.timesPerUser > 1) tags.push(`<span class="tag">${r.timesPerUser}× uses</span>`);
     const big = mission ? (r.worth ? `${inr(r.worth)}<small>${r.worthCount ? r.worthCount + " offers" : "to unlock"}</small>` : esc(r.headline || "Surprise")) : r.pct ? `${r.pct}%<small>back</small>` : r.cap ? `${r.lucky ? "≤" : ""}${inr(r.cap)}<small>${r.flat ? "flat" : "back"}</small>` : esc(r.headline);
     const capTxt = !mission && r.pct && r.cap ? `up to ${inr(r.cap)}` : "";
     const meta = []; if (r.minOrder) meta.push(`min <b>${inr(r.minOrder)}</b>`); const w = windowText(r); if (w) meta.push(esc(w));

@@ -16,14 +16,20 @@ and lays them out so a visitor can:
 ## How it is built
 
 ```
-GitHub Actions, every 2 h (13 and 43 past, alternating)
+watch.yml, every 15 min
+  └─ python tools/harvest.py           DesiDime + Telegram → new ids committed to seed/catalog.json
+       └─ new id? → build.yml (mode=new, reads only the new pages) + pokes coupon-watch
+build.yml, every 2 h (13 and 43 past, alternating)
   └─ python tools/build_site.py _site   reads each id in seed/catalog.json
                                           └─ _site/catalog.json + the page → Pages
 ```
 
-- `tools/harvest.py` — runs first in every build: scrapes DesiDime's new-deals feed and public Telegram
-  channel previews for `rewardAd.<ID>` links (following shortened URLs) and appends new ids to the seed.
-  Gift-card / brand rewards are targeted and never show on a Rewards page, so this is how they arrive.
+- `tools/harvest.py` — the one harvester (coupon-watch reads its output): DesiDime's new-deals and
+  Amazon-store feeds plus public Telegram previews. DesiDime hides every outbound link behind
+  `visit.desidime.com/visit/…` and Telegram posts use shorteners, so each link is walked hop by hop
+  reading only the `Location` headers until the `rewardAd.<ID>` appears. Gift-card / brand rewards are
+  targeted and never show on a Rewards page, so this is how they arrive; the site tags them **New** for 72 h.
+  State (deals read, Telegram cursors) rides in the Actions cache; only new ids are committed.
 - `seed/catalog.json` — the ids we know: harvested from a real Rewards page (section
   + list-only badge per id), the stable vanity slugs (`sendMoney`, `jewellery`, …) and
   ids shared by deal groups. Add new ids here; everything else is read from Amazon.

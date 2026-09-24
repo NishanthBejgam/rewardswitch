@@ -18,6 +18,10 @@ on:
     - cron: "13 */2 * * *"
     - cron: "43 1-23/2 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "full = re-read every page; new = only ids never read (sent by watch.yml)"
+        default: full
   push:
     branches: [main]
 
@@ -47,7 +51,9 @@ jobs:
           RS_SEED_URL: https://rewardswitch.yourcardjourney.store/catalog.json
           RS_PROXY_URL: ${{ secrets.RS_PROXY_URL }}
           RS_PROXY_KEY: ${{ secrets.RS_PROXY_KEY }}
-        run: python tools/build_site.py _site
+          MODE: ${{ inputs.mode }}
+        # harvesting lives in watch.yml (every 15 min, state kept); the build only reads Amazon
+        run: python tools/build_site.py _site --no-harvest $([ "$MODE" = new ] && echo --new)
 
       - run: cp CNAME _site/CNAME
 

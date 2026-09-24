@@ -344,6 +344,7 @@ html[data-theme="dark"] .tag.prime { background: #1e3a8a; color: #dbeafe; }
 .tag.method { background: var(--m3-primary-container); color: var(--m3-primary-deep); }
 .tag.soon { background: #fde68a; color: #7c2d12; }
 html[data-theme="dark"] .tag.soon { background: #7c2d12; color: #fde68a; }
+.tag.new { background: var(--brand-grad); color: #fff; }
 .tag.lucky { background: #ede9fe; color: #4c1d95; }
 html[data-theme="dark"] .tag.lucky { background: #4c1d95; color: #ede9fe; }
 

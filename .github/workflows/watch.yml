@@ -1,0 +1,77 @@
+# Reward Switch - the 15-minute watcher.
+#
+# Reads DesiDime (new deals + the Amazon store feed) and the public Telegram
+# previews for Amazon Pay reward-ad links (tools/harvest.py). When a reward id
+# nobody has seen turns up, it is committed to seed/catalog.json and a quick
+# build (--new: read only the new pages) publishes it within a few minutes;
+# the two-hourly full build re-reads everything else.
+#
+# coupon-watch (AmazonGold's jewellery signal) reads this repo's seed instead
+# of harvesting on its own; with CW_DISPATCH_TOKEN set (a token with
+# contents:write on NishanthBejgam/coupon-watch) it is also poked right away.
+#
+# Harvest bookkeeping (deals read, Telegram cursors) rides in the Actions
+# cache between runs, so quiet ticks commit nothing. Public repo: minutes free.
+
+name: Watch for new rewards
+
+on:
+  schedule:
+    # off the hour - GitHub drops :00 slots first
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore harvest state
+        uses: actions/cache/restore@v4
+        with:
+          path: seed/harvest.json
+          key: harvest-${{ github.run_id }}
+          restore-keys: harvest-
+
+      - name: Harvest DesiDime + Telegram
+        run: python3 tools/harvest.py | tee harvest.log
+
+      - name: Save harvest state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: seed/harvest.json
+          key: harvest-${{ github.run_id }}
+
+      - name: Publish new rewards
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CW_DISPATCH_TOKEN: ${{ secrets.CW_DISPATCH_TOKEN }}
+        run: |
+          if git diff --quiet -- seed/catalog.json; then
+            echo "no new rewards"; exit 0
+          fi
+          ids=$(grep -o 'NEW reward id [A-Za-z0-9]*' harvest.log | awk '{print $4}' | tr '\n' ' ')
+          git config user.name "rewardswitch-watch"
+          git config user.email "watch@users.noreply.github.com"
+          git add seed/catalog.json seed/harvest.json
+          git commit -q -m "Watcher: new Amazon Pay reward ${ids}"
+          git pull -q --rebase && git push -q
+          gh workflow run build.yml -f mode=new
+          echo "::notice::New rewards: ${ids}"
+          if [ -n "$CW_DISPATCH_TOKEN" ]; then
+            curl -sS -X POST -H "Authorization: Bearer $CW_DISPATCH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/NishanthBejgam/coupon-watch/dispatches \
+              -d '{"event_type":"rewards"}' && echo "poked coupon-watch"
+          fi

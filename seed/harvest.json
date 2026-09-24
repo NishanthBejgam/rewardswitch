@@ -1,12 +1,114 @@
 {
+  "checkedAt": "2026-09-25T01:45:20+0530",
   "cursors": {
-    "desidime": 2166220,
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
+    "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealsmagnet": 265817,
+    "tg:dealbee": 191731,
+    "tg:dealsmagnet": 266325,
     "tg:dealsnloot": 0,
     "tg:desidime": 0
   },
-  "seen": {}
+  "deals": [
+    "2156282",
+    "2156339",
+    "2156495",
+    "2156540",
+    "2157148",
+    "2158107",
+    "2159172",
+    "2159174",
+    "2159865",
+    "2160825",
+    "2163643",
+    "2165139",
+    "2165141",
+    "2165793",
+    "2166313",
+    "2167135",
+    "2167415",
+    "2167453",
+    "2167459",
+    "2167492",
+    "2167531",
+    "2167701",
+    "2167766",
+    "2167850",
+    "2167913",
+    "2167959",
+    "2167984",
+    "2167992",
+    "2168179",
+    "2168182",
+    "2168195",
+    "2168196"
+  ],
+  "seen": {
+    "4MZ3SCVVSJ7DQ": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-make-a-send-money-2159174",
+      "source": "desidime:2159174"
+    },
+    "4XEYLGXP7GBGG": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-x-hdfc-bank-2160825",
+      "source": "desidime:2160825"
+    },
+    "576S24O5CTYVS": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-x-hdfc-bank-2160825",
+      "source": "desidime:2160825"
+    },
+    "64L4YVR5HSC62": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "do-send-money-using-amazon-2163643",
+      "source": "desidime:2163643"
+    },
+    "AJVUPP2CKZPAC": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "",
+      "source": "tg:TrickXpert:39645"
+    },
+    "BNLBIESD2E6BU": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "",
+      "source": "tg:TrickXpert:39637"
+    },
+    "BTCVZ7RI35WSY": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "place-a-successful-google-play-2165141",
+      "source": "desidime:2165141"
+    },
+    "JCANUPUYHZWLY": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "flat-150-cashback-amazon-now-mov-2166313",
+      "source": "desidime:2166313"
+    },
+    "PCYE7FTOT7HAG": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-pay-gv-200-2167135",
+      "source": "desidime:2167135"
+    },
+    "PZWH4MKARR76W": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-reward-get-flat-2159865",
+      "source": "desidime:2159865"
+    },
+    "QXGPCCVGV44J2": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "apple-app-store-code-brand-2165139",
+      "source": "desidime:2165139"
+    },
+    "RQQB6NWI6USKA": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "flat-100-back-on-200-2158107",
+      "source": "desidime:2158107"
+    },
+    "YF6CIMG43WN6K": {
+      "firstSeen": "2026-09-25T01:45:20+0530",
+      "post": "amazon-get-up-to-2156495",
+      "source": "desidime:2156495"
+    }
+  }
 }

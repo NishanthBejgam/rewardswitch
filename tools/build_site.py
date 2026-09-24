@@ -17,6 +17,8 @@ account is eligible.
     python tools/build_site.py _site            read every reward, write the site
     python tools/build_site.py _site --quick    seed from the published catalog,
                                                 re-read only what is stale
+    python tools/build_site.py _site --new      read only ids never read yet (the
+                                                15-minute watcher's fast publish)
 
 Seeding: a fresh checkout knows nothing, so the build first loads the
 catalogue already published (RS_SEED_URL) and the copy committed in
@@ -177,7 +179,7 @@ def fetch_json(url):
         return None
 
 
-def build(out_dir, quick=False, harvest=True):
+def build(out_dir, quick=False, harvest=True, new_only=False):
     if harvest:
         try:
             import harvest as hv
@@ -198,6 +200,8 @@ def build(out_dir, quick=False, harvest=True):
     for s in seed["rewards"]:
         r = dict(known.get(s["ad"], {}))
         r.update({"ad": s["ad"], "sec": s["sec"], "badge": s.get("badge", "")})
+        if s.get("found"):
+            r["found"] = s["found"]
         rewards.append(r)
 
     # oldest read first; unread first of all
@@ -208,6 +212,8 @@ def build(out_dir, quick=False, harvest=True):
         if time.time() - started > BUDGET:
             log("budget spent; %d left for next run" % (len(order) - read - failed))
             break
+        if new_only and r.get("readAt"):
+            continue
         if quick and r.get("readAt") and (datetime.now(IST) - datetime.fromisoformat(r["readAt"])) < timedelta(hours=1):
             continue
         try:
@@ -258,4 +264,5 @@ def build(out_dir, quick=False, harvest=True):
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    build(args[0] if args else os.path.join(ROOT, "_site"), quick="--quick" in sys.argv, harvest="--no-harvest" not in sys.argv)
+    build(args[0] if args else os.path.join(ROOT, "_site"), quick="--quick" in sys.argv,
+          harvest="--no-harvest" not in sys.argv, new_only="--new" in sys.argv)

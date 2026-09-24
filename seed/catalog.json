@@ -480,6 +480,76 @@
       "sec": "U",
       "badge": "",
       "source": "probe:2026-09-21"
+    },
+    {
+      "ad": "JCANUPUYHZWLY",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2166313",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "BTCVZ7RI35WSY",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2165141",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "YF6CIMG43WN6K",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2156495",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "QXGPCCVGV44J2",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2165139",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "4MZ3SCVVSJ7DQ",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2159174",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "576S24O5CTYVS",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2160825",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "4XEYLGXP7GBGG",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2160825",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "PZWH4MKARR76W",
+      "sec": "X",
+      "badge": "",
+      "source": "desidime:2159865",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "BNLBIESD2E6BU",
+      "sec": "X",
+      "badge": "",
+      "source": "tg:TrickXpert:39637",
+      "found": "2026-09-25T01:45:20+0530"
+    },
+    {
+      "ad": "AJVUPP2CKZPAC",
+      "sec": "X",
+      "badge": "",
+      "source": "tg:TrickXpert:39645",
+      "found": "2026-09-25T01:45:20+0530"
     }
   ]
 }
