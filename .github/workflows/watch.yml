@@ -16,8 +16,13 @@
 name: Watch for new rewards
 
 on:
+  # An outside clock wakes this every 15 min, the way Karat Board is woken:
+  # GitHub's free cron is best-effort and delivered this repo's 2-hourly
+  # coupon check every 5-7 h. POST {"event_type":"tick"} to /dispatches.
+  repository_dispatch:
+    types: [tick]
   schedule:
-    # off the hour - GitHub drops :00 slots first
+    # kept as a fallback; off the hour - GitHub drops :00 slots first
     - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
 
