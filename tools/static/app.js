@@ -6,7 +6,28 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const inr = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
 
-  const SEC_ORDER = ["S", "G", "C", "F", "T", "B", "O", "M", "W", "U", "X"];
+  // Buyer-facing groups. Amazon's own reward pages name a narrow category per reward
+  // ("Kitchen and dining", "Prescription and OTC medicines"); those roll up into the
+  // few things a shopper actually thinks in. Unknown categories fall into "other".
+  const SHOP_GROUPS = [
+    ["electronics", "Electronics", /electronic|mobile|laptop|computer|\btv\b|television|headphone|camera|smart ?watch|tablet/i],
+    ["fashion", "Fashion", /fashion|beauty|cloth|apparel|shoe|footwear|jewel|watch|bag|bazaar/i],
+    ["home", "Home", /home|kitchen|dining|vacuum|furniture|appliance|decor|mattress/i],
+    ["daily", "Groceries", /essential|grocer|fresh|pantry|household|baby|pet/i],
+    ["health", "Medicines", /medicine|pharma|otc|health|wellness/i],
+    ["gift", "Gift cards", /gift ?card|e-?gift|voucher|app store code/i],
+  ];
+  const KINDS = [
+    ["shop", "Shopping", "Cashback on an Amazon order — some on any order, some on one category only"],
+    ["gift", "Gift cards", "Amazon Pay, app-store and brand gift cards bought on Amazon"],
+    ["bills", "Bills", "Mobile, DTH, electricity, credit-card bills and Add Money"],
+    ["food", "Food apps", "Swiggy, Zomato and other apps paid with Amazon Pay"],
+    ["travel", "Travel", "Flights, buses, trains and hotels"],
+    ["store", "Shops", "Scan-and-pay with Amazon Pay UPI at stores near you"],
+    ["money", "Send money", "UPI transfers to friends and family"],
+    ["mission", "Missions", "Do a task first (e.g. a first UPI payment) to unlock a reward"],
+  ];
+  const KIND_NAME = Object.fromEntries(KINDS.map(([k, n]) => [k, n]));
   const ICON = {
     S: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>',
     G: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-2-3-6-3-6 0s4 2 6 0c2-3 6-3 6 0s-4 2-6 0"/></svg>',
@@ -19,10 +40,18 @@
     W: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0"/></svg>',
     U: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0"/></svg>',
     X: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m8 7 4-4 4 4"/></svg>',
+    electronics: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>',
+    fashion: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 3 6l2 5 3-1v11h8V10l3 1 2-5-5-3a4 4 0 0 1-8 0z"/></svg>',
+    home: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>',
+    daily: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+    health: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="4"/><path d="M12 8v8"/></svg>',
+    other: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>',
     All: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
   };
 
-  const S = { cat: null, rewards: [], sections: {}, amount: 0, cat: "", browse: false, section: "All", state: "live", q: "" };
+  const S = { rewards: [], amount: 0, cat: "", kind: "All", state: "live", q: "" };
+  const KIND_ICON = { shop: "S", gift: "G", bills: "B", food: "F", travel: "T", store: "O", money: "M", mission: "W" };
+  const kindIcon = (k) => ICON[KIND_ICON[k] || k] || ICON.All;
 
   // ---- theme
   const theme = localStorage.getItem("rs-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
@@ -34,8 +63,14 @@
   function titleCase(s) { return s.replace(/\band\b/g, "&").replace(/\b([a-z])/g, (m) => m.toUpperCase()).replace(/\bOtc\b/, "OTC").replace(/\bUpi\b/, "UPI"); }
   function categoryOf(r) { return r.category ? titleCase(r.category.trim().replace(/\s+shopping$/i, "")) : ""; }
   function isMission(r) { return r.sec === "W" || r.sec === "U" || (!!r.unlock && !r.category); }
-  function isSitewide(r) { return /^(all )?amazon( shopping)?$/i.test(categoryOf(r)); }
+  function isSitewide(r) { return /^(all )?amazon(\.in)?( shopping)?$/i.test(categoryOf(r)); }
   function isLive(r) { return r.status === "CAN_BE_COLLECTED"; }
+  function shopGroup(r) { const c = categoryOf(r); if (!c || isSitewide(r)) return ""; const g = SHOP_GROUPS.find(([, , re]) => re.test(c)); return g ? g[0] : "other"; }
+  function kindOf(r) {
+    if (isMission(r)) return "mission";
+    if (r.sec === "G" || shopGroup(r) === "gift") return "gift";
+    return { B: "bills", F: "food", T: "travel", O: "store", M: "money" }[r.sec] || "shop";
+  }
   function logoName(r) { const n = (r.logo || "").split("/").pop().split(".")[0].replace(/_CB\d+/g, "").replace(/logo|text|temp|merch|final|new|\d+|D\d+_IN_[A-Z]+/gi, " ").replace(/[-_]+/g, " ").trim(); return n.split(" ").filter(Boolean).map((w) => (w === w.toLowerCase() ? w[0].toUpperCase() + w.slice(1) : w)).join(" "); }
   function displayName(r) { if (isMission(r)) return r.headline && !/offers worth|surprise/i.test(r.headline) ? r.headline : (r.unlock || logoName(r) || "Mission"); return categoryOf(r) || logoName(r) || r.headline || r.ad; }
   function methodOf(r) { const b = (r.badge || "").trim(); if (!b || /just for prime|top brand/i.test(b)) return ""; return titleCase(b.replace(/^using\s*/i, "").toLowerCase()).replace(/\bSbi\b/, "SBI").replace(/\bHdfc\b/, "HDFC").replace(/\bScb\b/, "SCB"); }
@@ -56,27 +91,39 @@
   }
 
   // ---- planner
-  function shopping() { return S.rewards.filter((r) => (r.sec === "S" || r.sec === "G" || r.sec === "C" || r.sec === "X") && !isMission(r) && categoryOf(r)); }
-  function categories() { const m = new Map(); for (const r of shopping()) { const c = categoryOf(r); if (isSitewide(r)) continue; m.set(c, (m.get(c) || 0) + (isLive(r) ? 1 : 0)); } return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0])); }
+  // Step 2 choices: the shopping groups first, then the kinds paid outside an Amazon order.
+  function choices() {
+    const live = (f) => S.rewards.filter((r) => !isMission(r) && isLive(r) && f(r)).length;
+    const shop = SHOP_GROUPS.map(([g, n]) => ({ id: g, name: n, live: live((r) => g === "gift" ? kindOf(r) === "gift" : kindOf(r) === "shop" && shopGroup(r) === g), any: S.rewards.some((r) => !isMission(r) && (g === "gift" ? kindOf(r) === "gift" : shopGroup(r) === g)) }))
+      .filter((c) => c.any);
+    shop.push({ id: "other", name: "Anything else", live: live((r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === "other")) });
+    const pay = KINDS.filter(([k]) => !["shop", "gift", "mission"].includes(k)).map(([k, n]) => ({ id: "k:" + k, name: n, live: live((r) => kindOf(r) === k) })).filter((c) => c.live);
+    return { shop, pay };
+  }
+  function choiceName(id) { const all = choices(); return ([...all.shop, ...all.pay].find((c) => c.id === id) || {}).name || id; }
   function rows() {
     if (!S.cat) return [];
     const amt = S.amount;
-    return shopping().filter((r) => S.cat === "__any" ? isSitewide(r) : (categoryOf(r) === S.cat || isSitewide(r)))
+    const match = S.cat.startsWith("k:") ? (r) => kindOf(r) === S.cat.slice(2)
+      : S.cat === "gift" ? (r) => kindOf(r) === "gift"
+      : (r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === S.cat);
+    return S.rewards.filter((r) => !isMission(r) && match(r))
       .map((r) => ({ r, e: amt ? effective(r, amt) : null }))
       .sort((a, b) => (isLive(b.r) - isLive(a.r)) || (amt ? (b.e.value - a.e.value) || (a.e.short || 0) - (b.e.short || 0) : maxValue(b.r) - maxValue(a.r)));
   }
   function renderPlanner() {
     $("#quick").innerHTML = [500, 1000, 2500, 5000, 15000].map((v) => `<button data-v="${v}"${S.amount === v ? ' class="is-active"' : ""}>${inr(v)}</button>`).join("");
     $$("#quick button").forEach((b) => (b.onclick = () => { $("#amount").value = b.dataset.v; S.amount = +b.dataset.v; renderPlanner(); }));
-    const cats = categories();
-    $("#catRow").innerHTML = cats.map(([c, live]) => `<button class="chip plain${S.cat === c ? " is-active" : ""}" data-cat="${esc(c)}">${esc(c)}${live ? `<span class="count">${live}</span>` : ""}</button>`).join("") +
-      `<button class="chip plain${S.cat === "__any" ? " is-active" : ""}" data-cat="__any">Anything else</button>`;
+    const { shop, pay } = choices();
+    const chip = (c) => `<button class="chip${S.cat === c.id ? " is-active" : ""}" data-cat="${esc(c.id)}"><span class="glyph">${kindIcon(c.id.replace(/^k:/, ""))}</span>${esc(c.name)}${c.live ? `<span class="count">${c.live}</span>` : ""}</button>`;
+    $("#catRow").innerHTML = `<div class="cat-label">On Amazon</div><div class="cat-row">${shop.map(chip).join("")}</div>` +
+      (pay.length ? `<div class="cat-label">Elsewhere with Amazon Pay</div><div class="cat-row">${pay.map(chip).join("")}</div>` : "");
     $$("#catRow button").forEach((b) => (b.onclick = () => { S.cat = S.cat === b.dataset.cat ? "" : b.dataset.cat; renderPlanner(); }));
     const list = $("#planList"), note = $("#planNote"), title = $("#planTitle");
     if (!S.cat) { title.textContent = "Applicable rewards"; list.innerHTML = `<div class="plan-empty">Pick a category above — only the rewards that apply to it will show here, best first.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     const rs = rows(); const amt = S.amount;
     const best = amt ? rs.find((x) => isLive(x.r) && x.e && x.e.value > 0) : null; const bestId = best ? best.r.ad : null;
-    title.textContent = `Applicable rewards for ${S.cat === "__any" ? "any Amazon order" : S.cat}` + (amt ? ` at ${inr(amt)}` : "");
+    title.textContent = `Applicable rewards for ${choiceName(S.cat)}` + (amt ? ` at ${inr(amt)}` : "");
     if (!rs.length) { list.innerHTML = `<div class="plan-empty">No known reward covers this right now.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     list.innerHTML = rs.map(({ r, e }, i) => {
       const name = displayName(r); const short = amt && e && e.short; const off = !isLive(r);
@@ -85,7 +132,7 @@
       return `<div class="prow${r.ad === bestId ? " is-best" : ""}${short ? " is-short" : ""}${off ? " is-off" : ""}">
         <span class="rank">${i + 1}</span>
         <div class="p-main">
-          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : ""}${newTag(r)}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
+          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : shopGroup(r) && S.cat !== "gift" ? ' <span class="tag">this category only</span>' : ""}${newTag(r)}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
           <div class="p-sub">${esc(bits.join(" · "))}${short ? ` · <span class="warn">needs ${inr(e.short)} more</span>` : ""}</div>
         </div>
         <div class="p-val">${val}</div>
@@ -126,16 +173,16 @@
 
   // ---- browse
   function renderFilters() {
-    const counts = {}; for (const r of S.rewards) counts[r.sec] = (counts[r.sec] || 0) + 1;
-    const keys = ["All", ...SEC_ORDER.filter((k) => counts[k])];
-    $("#sectionRow").innerHTML = keys.map((k) => `<button class="chip${S.section === k ? " is-active" : ""}" data-sec="${k}"><span class="glyph">${ICON[k] || ICON.All}</span>${k === "All" ? "All" : esc(S.sections[k] || k)}<span class="count">${k === "All" ? S.rewards.length : counts[k]}</span></button>`).join("");
-    $$("#sectionRow button").forEach((b) => (b.onclick = () => { S.section = b.dataset.sec; renderFilters(); renderBoard(); }));
+    const counts = {}; for (const r of S.rewards) { const k = kindOf(r); counts[k] = (counts[k] || 0) + 1; }
+    const keys = ["All", ...KINDS.map(([k]) => k).filter((k) => counts[k])];
+    $("#sectionRow").innerHTML = keys.map((k) => `<button class="chip${S.kind === k ? " is-active" : ""}" data-kind="${k}"><span class="glyph">${kindIcon(k)}</span>${k === "All" ? "All" : esc(KIND_NAME[k])}<span class="count">${k === "All" ? S.rewards.length : counts[k]}</span></button>`).join("");
+    $$("#sectionRow button").forEach((b) => (b.onclick = () => { S.kind = b.dataset.kind; renderFilters(); renderBoard(); }));
     $$("#stateSeg button").forEach((b) => { b.classList.toggle("is-active", b.dataset.v === S.state); b.onclick = () => { S.state = b.dataset.v; renderFilters(); renderBoard(); }; });
   }
   function filtered() {
     const q = S.q.trim().toLowerCase();
     return S.rewards.filter((r) => {
-      if (S.section !== "All" && r.sec !== S.section) return false;
+      if (S.kind !== "All" && kindOf(r) !== S.kind) return false;
       if (S.state === "live" && !isLive(r) && r.status !== "LOCKED") return false;
       if (q) { const hay = [displayName(r), r.headline, r.sub, r.badge, r.category, r.unlock, logoName(r)].join(" ").toLowerCase(); if (!hay.includes(q)) return false; }
       return true;
@@ -144,10 +191,10 @@
   function renderBoard() {
     const board = $("#board"); const list = filtered();
     if (!list.length) { board.innerHTML = `<div class="empty">Nothing matches.</div>`; return; }
-    const groups = new Map(); for (const r of list) { if (!groups.has(r.sec)) groups.set(r.sec, []); groups.get(r.sec).push(r); }
-    board.innerHTML = SEC_ORDER.filter((k) => groups.has(k)).map((k) => {
+    const groups = new Map(); for (const r of list) { const k = kindOf(r); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); }
+    board.innerHTML = KINDS.filter(([k]) => groups.has(k)).map(([k, name, blurb]) => {
       const g = groups.get(k).sort((a, b) => (isLive(b) - isLive(a)) || maxValue(b) - maxValue(a));
-      return `<section><div class="section-head"><span class="glyph">${ICON[k]}</span><span class="title">${esc(S.sections[k] || k)}</span><span class="count">${g.length}</span></div><div class="grid">${g.map(card).join("")}</div></section>`;
+      return `<section><div class="section-head"><span class="glyph">${kindIcon(k)}</span><span class="title">${esc(name)}</span><span class="count">${g.length}</span><span class="blurb">${esc(blurb)}</span></div><div class="grid">${g.map(card).join("")}</div></section>`;
     }).join("");
     $$("button[data-details]", board).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
   }
@@ -192,7 +239,7 @@
   $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderBoard(); });
 
   fetch("catalog.json", { cache: "no-store" }).then((r) => r.json()).then((c) => {
-    S.rewards = (c.rewards || []).filter((r) => r.readAt); S.sections = c.sections || {};
+    S.rewards = (c.rewards || []).filter((r) => r.readAt);
     const live = S.rewards.filter(isLive).length;
     $("#stamp").innerHTML = `<b>${live}</b> live of ${S.rewards.length}<br>checked ${new Date(c.builtAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}`;
     $("#browseCount").textContent = S.rewards.length;

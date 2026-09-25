@@ -219,6 +219,9 @@ h2 { margin: 2px 0 0; font-size: 18px; letter-spacing: -.2px; }
 
 /* chip anatomy: pill + glyph + count; selected = TONAL container, never gradient */
 .cat-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-groups { display: grid; gap: 6px; }
+.cat-label { font-size: 11.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--m3-on-surface-var); margin-top: 6px; }
+.cat-label:first-child { margin-top: 0; }
 .chip {
   flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
   border: 1px solid var(--m3-outline-var); background: var(--m3-surface-2);
@@ -304,7 +307,9 @@ html[data-theme="dark"] .tag.ok { background: #065f46; color: #d1fae5; }
   width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
   color: var(--m3-primary-deep); background: var(--m3-primary-container);
 }
+.section-head { flex-wrap: wrap; }
 .section-head .title { font-size: 15px; font-weight: 800; letter-spacing: -.2px; }
+.section-head .blurb { flex-basis: 100%; margin: -4px 0 0 38px; font-size: 12.5px; color: var(--m3-on-surface-var); }
 .section-head .count {
   min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; display: inline-grid; place-items: center;
   font-size: 11px; font-weight: 700; background: var(--m3-surface-2); color: var(--m3-on-surface-var);
