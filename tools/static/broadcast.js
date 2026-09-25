@@ -67,6 +67,8 @@
     const name = RS.displayName(r);
     const subs = p.subs.filter((x) => x.toLowerCase() !== p.cat.toLowerCase());
     const cat = subs.length ? `${p.cat}: ${subs.join(" + ")}` : p.cat;
+    const gift = /gift/i.test(p.cat);
+    const buy = subs.length ? subs.map((x) => (gift && !/gift/i.test(x) ? x + " Gift Card" : x)).join(" / ") : p.cat;
     const save = e ? e.value : RS.maxValue(r);
     const lucky = e ? e.lucky : r.lucky;
     const bits = [];
@@ -75,7 +77,7 @@
     if (r.timesPerUser === 1) bits.push("once per user");
     const m = RS.methodOf(r); if (m) bits.push("pay with " + m);
     return {
-      r, amount, cat, name, lucky, save,
+      r, amount, cat, buy, gift, name, lucky, save,
       offer: RS.offerLine(r),
       pct: amount && save ? Math.round((save / amount) * 1000) / 10 : 0,
       pay: amount ? amount - (lucky ? 0 : save) : 0,
@@ -87,24 +89,32 @@
   function caption(f) {
     const inr = RS.inr, B = (t) => (chan === "whatsapp" ? `*${t}*` : t);
     const saveTxt = (f.lucky ? "up to " : "") + inr(f.save);
+    const planning = f.gift && !/s$/.test(f.buy) ? f.buy + "s" : f.buy;
     const lines = [
-      B("Amazon Pay reward pick"),
+      "🤯 " + B("Amazon Pay Reward Pick"),
       "",
-      `Buying: ${B(f.cat)}`,
-      f.amount ? `Spending: ${B(inr(f.amount))}` : null,
+      f.amount ? `Planning to buy ${inr(f.amount)} worth of ${planning}?` : `Planning to buy ${planning}?`,
       "",
-      `Collect this reward: ${B(f.name)} (${f.offer})`,
-      f.amount ? `You get ${B(saveTxt + " back")}${f.pct && !f.lucky ? ` (${f.pct}%)` : ""}${f.lucky ? "" : `, so you effectively pay ${B(inr(f.pay))}`}` : `Worth ${B(saveTxt)} back`,
-      f.bits.length ? f.bits.join(" · ").replace(/^./, (c) => c.toUpperCase()) : null,
+      f.amount && !f.lucky && f.save ? `Get ${saveTxt} back, making your effective cost ${inr(f.pay)}.` : `Get ${saveTxt} back.`,
       "",
-      `Find the best reward for your own cart: ${SITE}`,
+      B("Offer details"),
+      `🔹 Buy: ${f.buy}`,
+      f.amount ? `🔹 Spend: ${inr(f.amount)}` : null,
+      `🔹 Reward: ${f.name} (${f.offer})`,
+      f.window ? `🔹 Valid: ${f.window}` : null,
+      f.r.minOrder ? `🔹 Minimum order: ${inr(f.r.minOrder)}` : null,
+      f.method ? `🔹 Pay with: ${f.method}` : null,
       "",
-      "One reward per order. Amazon decides eligibility on your account.",
-      "Affiliate: I may earn a commission, at no extra cost to you.",
+      "Claim the reward on Amazon before making your purchase.",
       "",
-      `- Shared by ${CREDIT}`,
+      `📊 Find the best reward for your cart - ${SITE}`,
+      "",
+      "⚠️ One reward per order. Eligibility varies by account.",
+      "",
+      "Affiliate: I may earn a commission at no extra cost to you.",
+      "",
+      `— ${CREDIT}`,
     ];
-    if (chan === "x") return lines.filter((l, i) => l !== null && i !== 7 && !/^One reward/.test(l)).join("\n").replace(/\n{3,}/g, "\n\n");
     return lines.filter((l) => l !== null).join("\n");
   }
   function count() { const n = $("#bcOut").value.length; $("#bcCount").textContent = chan === "x" ? `${n} chars${n > 280 ? " · long post" : ""}` : `${n} chars`; }
