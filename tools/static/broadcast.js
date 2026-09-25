@@ -157,8 +157,8 @@
     rr(c, 40, 30, 48, 48, 14); c.fillStyle = hg; c.fill();
     c.strokeStyle = "#fff"; c.lineWidth = 3; rr(c, 50, 46, 28, 16, 8); c.stroke();
     c.fillStyle = "#fff"; c.beginPath(); c.arc(59, 54, 4.5, 0, 7); c.fill();
-    c.textBaseline = "alphabetic"; c.fillStyle = "#b93d0a"; c.font = `700 13px ${F}`; c.fillText("YOUR CARD JOURNEY", 102, 48);
-    c.fillStyle = "#24160f"; c.font = `800 26px ${F}`; c.fillText("Reward Switch", 102, 76);
+    c.textBaseline = "alphabetic"; 
+    c.fillStyle = "#24160f"; c.font = `800 26px ${F}`; c.fillText("Reward Switch", 102, 64);
     c.textAlign = "right"; c.fillStyle = "#5f4d43"; c.font = `600 17px ${F}`; c.fillText("rewardswitch.yourcardjourney.store", W - 40, 62); c.textAlign = "left";
 
     // left: the two choices, as they look on the planner
