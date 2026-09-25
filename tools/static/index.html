@@ -41,21 +41,21 @@
 </header>
 
 <main class="content">
-  <ol class="steps-strip" aria-label="How it works">
-    <li>
-      <span class="ss-n"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span>
-      <div><b><i>1</i>Pick</b><span>Enter your amount and what you're buying. The reward that pays the most comes up first.</span></div>
-    </li>
-    <li>
-      <span class="ss-n"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>
-      <div><b><i>2</i>Collect on Amazon</b><span>Opens Amazon's own reward page. Sign in if asked. Amazon shows whether your account qualifies.</span></div>
-    </li>
-    <li>
-      <span class="ss-n"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></span>
-      <div><b><i>3</i>Shop &amp; get cashback</b><span>Pay with Amazon Pay. Cashback lands in your Amazon Pay balance after the order ships.</span></div>
-    </li>
-  </ol>
-  <p class="steps-note">One reward per order. They don't stack, so collect only the one you'll use.</p>
+  <div class="journey" role="img" aria-label="How it works: 1 Pick, 2 Collect on Amazon, 3 Shop and get cashback">
+    <div class="j-track" aria-hidden="true">
+      <span class="j-pace"></span>
+      <span class="j-node j-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span>
+      <span class="j-node j-b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>
+      <span class="j-node j-c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></span>
+      <i class="j-pop">+₹</i>
+      <span class="j-coin">₹</span>
+    </div>
+    <ol class="j-labels">
+      <li class="j-a"><i>1</i>Pick</li>
+      <li class="j-b"><i>2</i>Collect on Amazon</li>
+      <li class="j-c"><i>3</i>Shop &amp; get cashback</li>
+    </ol>
+  </div>
 
   <div class="planner-wrap">
   <section class="panel planner">

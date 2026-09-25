@@ -512,37 +512,92 @@ html[data-theme="dark"] .tag.live { background: #065f46; color: #d1fae5; }
 .prow .p-val { min-width: 64px; }
 .p-sub { line-height: 1.45; }
 
-/* ---- how-it-works strip (top of page) ---- */
-.steps-strip {
-  list-style: none; margin: 4px 0 6px; padding: 0; counter-reset: s;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-  background: var(--m3-surface-1); border: 1px solid var(--m3-outline-var); border-radius: var(--r-lg);
-  box-shadow: var(--shadow-1); overflow: hidden;
+/* ---- how-it-works journey (top of page) ----
+   The YourCardJourney footer line, retold for rewards: a ₹ coin rides the line
+   left to right and lights each step as it touches it (Pick, Collect, Shop),
+   the cart pays out "+₹", and the coin runs off. 9 s loop.
+     0%→22%  coin reaches Pick (18%)
+     22%→46% reaches Collect (50%)
+     46%→70% reaches Shop (82%): cart turns green, +₹ pops
+     70%→84% runs off; all three stay lit, then reset */
+.journey { --j-green: #1b9a5a; margin: 2px 0 18px; }
+.j-track {
+  position: relative; height: 72px;
+  background: linear-gradient(90deg, transparent, var(--m3-outline-var) 10%, var(--m3-outline-var) 90%, transparent) center / 100% 2px no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  overflow: hidden;
 }
-.steps-strip li { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; position: relative; }
-.steps-strip li + li { border-left: 1px dashed var(--m3-outline-var); }
-.steps-strip li + li::before {
-  content: ""; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px;
-  border-top: 1px solid var(--m3-outline-var); border-right: 1px solid var(--m3-outline-var);
-  background: var(--m3-surface-1); transform: rotate(45deg);
+.j-pace {
+  position: absolute; left: 0; top: 50%; width: 18%; height: 12px; transform: translateY(-50%);
+  background: repeating-linear-gradient(90deg, var(--m3-outline-var) 0 2px, transparent 2px 26px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, transparent); mask-image: linear-gradient(90deg, transparent, #000 30%, transparent);
 }
-.steps-strip .ss-n {
-  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
-  color: #fff; background: var(--brand-grad); box-shadow: 0 6px 14px var(--brand-glow);
+.j-node {
+  position: absolute; top: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 14px;
+  display: grid; place-items: center; color: var(--m3-outline); background: var(--m3-surface-1);
+  border: 1.5px solid var(--m3-outline-var); isolation: isolate;
 }
-.steps-strip b { display: flex; align-items: center; gap: 6px; font-size: 14.5px; letter-spacing: -.1px; }
-.steps-strip b i {
-  font-style: normal; font-size: 10.5px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%;
-  display: inline-grid; place-items: center; background: var(--m3-primary-container); color: var(--m3-primary-deep);
+.j-node::before { content: ""; position: absolute; inset: -1.5px; border-radius: inherit; background: var(--brand-grad); opacity: 0; z-index: -1; }
+.j-node svg { width: 22px; height: 22px; }
+.j-a { left: 18%; } .j-b { left: 50%; } .j-c { left: 82%; }
+.j-node.j-a { animation: j-lit-a 9s infinite; } .j-node.j-a::before { animation: j-fill-a 9s infinite; }
+.j-node.j-b { animation: j-lit-b 9s infinite; } .j-node.j-b::before { animation: j-fill-b 9s infinite; }
+.j-node.j-c { animation: j-lit-c 9s infinite; } .j-node.j-c::before { background: linear-gradient(140deg, #34c47c, var(--j-green)); animation: j-fill-c 9s infinite; }
+@keyframes j-lit-a { 0%, 21% { color: var(--m3-outline); box-shadow: none; transform: translate(-50%,-50%); } 22% { color: #fff; box-shadow: 0 0 0 6px rgba(249,115,22,.22), 0 8px 18px var(--brand-glow); transform: translate(-50%,-50%) scale(1.12); } 27%, 92% { color: #fff; box-shadow: 0 6px 14px var(--brand-glow); transform: translate(-50%,-50%); } 100% { color: var(--m3-outline); box-shadow: none; } }
+@keyframes j-lit-b { 0%, 45% { color: var(--m3-outline); box-shadow: none; transform: translate(-50%,-50%); } 46% { color: #fff; box-shadow: 0 0 0 6px rgba(249,115,22,.22), 0 8px 18px var(--brand-glow); transform: translate(-50%,-50%) scale(1.12); } 51%, 92% { color: #fff; box-shadow: 0 6px 14px var(--brand-glow); transform: translate(-50%,-50%); } 100% { color: var(--m3-outline); box-shadow: none; } }
+@keyframes j-lit-c { 0%, 69% { color: var(--m3-outline); box-shadow: none; transform: translate(-50%,-50%); } 70% { color: #fff; box-shadow: 0 0 0 7px rgba(27,154,90,.22), 0 8px 18px rgba(27,154,90,.4); transform: translate(-50%,-50%) scale(1.14); } 75%, 92% { color: #fff; box-shadow: 0 6px 14px rgba(27,154,90,.35); transform: translate(-50%,-50%); } 100% { color: var(--m3-outline); box-shadow: none; } }
+@keyframes j-fill-a { 0%, 21% { opacity: 0; } 22%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes j-fill-b { 0%, 45% { opacity: 0; } 46%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes j-fill-c { 0%, 69% { opacity: 0; } 70%, 92% { opacity: 1; } 100% { opacity: 0; } }
+/* the payout: "+₹" floats up off the cart */
+.j-pop {
+  position: absolute; left: 82%; top: 2px; font-style: normal; font-weight: 800; font-size: 13px;
+  color: var(--j-green); opacity: 0; animation: j-pop 9s infinite; pointer-events: none; margin-left: 20px;
 }
-.steps-strip span:not(.ss-n) { display: block; margin-top: 3px; font-size: 12.8px; line-height: 1.45; color: var(--m3-on-surface-var); }
-.steps-note { margin: 0 0 16px; font-size: 12.5px; color: var(--m3-on-surface-var); text-align: center; }
-.steps-note::before { content: "ⓘ "; color: var(--m3-primary); font-weight: 700; }
-@media (max-width: 760px) {
-  .steps-strip { grid-template-columns: 1fr; }
-  .steps-strip li { padding: 12px 14px; }
-  .steps-strip li + li { border-left: 0; border-top: 1px dashed var(--m3-outline-var); }
-  .steps-strip li + li::before { display: none; }
+@keyframes j-pop { 0%, 70% { opacity: 0; transform: translateY(8px); } 74% { opacity: 1; transform: translateY(0); } 86% { opacity: 1; transform: translateY(-3px); } 92%, 100% { opacity: 0; transform: translateY(-6px); } }
+/* the traveller: a ₹ coin with a speed tail, orange on the way, green once it has paid out */
+.j-coin {
+  position: absolute; top: 50%; left: -4%; transform: translate(-50%, -50%); width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; font-weight: 800; font-size: 15px; color: #fff; z-index: 2;
+  background: radial-gradient(circle at 35% 30%, #ffb070, #dc4a0f 70%); box-shadow: 0 0 0 3px rgba(255,255,255,.75), 0 0 14px var(--brand-glow);
+  animation: j-travel 9s infinite, j-coin-c 9s infinite;
+}
+.j-coin::before {
+  content: ""; position: absolute; right: 100%; top: 50%; height: 2.5px; margin-right: -2px; transform: translateY(-50%);
+  border-radius: 2px; background: linear-gradient(90deg, transparent, #f97316); animation: j-tail 9s infinite;
+}
+@keyframes j-travel {
+  0%   { left: -4%; animation-timing-function: cubic-bezier(.3,.1,.4,1); }
+  22%  { left: 18%; animation-timing-function: cubic-bezier(.4,0,.4,1); }
+  46%  { left: 50%; animation-timing-function: cubic-bezier(.4,0,.4,1); }
+  70%  { left: 82%; animation-timing-function: cubic-bezier(.5,0,.8,.3); }
+  84%, 100% { left: 106%; }
+}
+@keyframes j-coin-c { 0%, 69% { background: radial-gradient(circle at 35% 30%, #ffb070, #dc4a0f 70%); } 70%, 100% { background: radial-gradient(circle at 35% 30%, #7ee2ac, #1b9a5a 70%); } }
+@keyframes j-tail { 0% { width: 10px; opacity: .4; } 20% { width: 26px; opacity: .7; } 22%, 24% { width: 6px; } 44% { width: 30px; } 46%, 48% { width: 6px; } 68% { width: 30px; } 70%, 72% { width: 6px; } 80% { width: 110px; opacity: .9; } 84%, 100% { width: 30px; opacity: 0; } }
+.j-labels { list-style: none; margin: 2px 0 0; padding: 0; position: relative; height: 24px; }
+.j-labels li {
+  position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 700; color: var(--m3-on-surface-var);
+}
+.j-labels i {
+  font-style: normal; font-size: 10.5px; font-weight: 800; width: 19px; height: 19px; border-radius: 50%;
+  display: inline-grid; place-items: center; background: var(--m3-surface-3); color: var(--m3-on-surface-var);
+}
+.j-labels .j-a { animation: j-lbl-a 9s infinite; } .j-labels .j-b { animation: j-lbl-b 9s infinite; } .j-labels .j-c { animation: j-lbl-c 9s infinite; }
+@keyframes j-lbl-a { 0%, 21% { color: var(--m3-on-surface-var); } 22%, 92% { color: var(--m3-on-surface); } 100% { color: var(--m3-on-surface-var); } }
+@keyframes j-lbl-b { 0%, 45% { color: var(--m3-on-surface-var); } 46%, 92% { color: var(--m3-on-surface); } 100% { color: var(--m3-on-surface-var); } }
+@keyframes j-lbl-c { 0%, 69% { color: var(--m3-on-surface-var); } 70%, 92% { color: var(--j-green); } 100% { color: var(--m3-on-surface-var); } }
+@media (max-width: 640px) {
+  .j-labels li { font-size: 12px; gap: 4px; }
+  .j-labels i { display: none; }
+  .j-node { width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey *, .journey *::before { animation: none !important; }
+  .j-coin, .j-pop { display: none; }
+  .j-node { color: #fff; } .j-node::before { opacity: 1; }
 }
 
 /* ---- footer: affiliate hover chip ---- */
