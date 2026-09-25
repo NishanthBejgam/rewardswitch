@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-25T04:31:08+0000",
+  "checkedAt": "2026-09-25T06:31:10+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 191738,
-    "tg:dealsmagnet": 266344,
+    "tg:dealbee": 191759,
+    "tg:dealsmagnet": 266362,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202679
+    "tg:desidime": 202692
   },
   "deals": [
     "2156282",
@@ -56,6 +56,7 @@
     "2168154",
     "2168156",
     "2168157",
+    "2168166",
     "2168167",
     "2168177",
     "2168179",
@@ -81,7 +82,13 @@
     "2168284",
     "2168289",
     "2168308",
-    "2168314"
+    "2168314",
+    "2168323",
+    "2168347",
+    "2168384",
+    "2168390",
+    "2168400",
+    "2168402"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -124,6 +131,11 @@
       "post": "place-a-successful-google-play-2165141",
       "source": "desidime:2165141"
     },
+    "I4QRMWLJRO6TO": {
+      "firstSeen": "2026-09-25T06:31:10+0000",
+      "post": "amazon-fresh-flat-100-200-300-back-2168400",
+      "source": "desidime:2168400"
+    },
     "JCANUPUYHZWLY": {
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "flat-150-cashback-amazon-now-mov-2166313",
@@ -133,6 +145,11 @@
       "firstSeen": "2026-09-25T04:31:08+0000",
       "post": "amazon-3-off-get-2160688",
       "source": "desidime:2160688"
+    },
+    "NFMHZX74RTSRA": {
+      "firstSeen": "2026-09-25T06:31:10+0000",
+      "post": "amazon-fresh-flat-100-200-300-back-2168400",
+      "source": "desidime:2168400"
     },
     "PCYE7FTOT7HAG": {
       "firstSeen": "2026-09-25T01:45:20+0530",
@@ -163,6 +180,11 @@
       "firstSeen": "2026-09-25T03:31:17+0000",
       "post": "amazon-pay-egift-cards-get-2168274",
       "source": "desidime:2168274"
+    },
+    "Y2N6ZZCC55UPE": {
+      "firstSeen": "2026-09-25T06:31:10+0000",
+      "post": "amazon-fresh-flat-100-200-300-back-2168400",
+      "source": "desidime:2168400"
     },
     "YF6CIMG43WN6K": {
       "firstSeen": "2026-09-25T01:45:20+0530",
