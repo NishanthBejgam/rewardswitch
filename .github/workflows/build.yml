@@ -43,7 +43,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      # A push is a design change: reuse the live catalog and publish in ~1 min.
+      - name: Publish page changes only (push)
+        if: github.event_name == 'push'
+        run: |
+          mkdir -p _site && cp -r tools/static/. _site/
+          curl -fsSL https://rewardswitch.yourcardjourney.store/catalog.json -o _site/catalog.json || cp seed/published.json _site/catalog.json
+
       - name: Read every reward page and build the site
+        if: github.event_name != 'push'
         env:
           RS_TAG: ycj05-21
           RS_PACE: "6"
