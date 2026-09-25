@@ -163,6 +163,7 @@
   function renderVerdict(rs, bestId) {
     const v = $("#verdict"), runners = $("#runners");
     const liveCount = S.rewards.filter(isLive).length;
+    S.pick = null; if (window.RSBroadcast) window.RSBroadcast.changed();
     if (!S.cat) {
       v.className = "verdict empty";
       v.innerHTML = `<div class="v-eyebrow">Your pick will appear here</div><div class="v-title">${liveCount} rewards are live right now</div><div class="v-sub">Enter what you're spending and pick a category on the left — the reward that pays the most shows up here with a Collect button.</div>`;
@@ -177,6 +178,7 @@
       runners.innerHTML = ""; return;
     }
     const r = top.r, e = top.e;
+    S.pick = top; if (window.RSBroadcast) window.RSBroadcast.changed();
     v.className = "verdict";
     v.innerHTML = `<div class="v-eyebrow">Switch on this one</div>
       <div class="v-amount">${e ? (e.lucky ? "up to " : "") + inr(e.value) : (r.lucky ? "≤" : "") + inr(maxValue(r))}<small>${e ? "back on " + inr(amt) : "max back"}</small></div>
@@ -250,8 +252,21 @@
     document.addEventListener("keydown", function esc_(e) { if (e.key === "Escape") { close(); document.removeEventListener("keydown", esc_); } });
   }
 
+  // ---- broadcast bridge: the megaphone shows only in this browser after visiting /#broadcast
+  window.RS = {
+    pick: () => S.pick && { r: S.pick.r, e: S.pick.e, amount: S.amount, cat: S.cat ? choiceName(S.cat) : "", subs: [...S.sub] },
+    displayName, offerLine, windowText, methodOf, inr, maxValue, snack,
+  };
+  (() => {
+    let on = false;
+    try { if (location.hash === "#broadcast") localStorage.setItem("rs-bc", "1"); if (location.hash === "#public") localStorage.removeItem("rs-bc"); on = localStorage.getItem("rs-bc") === "1"; } catch (e) { on = location.hash === "#broadcast"; }
+    if (!on) return;
+    const sc = document.createElement("script"); sc.src = "broadcast.js?v=" + Date.now(); document.body.appendChild(sc);
+  })();
+
   // ---- wiring
   document.addEventListener("error", (e) => { const img = e.target; if (img && img.tagName === "IMG" && img.dataset.fallback !== undefined) img.parentNode.innerHTML = `<span class="fallback">${esc(img.dataset.fallback)}</span>`; }, true);
+  $$(".aff-chip").forEach((b) => (b.onclick = () => b.classList.toggle("open")));
   $("#amount").addEventListener("input", (e) => { S.amount = +e.target.value || 0; renderPlanner(); });
   $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderBoard(); });
 
