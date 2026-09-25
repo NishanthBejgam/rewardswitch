@@ -10,6 +10,7 @@
   const CREDIT = "@YourCardJourney";
   const $ = (s) => document.querySelector(s);
   const RS = window.RS;
+  let chan = "whatsapp";
   let dirty = false; // the user edited the caption; don't overwrite it until the pick changes
 
   // ---------------------------------------------------------------- drawer
@@ -29,17 +30,16 @@
           </div>
         </div>
         <div class="bc-pane">
-          <div class="bc-hint">Same caption for WhatsApp and X. Edit it here before copying if you like.</div>
+          <div class="seg" id="bcChan"><button data-v="whatsapp" class="is-active">WhatsApp</button><button data-v="x">X</button></div>
           <textarea id="bcOut" class="bc-text" spellcheck="false" aria-label="Caption"></textarea>
           <div class="bc-actions">
             <button type="button" class="btn btn-grad btn-sm" id="bcCopyText">Copy text</button>
-            <button type="button" class="btn btn-tonal btn-sm" id="bcOpen" data-to="whatsapp">Copy &amp; open WhatsApp</button>
-            <button type="button" class="btn btn-tonal btn-sm" id="bcOpenX" data-to="x">Copy &amp; open X</button>
+            <button type="button" class="btn btn-tonal btn-sm" id="bcOpen">Copy &amp; open WhatsApp</button>
             <span class="bc-count" id="bcCount"></span>
           </div>
         </div>
       </div>
-      <footer class="bc-foot"><b>Two pastes.</b> Copy the image and paste it into the chat, then paste the text as its caption.</footer>
+      <footer class="bc-foot"><b>Two pastes.</b> Copy the image and paste it into the chat, then paste the text as its caption. The Collect link carries your affiliate tag.</footer>
     </section>
   </div>`;
   document.body.appendChild(host.firstElementChild);
@@ -52,6 +52,12 @@
   $("#bcClose").onclick = close;
   scrim.onclick = (e) => { if (e.target === scrim) close(); };
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !scrim.hidden) close(); });
+  document.querySelectorAll("#bcChan button").forEach((b) => (b.onclick = () => {
+    chan = b.dataset.v; dirty = false;
+    document.querySelectorAll("#bcChan button").forEach((x) => x.classList.toggle("is-active", x === b));
+    $("#bcOpen").textContent = chan === "x" ? "Copy & open X" : "Copy & open WhatsApp";
+    draw();
+  }));
   $("#bcOut").addEventListener("input", () => { dirty = true; count(); });
 
   // ---------------------------------------------------------------- numbers
@@ -60,7 +66,7 @@
     const { r, e, amount } = p;
     const name = RS.displayName(r);
     const subs = p.subs.filter((x) => x.toLowerCase() !== p.cat.toLowerCase());
-    const cat = subs.length ? `${p.cat} (${subs.join(" + ")})` : p.cat;
+    const cat = subs.length ? `${p.cat}: ${subs.join(" + ")}` : p.cat;
     const save = e ? e.value : RS.maxValue(r);
     const lucky = e ? e.lucky : r.lucky;
     const bits = [];
@@ -79,26 +85,29 @@
 
   // ---------------------------------------------------------------- caption
   function caption(f) {
-    const inr = RS.inr;
-    const back = (f.lucky ? "up to " : "") + inr(f.save) + " back";
-    const when = f.window ? (/→/.test(f.window) ? "valid " + f.window.replace(" → ", " to ") : "valid " + f.window) : "";
-    const fine = [f.r.minOrder ? "Min order " + inr(f.r.minOrder) : "", when, f.method ? "pay with " + f.method : "", "one reward per order"].filter(Boolean).join(" · ");
-    return [
-      "Amazon Pay reward pick 🎁",
+    const inr = RS.inr, B = (t) => (chan === "whatsapp" ? `*${t}*` : t);
+    const saveTxt = (f.lucky ? "up to " : "") + inr(f.save);
+    const lines = [
+      B("Amazon Pay reward pick"),
       "",
-      f.amount ? `Spending ${inr(f.amount)} on ${f.cat}?` : `Shopping for ${f.cat} on Amazon?`,
-      `Collect the "${f.name}" reward before you pay and get ${back}` +
-        (f.amount && !f.lucky && f.save ? ` (${f.pct}%), so it effectively costs ${inr(f.pay)}.` : "."),
+      `Buying: ${B(f.cat)}`,
+      f.amount ? `Spending: ${B(inr(f.amount))}` : null,
       "",
-      fine.charAt(0).toUpperCase() + fine.slice(1) + ".",
+      `Collect this reward: ${B(f.name)} (${f.offer})`,
+      f.amount ? `You get ${B(saveTxt + " back")}${f.pct && !f.lucky ? ` (${f.pct}%)` : ""}${f.lucky ? "" : `, so you effectively pay ${B(inr(f.pay))}`}` : `Worth ${B(saveTxt)} back`,
+      f.bits.length ? f.bits.join(" · ").replace(/^./, (c) => c.toUpperCase()) : null,
       "",
-      `Find the best reward for your own cart 👉 ${SITE}`,
+      `Find the best reward for your own cart: ${SITE}`,
       "",
-      "Links on the site are affiliate links: I may earn a commission at no extra cost to you. Amazon decides eligibility on your account.",
-      `Shared by ${CREDIT}`,
-    ].join("\n");
+      "One reward per order. Amazon decides eligibility on your account.",
+      "Affiliate: I may earn a commission, at no extra cost to you.",
+      "",
+      `- Shared by ${CREDIT}`,
+    ];
+    if (chan === "x") return lines.filter((l, i) => l !== null && i !== 7 && !/^One reward/.test(l)).join("\n").replace(/\n{3,}/g, "\n\n");
+    return lines.filter((l) => l !== null).join("\n");
   }
-  function count() { $("#bcCount").textContent = `${$("#bcOut").value.length} chars`; }
+  function count() { const n = $("#bcOut").value.length; $("#bcCount").textContent = chan === "x" ? `${n} chars${n > 280 ? " · long post" : ""}` : `${n} chars`; }
 
   // ---------------------------------------------------------------- snapshot
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -216,7 +225,7 @@
     if (scrim.hidden) return;
     const f = facts();
     const cv = $("#bcCanvas");
-    ["#bcCopyImg", "#bcDlImg", "#bcCopyText", "#bcOpen", "#bcOpenX"].forEach((s) => ($(s).disabled = !f));
+    ["#bcCopyImg", "#bcDlImg", "#bcCopyText", "#bcOpen"].forEach((s) => ($(s).disabled = !f));
     if (!f) {
       $("#bcSub").textContent = "Pick an amount and a category first. The reward on the right is what gets broadcast.";
       const c = cv.getContext("2d"); c.clearRect(0, 0, cv.width, cv.height); c.fillStyle = "#f2ece7"; c.fillRect(0, 0, cv.width, cv.height);
@@ -250,11 +259,10 @@
     return t;
   };
   $("#bcCopyText").onclick = async () => { await copyText(); RS.snack("Caption copied."); };
-  const openTo = async (e) => {
+  $("#bcOpen").onclick = async () => {
     const t = await copyText();
-    window.open(e.currentTarget.dataset.to === "x" ? "https://x.com/intent/post?text=" + encodeURIComponent(t) : "https://web.whatsapp.com/", "_blank", "noopener");
+    window.open(chan === "x" ? "https://x.com/intent/post?text=" + encodeURIComponent(t) : "https://web.whatsapp.com/", "_blank", "noopener");
   };
-  $("#bcOpen").onclick = openTo; $("#bcOpenX").onclick = openTo;
 
   window.RSBroadcast = { changed: () => { dirty = false; draw(); } };
 })();
