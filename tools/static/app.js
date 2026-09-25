@@ -49,7 +49,7 @@
     All: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
   };
 
-  const S = { rewards: [], amount: 0, cat: "", kind: "All", state: "live", q: "" };
+  const S = { rewards: [], amount: 0, cat: "", sub: new Set(), kind: "All", state: "live", q: "" };
   const KIND_ICON = { shop: "S", gift: "G", bills: "B", food: "F", travel: "T", store: "O", money: "M", mission: "W" };
   const kindIcon = (k) => ICON[KIND_ICON[k] || k] || ICON.All;
 
@@ -101,13 +101,26 @@
     return { shop, pay };
   }
   function choiceName(id) { const all = choices(); return ([...all.shop, ...all.pay].find((c) => c.id === id) || {}).name || id; }
-  function rows() {
+  // Second level: the exact gift card / category / app inside the chosen chip, short-named.
+  function subOf(r) {
+    if (isSitewide(r)) return "";
+    if (S.cat.startsWith("k:")) return logoName(r) || displayName(r);
+    return categoryOf(r).replace(/\b(e-?)?gift\s*cards?\b|\bcodes?\b|\bshopping\b|\bbrand\b/gi, "").replace(/^select\s+/i, "").replace(/\s+/g, " ").trim() || categoryOf(r);
+  }
+  function subChoices() {
+    if (!S.cat) return [];
+    const m = new Map();
+    for (const { r } of rows(true)) { const k = subOf(r); if (k) m.set(k, (m.get(k) || 0) + (isLive(r) ? 1 : 0)); }
+    return m.size > 1 ? [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])) : [];
+  }
+  function rows(all) {
     if (!S.cat) return [];
     const amt = S.amount;
     const match = S.cat.startsWith("k:") ? (r) => kindOf(r) === S.cat.slice(2)
       : S.cat === "gift" ? (r) => kindOf(r) === "gift"
       : (r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === S.cat);
-    return S.rewards.filter((r) => !isMission(r) && match(r))
+    const pick = (r) => all || !S.sub.size || !subOf(r) || S.sub.has(subOf(r));
+    return S.rewards.filter((r) => !isMission(r) && match(r) && pick(r))
       .map((r) => ({ r, e: amt ? effective(r, amt) : null }))
       .sort((a, b) => (isLive(b.r) - isLive(a.r)) || (amt ? (b.e.value - a.e.value) || (a.e.short || 0) - (b.e.short || 0) : maxValue(b.r) - maxValue(a.r)));
   }
@@ -116,14 +129,18 @@
     $$("#quick button").forEach((b) => (b.onclick = () => { $("#amount").value = b.dataset.v; S.amount = +b.dataset.v; renderPlanner(); }));
     const { shop, pay } = choices();
     const chip = (c) => `<button class="chip${S.cat === c.id ? " is-active" : ""}" data-cat="${esc(c.id)}"><span class="glyph">${kindIcon(c.id.replace(/^k:/, ""))}</span>${esc(c.name)}${c.live ? `<span class="count">${c.live}</span>` : ""}</button>`;
-    $("#catRow").innerHTML = `<div class="cat-label">On Amazon</div><div class="cat-row">${shop.map(chip).join("")}</div>` +
-      (pay.length ? `<div class="cat-label">Elsewhere with Amazon Pay</div><div class="cat-row">${pay.map(chip).join("")}</div>` : "");
-    $$("#catRow button").forEach((b) => (b.onclick = () => { S.cat = S.cat === b.dataset.cat ? "" : b.dataset.cat; renderPlanner(); }));
+    const subs = subChoices();
+    const subPanel = subs.length ? `<div class="sub-pick"><div class="sub-label">Which ${esc(choiceName(S.cat).toLowerCase())}? <span>pick one or more to compare</span></div><div class="cat-row">
+      <button class="chip sub${S.sub.size ? "" : " is-active"}" data-sub="">All</button>${subs.map(([k, live]) => `<button class="chip sub${S.sub.has(k) ? " is-active" : ""}" data-sub="${esc(k)}"><span class="tick">✓</span>${esc(k)}${live ? `<span class="count">${live}</span>` : ""}</button>`).join("")}</div></div>` : "";
+    const block = (label, list) => `<div class="cat-label">${label}</div><div class="cat-row">${list.map(chip).join("")}</div>` + (list.some((c) => c.id === S.cat) ? subPanel : "");
+    $("#catRow").innerHTML = block("On Amazon", shop) + (pay.length ? block("Elsewhere with Amazon Pay", pay) : "");
+    $$("#catRow button[data-cat]").forEach((b) => (b.onclick = () => { S.cat = S.cat === b.dataset.cat ? "" : b.dataset.cat; S.sub.clear(); renderPlanner(); }));
+    $$("#catRow button[data-sub]").forEach((b) => (b.onclick = () => { const k = b.dataset.sub; if (!k) S.sub.clear(); else if (S.sub.has(k)) S.sub.delete(k); else S.sub.add(k); renderPlanner(); }));
     const list = $("#planList"), note = $("#planNote"), title = $("#planTitle");
     if (!S.cat) { title.textContent = "Applicable rewards"; list.innerHTML = `<div class="plan-empty">Pick a category above — only the rewards that apply to it will show here, best first.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     const rs = rows(); const amt = S.amount;
     const best = amt ? rs.find((x) => isLive(x.r) && x.e && x.e.value > 0) : null; const bestId = best ? best.r.ad : null;
-    title.textContent = `Applicable rewards for ${choiceName(S.cat)}` + (amt ? ` at ${inr(amt)}` : "");
+    title.textContent = `Applicable rewards for ${S.sub.size ? [...S.sub].join(" + ") : choiceName(S.cat)}` + (amt ? ` at ${inr(amt)}` : "");
     if (!rs.length) { list.innerHTML = `<div class="plan-empty">No known reward covers this right now.</div>`; note.textContent = ""; renderVerdict([], null); return; }
     list.innerHTML = rs.map(({ r, e }, i) => {
       const name = displayName(r); const short = amt && e && e.short; const off = !isLive(r);

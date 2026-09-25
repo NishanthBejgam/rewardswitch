@@ -222,6 +222,13 @@ h2 { margin: 2px 0 0; font-size: 18px; letter-spacing: -.2px; }
 .cat-groups { display: grid; gap: 6px; }
 .cat-label { font-size: 11.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--m3-on-surface-var); margin-top: 6px; }
 .cat-label:first-child { margin-top: 0; }
+.sub-pick { margin: 4px 0 2px; padding: 10px 12px 12px; border-radius: 16px; border: 1px dashed color-mix(in srgb, var(--m3-primary) 40%, transparent); background: color-mix(in srgb, var(--m3-primary) 5%, transparent); animation: subIn .18s ease-out; }
+.sub-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.sub-label span { font-weight: 500; color: var(--m3-on-surface-var); font-size: 12px; margin-left: 4px; }
+.chip.sub { padding: 5px 11px; font-size: 12.5px; }
+.chip.sub .tick { display: none; font-weight: 800; }
+.chip.sub.is-active .tick { display: inline; }
+@keyframes subIn { from { opacity: 0; transform: translateY(-4px); } }
 .chip {
   flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
   border: 1px solid var(--m3-outline-var); background: var(--m3-surface-2);
