@@ -48,6 +48,7 @@ jobs:
         if: github.event_name == 'push'
         run: |
           mkdir -p _site && cp -r tools/static/. _site/
+          sed -i "s/href=\"style.css\"/href=\"style.css?v=${GITHUB_SHA::8}\"/; s/src=\"app.js\"/src=\"app.js?v=${GITHUB_SHA::8}\"/" _site/index.html
           curl -fsSL https://rewardswitch.yourcardjourney.store/catalog.json -o _site/catalog.json || cp seed/published.json _site/catalog.json
 
       - name: Read every reward page and build the site

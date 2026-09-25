@@ -257,12 +257,16 @@
     pick: () => S.pick && { r: S.pick.r, e: S.pick.e, amount: S.amount, cat: S.cat ? choiceName(S.cat) : "", subs: [...S.sub] },
     displayName, offerLine, windowText, methodOf, inr, maxValue, snack,
   };
-  (() => {
+  // Re-checked on hashchange too: typing #broadcast onto an open page doesn't reload it.
+  const broadcastMode = () => {
     let on = false;
     try { if (location.hash === "#broadcast") localStorage.setItem("rs-bc", "1"); if (location.hash === "#public") localStorage.removeItem("rs-bc"); on = localStorage.getItem("rs-bc") === "1"; } catch (e) { on = location.hash === "#broadcast"; }
-    if (!on) return;
+    if (location.hash === "#public" && $("#bcBtn")) $("#bcBtn").hidden = true;
+    if (on && window.RSBroadcast) $("#bcBtn").hidden = false;
+    if (!on || window.RSBroadcast) return;
     const sc = document.createElement("script"); sc.src = "broadcast.js?v=" + Date.now(); document.body.appendChild(sc);
-  })();
+  };
+  broadcastMode(); addEventListener("hashchange", broadcastMode);
 
   // ---- wiring
   document.addEventListener("error", (e) => { const img = e.target; if (img && img.tagName === "IMG" && img.dataset.fallback !== undefined) img.parentNode.innerHTML = `<span class="fallback">${esc(img.dataset.fallback)}</span>`; }, true);

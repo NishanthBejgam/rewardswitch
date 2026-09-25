@@ -253,6 +253,14 @@ def build(out_dir, quick=False, harvest=True, new_only=False):
     os.makedirs(out_dir, exist_ok=True)
     for name in os.listdir(STATIC):
         shutil.copy(os.path.join(STATIC, name), os.path.join(out_dir, name))
+    # cache-bust: browsers keep app.js/style.css ~10 min on Pages, so stamp every build
+    idx = os.path.join(out_dir, "index.html")
+    stamp = str(int(time.time()))
+    with open(idx, encoding="utf-8") as f:
+        page = f.read()
+    page = page.replace('href="style.css"', 'href="style.css?v=%s"' % stamp).replace('src="app.js"', 'src="app.js?v=%s"' % stamp)
+    with open(idx, "w", encoding="utf-8") as f:
+        f.write(page)
     with open(os.path.join(out_dir, "catalog.json"), "w", encoding="utf-8") as f:
         json.dump(catalog, f, ensure_ascii=False, indent=1)
     with open(PUBLISHED, "w", encoding="utf-8") as f:
