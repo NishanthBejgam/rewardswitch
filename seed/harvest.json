@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-25T03:31:17+0000",
+  "checkedAt": "2026-09-25T04:31:08+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 191734,
-    "tg:dealsmagnet": 266337,
+    "tg:dealbee": 191738,
+    "tg:dealsmagnet": 266344,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202678
+    "tg:desidime": 202679
   },
   "deals": [
     "2156282",
@@ -21,6 +21,7 @@
     "2159172",
     "2159174",
     "2159865",
+    "2160688",
     "2160825",
     "2163643",
     "2165139",
@@ -77,7 +78,10 @@
     "2168255",
     "2168274",
     "2168280",
-    "2168284"
+    "2168284",
+    "2168289",
+    "2168308",
+    "2168314"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -125,6 +129,11 @@
       "post": "flat-150-cashback-amazon-now-mov-2166313",
       "source": "desidime:2166313"
     },
+    "LYGMJY4BVGRIM": {
+      "firstSeen": "2026-09-25T04:31:08+0000",
+      "post": "amazon-3-off-get-2160688",
+      "source": "desidime:2160688"
+    },
     "PCYE7FTOT7HAG": {
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "amazon-pay-gv-200-2167135",
@@ -144,6 +153,11 @@
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "flat-100-back-on-200-2158107",
       "source": "desidime:2158107"
+    },
+    "TGRC4W3R5AB2W": {
+      "firstSeen": "2026-09-25T04:31:08+0000",
+      "post": "amazon-3-off-get-2160688",
+      "source": "desidime:2160688"
     },
     "TTE63NHST2UJU": {
       "firstSeen": "2026-09-25T03:31:17+0000",
