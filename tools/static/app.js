@@ -112,7 +112,7 @@
       .sort((a, b) => (isLive(b.r) - isLive(a.r)) || (amt ? (b.e.value - a.e.value) || (a.e.short || 0) - (b.e.short || 0) : maxValue(b.r) - maxValue(a.r)));
   }
   function renderPlanner() {
-    $("#quick").innerHTML = [500, 1000, 2500, 5000, 15000].map((v) => `<button data-v="${v}"${S.amount === v ? ' class="is-active"' : ""}>${inr(v)}</button>`).join("");
+    $("#quick").innerHTML = [500, 1000, 2500, 5000, 10000].map((v) => `<button data-v="${v}"${S.amount === v ? ' class="is-active"' : ""}>${inr(v)}</button>`).join("");
     $$("#quick button").forEach((b) => (b.onclick = () => { $("#amount").value = b.dataset.v; S.amount = +b.dataset.v; renderPlanner(); }));
     const { shop, pay } = choices();
     const chip = (c) => `<button class="chip${S.cat === c.id ? " is-active" : ""}" data-cat="${esc(c.id)}"><span class="glyph">${kindIcon(c.id.replace(/^k:/, ""))}</span>${esc(c.name)}${c.live ? `<span class="count">${c.live}</span>` : ""}</button>`;
