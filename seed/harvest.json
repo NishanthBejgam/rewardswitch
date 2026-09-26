@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-26T01:15:48+0000",
+  "checkedAt": "2026-09-26T04:15:47+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 191880,
-    "tg:dealsmagnet": 266450,
+    "tg:dealbee": 191881,
+    "tg:dealsmagnet": 266467,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202720
+    "tg:desidime": 202721
   },
   "deals": [
     "2156282",
@@ -163,11 +163,19 @@
     "2168747",
     "2168749",
     "2168760",
+    "2168761",
     "2168766",
     "2168771",
+    "2168789",
+    "2168790",
     "2168797",
     "2168804",
-    "2168805"
+    "2168805",
+    "2168816",
+    "2168826",
+    "2168836",
+    "2168837",
+    "2168842"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -234,6 +242,11 @@
       "firstSeen": "2026-09-25T06:31:10+0000",
       "post": "amazon-fresh-flat-100-200-300-back-2168400",
       "source": "desidime:2168400"
+    },
+    "NK6CJILBQNR2W": {
+      "firstSeen": "2026-09-26T04:15:47+0000",
+      "post": "amazon-subscribe-and-save-flat-2168842",
+      "source": "desidime:2168842"
     },
     "PCYE7FTOT7HAG": {
       "firstSeen": "2026-09-25T01:45:20+0530",
