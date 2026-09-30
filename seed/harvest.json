@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-09-30T18:46:09+0000",
+  "checkedAt": "2026-09-30T19:02:10+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192481,
-    "tg:dealsmagnet": 267092,
+    "tg:dealbee": 192485,
+    "tg:dealsmagnet": 267096,
     "tg:dealsnloot": 0,
     "tg:desidime": 202908
   },
@@ -552,13 +552,23 @@
     "2171037",
     "2171038",
     "2171044",
-    "2171045"
+    "2171045",
+    "2171048",
+    "2171054",
+    "2171060",
+    "2171062",
+    "2171064"
   ],
   "seen": {
     "235DEBC5E5LGS": {
       "firstSeen": "2026-09-25T03:31:17+0000",
       "post": "69% Off Havells Aquas Lite Water Purifier, UV + UF Purification, 4-stages, 7L Storage, Bla",
       "source": "tg:dealsmagnet:266335"
+    },
+    "3FBJFQCJR72K2": {
+      "firstSeen": "2026-09-30T19:02:10+0000",
+      "post": "amazon-pay-gift-card-150-2171048",
+      "source": "desidime:2171048"
     },
     "4MZ3SCVVSJ7DQ": {
       "firstSeen": "2026-09-25T01:45:20+0530",
