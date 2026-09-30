@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-09-30T19:02:10+0000",
+  "checkedAt": "2026-09-30T19:16:28+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192485,
-    "tg:dealsmagnet": 267096,
+    "tg:dealbee": 192488,
+    "tg:dealsmagnet": 267099,
     "tg:dealsnloot": 0,
     "tg:desidime": 202908
   },
@@ -27,6 +27,7 @@
     "2161970",
     "2163456",
     "2163643",
+    "2164262",
     "2165139",
     "2165141",
     "2165793",
@@ -537,6 +538,8 @@
     "2170880",
     "2170895",
     "2170896",
+    "2170909",
+    "2170912",
     "2170918",
     "2170925",
     "2170962",
@@ -557,7 +560,11 @@
     "2171054",
     "2171060",
     "2171062",
-    "2171064"
+    "2171064",
+    "2171069",
+    "2171070",
+    "2171074",
+    "2171075"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -574,6 +581,11 @@
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "amazon-make-a-send-money-2159174",
       "source": "desidime:2159174"
+    },
+    "4WPIM3IWUTQYM": {
+      "firstSeen": "2026-09-30T19:16:28+0000",
+      "post": "amazon-pay-shopping-35-cashback-2171075",
+      "source": "desidime:2171075"
     },
     "4XEYLGXP7GBGG": {
       "firstSeen": "2026-09-25T01:45:20+0530",
