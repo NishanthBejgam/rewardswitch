@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-30T12:15:55+0000",
+  "checkedAt": "2026-09-30T18:46:09+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192422,
-    "tg:dealsmagnet": 267056,
+    "tg:dealbee": 192481,
+    "tg:dealsmagnet": 267092,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202900
+    "tg:desidime": 202908
   },
   "deals": [
     "2156282",
@@ -507,15 +507,52 @@
     "2170631",
     "2170635",
     "2170638",
+    "2170668",
+    "2170669",
+    "2170670",
+    "2170671",
+    "2170679",
     "2170683",
+    "2170686",
+    "2170688",
+    "2170689",
     "2170699",
     "2170705",
     "2170710",
     "2170723",
+    "2170726",
+    "2170765",
+    "2170768",
+    "2170769",
+    "2170770",
+    "2170771",
     "2170772",
     "2170792",
+    "2170828",
+    "2170830",
+    "2170842",
+    "2170858",
+    "2170860",
     "2170879",
-    "2170880"
+    "2170880",
+    "2170895",
+    "2170896",
+    "2170918",
+    "2170925",
+    "2170962",
+    "2170967",
+    "2170976",
+    "2171001",
+    "2171013",
+    "2171027",
+    "2171028",
+    "2171030",
+    "2171034",
+    "2171035",
+    "2171037",
+    "2171038",
+    "2171044",
+    "2171045"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -562,6 +599,16 @@
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "place-a-successful-google-play-2165141",
       "source": "desidime:2165141"
+    },
+    "DVZ4MANPQEWP6": {
+      "firstSeen": "2026-09-30T18:46:09+0000",
+      "post": "do-send-money-using-amazon-2171035",
+      "source": "desidime:2171035"
+    },
+    "E6MTF5YSZMHKI": {
+      "firstSeen": "2026-09-30T18:46:09+0000",
+      "post": "amazon-pay-gift-card-deals-2171028",
+      "source": "desidime:2171028"
     },
     "FZ4A26ADSAOE4": {
       "firstSeen": "2026-09-26T05:31:11+0000",
@@ -633,6 +680,11 @@
       "post": "amazon-get-upto-25-2168797",
       "source": "desidime:2168797"
     },
+    "T2ZWZ6V4N2U2M": {
+      "firstSeen": "2026-09-30T18:46:09+0000",
+      "post": "amazon-get-flat-25rs-on-2171038",
+      "source": "desidime:2171038"
+    },
     "TGRC4W3R5AB2W": {
       "firstSeen": "2026-09-25T04:31:08+0000",
       "post": "amazon-3-off-get-2160688",
@@ -647,6 +699,11 @@
       "firstSeen": "2026-09-29T17:01:30+0000",
       "post": "amazon-pay-x-mcdonald-s-get-2170442",
       "source": "desidime:2170442"
+    },
+    "WR6Q4CVBJPRUK": {
+      "firstSeen": "2026-09-30T18:46:09+0000",
+      "post": "amazon-get-flat-25-on-2171034",
+      "source": "desidime:2171034"
     },
     "Y2N6ZZCC55UPE": {
       "firstSeen": "2026-09-25T06:31:10+0000",
