@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-10-01T07:15:46+0000",
+  "checkedAt": "2026-10-01T07:31:04+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192523,
+    "tg:dealbee": 192525,
     "tg:dealsmagnet": 267139,
     "tg:dealsnloot": 0,
     "tg:desidime": 202932
@@ -599,7 +599,8 @@
     "2171276",
     "2171282",
     "2171294",
-    "2171298"
+    "2171298",
+    "2171304"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -641,6 +642,11 @@
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "do-send-money-using-amazon-2163643",
       "source": "desidime:2163643"
+    },
+    "6SWU7X2H2DU62": {
+      "firstSeen": "2026-10-01T07:31:04+0000",
+      "post": "amazon-fresh-fruits-vegetables-2171304",
+      "source": "desidime:2171304"
     },
     "AJVUPP2CKZPAC": {
       "firstSeen": "2026-09-25T01:45:20+0530",
