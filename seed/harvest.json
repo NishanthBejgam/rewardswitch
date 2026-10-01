@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-01T07:01:29+0000",
+  "checkedAt": "2026-10-01T07:15:46+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
@@ -8,7 +8,7 @@
     "tg:dealbee": 192523,
     "tg:dealsmagnet": 267139,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202930
+    "tg:desidime": 202932
   },
   "deals": [
     "2156282",
@@ -598,7 +598,8 @@
     "2171262",
     "2171276",
     "2171282",
-    "2171294"
+    "2171294",
+    "2171298"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -820,6 +821,11 @@
       "firstSeen": "2026-09-30T18:46:09+0000",
       "post": "amazon-get-flat-25-on-2171034",
       "source": "desidime:2171034"
+    },
+    "X4TY66VAE4DRY": {
+      "firstSeen": "2026-10-01T07:15:46+0000",
+      "post": "amazon-pay-balance-win-win-2171298",
+      "source": "desidime:2171298"
     },
     "Y2N6ZZCC55UPE": {
       "firstSeen": "2026-09-25T06:31:10+0000",
