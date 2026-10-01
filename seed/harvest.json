@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-01T06:45:55+0000",
+  "checkedAt": "2026-10-01T07:01:29+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192518,
+    "tg:dealbee": 192523,
     "tg:dealsmagnet": 267139,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202929
+    "tg:desidime": 202930
   },
   "deals": [
     "2156282",
@@ -596,7 +596,9 @@
     "2171253",
     "2171261",
     "2171262",
-    "2171276"
+    "2171276",
+    "2171282",
+    "2171294"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -714,6 +716,11 @@
       "post": "rs-25-cashback-on-rs-100-2171262",
       "source": "desidime:2171262"
     },
+    "JO6AXEIZ3GAUO": {
+      "firstSeen": "2026-10-01T07:01:29+0000",
+      "post": "amazon-recharge-bill-get-up-to-2171294",
+      "source": "desidime:2171294"
+    },
     "KMR66NN6FWY6I": {
       "firstSeen": "2026-09-30T03:01:25+0000",
       "post": "amazon-movie-get-10-upto-2170511",
@@ -828,6 +835,11 @@
       "firstSeen": "2026-09-29T12:15:55+0000",
       "post": "amazon-giftcards-get-5-2170327",
       "source": "desidime:2170327"
+    },
+    "YQEMTYIQQ4FKG": {
+      "firstSeen": "2026-10-01T07:01:29+0000",
+      "post": "amazon-shopping-get-flat-25-2171282",
+      "source": "desidime:2171282"
     }
   }
 }
