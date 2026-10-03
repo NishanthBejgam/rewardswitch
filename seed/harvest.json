@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-03T04:01:17+0000",
+  "checkedAt": "2026-10-03T12:46:06+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 192775,
-    "tg:dealsmagnet": 267340,
+    "tg:dealbee": 192845,
+    "tg:dealsmagnet": 267406,
     "tg:dealsnloot": 0,
-    "tg:desidime": 202993
+    "tg:desidime": 203009
   },
   "deals": [
     "2156282",
@@ -737,9 +737,32 @@
     "2172180",
     "2172194",
     "2172198",
+    "2172199",
+    "2172200",
     "2172207",
+    "2172215",
     "2172222",
-    "2172224"
+    "2172224",
+    "2172230",
+    "2172238",
+    "2172267",
+    "2172269",
+    "2172270",
+    "2172281",
+    "2172293",
+    "2172294",
+    "2172323",
+    "2172373",
+    "2172380",
+    "2172418",
+    "2172431",
+    "2172470",
+    "2172489",
+    "2172492",
+    "2172493",
+    "2172494",
+    "2172505",
+    "2172529"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -761,6 +784,11 @@
       "firstSeen": "2026-10-01T15:15:54+0000",
       "post": "amazon-shopping-get-flat-2171588",
       "source": "desidime:2171588"
+    },
+    "4KGJYTWNQMUVM": {
+      "firstSeen": "2026-10-03T12:46:06+0000",
+      "post": "save-cards-on-amazon-get-2172505",
+      "source": "desidime:2172505"
     },
     "4MZ3SCVVSJ7DQ": {
       "firstSeen": "2026-09-25T01:45:20+0530",
@@ -897,6 +925,11 @@
       "post": "amazon-3-off-get-2160688",
       "source": "desidime:2160688"
     },
+    "NFITM5XLLZEWA": {
+      "firstSeen": "2026-10-03T12:46:06+0000",
+      "post": "save-cards-on-amazon-get-2172505",
+      "source": "desidime:2172505"
+    },
     "NFMHZX74RTSRA": {
       "firstSeen": "2026-09-25T06:31:10+0000",
       "post": "amazon-fresh-flat-100-200-300-back-2168400",
@@ -957,6 +990,11 @@
       "post": "flat-100-back-on-200-2158107",
       "source": "desidime:2158107"
     },
+    "RSTNLY26GNNQI": {
+      "firstSeen": "2026-10-03T12:46:06+0000",
+      "post": "save-cards-on-amazon-get-2172505",
+      "source": "desidime:2172505"
+    },
     "SKIBRBJATPTF2": {
       "firstSeen": "2026-09-26T01:15:48+0000",
       "post": "amazon-shopping-get-up-to-2168804",
@@ -1016,6 +1054,11 @@
       "firstSeen": "2026-10-01T07:15:46+0000",
       "post": "amazon-pay-balance-win-win-2171298",
       "source": "desidime:2171298"
+    },
+    "X7OQB5MVKJVD4": {
+      "firstSeen": "2026-10-03T12:46:06+0000",
+      "post": "amazon-pay-later-get-10-2172529",
+      "source": "desidime:2172529"
     },
     "Y2N6ZZCC55UPE": {
       "firstSeen": "2026-09-25T06:31:10+0000",
