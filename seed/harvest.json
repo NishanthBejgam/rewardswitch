@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-10-06T01:01:29+0000",
+  "checkedAt": "2026-10-06T04:45:53+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39665,
     "tg:bigtricks": 0,
-    "tg:dealbee": 193163,
-    "tg:dealsmagnet": 267719,
+    "tg:dealbee": 193167,
+    "tg:dealsmagnet": 267744,
     "tg:dealsnloot": 0,
     "tg:desidime": 203109
   },
@@ -972,7 +972,10 @@
     "2173658",
     "2173661",
     "2173669",
-    "2173672"
+    "2173672",
+    "2173679",
+    "2173738",
+    "2173741"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -1269,6 +1272,11 @@
       "firstSeen": "2026-10-01T17:01:35+0000",
       "post": "send-money-get-flat-50-back-2171633",
       "source": "desidime:2171633"
+    },
+    "VXBIRA4MZM6FY": {
+      "firstSeen": "2026-10-06T04:45:53+0000",
+      "post": "get-flat-1000-back-min-2173741",
+      "source": "desidime:2173741"
     },
     "WCXU3DFTB52DC": {
       "firstSeen": "2026-09-29T17:01:30+0000",
