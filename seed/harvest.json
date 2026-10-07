@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-07T20:01:48+0000",
+  "checkedAt": "2026-10-07T21:46:04+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
-    "tg:TrickXpert": 39665,
+    "tg:TrickXpert": 39667,
     "tg:bigtricks": 0,
-    "tg:dealbee": 193476,
-    "tg:dealsmagnet": 268262,
+    "tg:dealbee": 193497,
+    "tg:dealsmagnet": 268280,
     "tg:dealsnloot": 0,
-    "tg:desidime": 203350
+    "tg:desidime": 203356
   },
   "deals": [
     "2156282",
@@ -1144,24 +1144,39 @@
     "2175086",
     "2175090",
     "2175108",
+    "2175112",
     "2175130",
+    "2175132",
     "2175134",
     "2175135",
     "2175147",
     "2175165",
     "2175219",
+    "2175281",
     "2175302",
     "2175306",
     "2175307",
     "2175420",
     "2175435",
     "2175486",
+    "2175511",
     "2175586",
     "2175603",
     "2175617",
     "2175626",
     "2175628",
-    "2175635"
+    "2175635",
+    "2175650",
+    "2175651",
+    "2175658",
+    "2175662",
+    "2175683",
+    "2175689",
+    "2175709",
+    "2175714",
+    "2175717",
+    "2175718",
+    "2175722"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -1173,6 +1188,11 @@
       "firstSeen": "2026-10-02T15:45:58+0000",
       "post": "amazon-shopping-get-flat-2172083",
       "source": "desidime:2172083"
+    },
+    "2Y6UOD7G7NEWA": {
+      "firstSeen": "2026-10-07T21:46:04+0000",
+      "post": "amazon-kitchen-get-flat-2175717",
+      "source": "desidime:2175717"
     },
     "3FBJFQCJR72K2": {
       "firstSeen": "2026-09-30T19:02:10+0000",
@@ -1248,6 +1268,11 @@
       "firstSeen": "2026-10-06T01:01:29+0000",
       "post": "large-appliances-get-rs-1000-2173652",
       "source": "desidime:2173652"
+    },
+    "AVYZGB7CTEBVM": {
+      "firstSeen": "2026-10-07T21:46:04+0000",
+      "post": "amazon-daily-essentials-get-2175718",
+      "source": "desidime:2175718"
     },
     "BNLBIESD2E6BU": {
       "firstSeen": "2026-09-25T01:45:20+0530",
