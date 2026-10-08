@@ -11,7 +11,8 @@
   // few things a shopper actually thinks in. Unknown categories fall into "other".
   const SHOP_GROUPS = [
     ["electronics", "Electronics", /electronic|mobile|laptop|computer|\btv\b|television|headphone|camera|smart ?watch|tablet|wireless|echo|alexa|kindle|fire ?tv/i],
-    ["fashion", "Fashion", /fashion|beauty|cloth|apparel|shoe|footwear|jewel|watch|bag|bazaar/i],
+    ["jewellery", "Jewellery", /jewel|gold|silver|diamond|precious|coin/i],
+    ["fashion", "Fashion", /fashion|beauty|cloth|apparel|shoe|footwear|watch|bag|bazaar/i],
     ["home", "Home", /home|kitchen|dining|vacuum|furniture|appliance|decor|mattress|washing|refrigerator|fridge|air condition|\bac\b|microwave|chimney/i],
     ["daily", "Groceries", /essential|grocer|fresh|pantry|household|baby|pet/i],
     ["health", "Medicines", /medicine|pharma|otc|health|wellness/i],
@@ -45,6 +46,7 @@
     home: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>',
     daily: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
     health: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="4"/><path d="M12 8v8"/></svg>',
+    jewellery: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/><path d="m9 3-2 6 5 12 5-12-2-6"/></svg>',
     other: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>',
     All: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
   };
@@ -95,7 +97,7 @@
   function choices() {
     const live = (f) => S.rewards.filter((r) => !isMission(r) && isLive(r) && f(r)).length;
     const shop = SHOP_GROUPS.map(([g, n]) => ({ id: g, name: n, live: live((r) => g === "gift" ? kindOf(r) === "gift" : kindOf(r) === "shop" && shopGroup(r) === g), any: S.rewards.some((r) => !isMission(r) && (g === "gift" ? kindOf(r) === "gift" : shopGroup(r) === g)) }))
-      .filter((c) => c.any);
+      .filter((c) => c.any || c.id === "jewellery");   // Jewellery always offered: the gold boards send buyers here
     shop.push({ id: "other", name: "Anything else", live: live((r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === "other")) });
     const pay = KINDS.filter(([k]) => !["shop", "gift", "mission"].includes(k)).map(([k, n]) => ({ id: "k:" + k, name: n, live: live((r) => kindOf(r) === k) })).filter((c) => c.live);
     return { shop, pay };
