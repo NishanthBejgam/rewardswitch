@@ -10,9 +10,9 @@
   // ("Kitchen and dining", "Prescription and OTC medicines"); those roll up into the
   // few things a shopper actually thinks in. Unknown categories fall into "other".
   const SHOP_GROUPS = [
-    ["electronics", "Electronics", /electronic|mobile|laptop|computer|\btv\b|television|headphone|camera|smart ?watch|tablet/i],
+    ["electronics", "Electronics", /electronic|mobile|laptop|computer|\btv\b|television|headphone|camera|smart ?watch|tablet|wireless|echo|alexa|kindle|fire ?tv/i],
     ["fashion", "Fashion", /fashion|beauty|cloth|apparel|shoe|footwear|jewel|watch|bag|bazaar/i],
-    ["home", "Home", /home|kitchen|dining|vacuum|furniture|appliance|decor|mattress/i],
+    ["home", "Home", /home|kitchen|dining|vacuum|furniture|appliance|decor|mattress|washing|refrigerator|fridge|air condition|\bac\b|microwave|chimney/i],
     ["daily", "Groceries", /essential|grocer|fresh|pantry|household|baby|pet/i],
     ["health", "Medicines", /medicine|pharma|otc|health|wellness/i],
     ["gift", "Gift cards", /gift ?card|e-?gift|voucher|app store code/i],
@@ -22,7 +22,7 @@
     ["gift", "Gift cards", "Amazon Pay, app-store and brand gift cards bought on Amazon"],
     ["bills", "Bills", "Mobile, DTH, electricity, credit-card bills and Add Money"],
     ["food", "Food apps", "Swiggy, Zomato and other apps paid with Amazon Pay"],
-    ["travel", "Travel", "Flights, buses, trains and hotels"],
+    ["travel", "Travel & movies", "Flights, buses, trains, hotels and movie tickets"],
     ["store", "Shops", "Scan-and-pay with Amazon Pay UPI at stores near you"],
     ["money", "Send money", "UPI transfers to friends and family"],
     ["mission", "Missions", "Do a task first (e.g. a first UPI payment) to unlock a reward"],

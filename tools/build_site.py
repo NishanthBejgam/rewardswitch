@@ -123,7 +123,13 @@ def parse_page(page):
         window = w.group(1) if w else ""
     window = re.sub(r" 12:00:00 AM| 11:59:59 PM", "", window).strip()
     times = re.search(r"availed (\d+) time", steps, re.I)
-    minv = re.search(r"minimum (?:order |transaction )?value (?:of )?₹?\s?([\d,]+)", steps, re.I)
+    minv = re.search(r"min(?:imum|\.) (?:order |transaction )?value (?:of )?₹?\s?([\d,]+)", steps, re.I)
+    if not main:
+        # some offline-store pages have no offer card; the FAQ still says what the reward is
+        what = re.search(r"What is the reward\? (.*?)(?: Applicable| \d\. |$)", txt)
+        amounts = re.findall(r"₹\s?([\d,]+)", what.group(1)) if what else []
+        if amounts:
+            main = ("WIN UP TO ₹%s BACK" if re.search(r"\bwin\b", what.group(1), re.I) else "GET UP TO ₹%s BACK") % amounts[-1]
     unlock = re.search(r"To unlock (.*?)(?:, follow| on )", steps, re.I)
     up = main.upper()
     cap = re.search(r"₹\s?([\d,]+)", main)
@@ -147,6 +153,29 @@ def parse_page(page):
         "steps": steps, "terms": terms[:3000],
         "readAt": now_iso(),
     }
+
+
+# Ids shared by deal groups arrive as section X. Shopping ones get a category from
+# "place a successful ... order"; the rest are told apart by what the steps ask for,
+# so the planner can offer them (an X reward with no category matched no chip).
+SEC_FROM_STEPS = [
+    ("W", r"add your card|link your|set ?up autopay|first (?:upi|scan)"),
+    ("T", r"\b(?:bus|flight|train|hotel|movie)s?\b.{0,20}\b(?:ticket|booking)|book a (?:bus|flight|train|hotel|movie)"),
+    ("G", r"recharge code|gift ?card (?:order|payment|purchase)|voucher (?:order|payment|purchase)"),
+    ("B", r"recharge|bill payment|\bbill\b|add money|electricity|\bdth\b|broadband|fastag|postpaid|insurance"),
+    ("O", r"scan (?:and )?pay|scan payment|offline|at (?:a |any )?(?:store|shop)|merchant"),
+    ("M", r"send money|money transfer|to (?:a )?(?:friend|contact)"),
+    ("F", r"swiggy|zomato|food"),
+]
+
+
+def sec_from_steps(steps):
+    # the first two steps name the payment; later ones talk about "gifts and credits" etc.
+    head = re.split(r" 3\. ", steps, 1)[0][:400]
+    for sec, pat in SEC_FROM_STEPS:
+        if re.search(pat, head, re.I):
+            return sec
+    return "S"   # e.g. Subscribe & Save: still an Amazon order
 
 
 def _num(m, g=1):
@@ -244,6 +273,10 @@ def build(out_dir, quick=False, harvest=True, new_only=False):
             r["sec"] = "G"
         elif r["sec"] == "X" and cat and not r.get("unlock"):
             r["sec"] = "S"
+        elif r["sec"] == "X":
+            r["sec"] = sec_from_steps(r.get("steps") or "")
+            if r["sec"] == "S":
+                r["category"] = "Subscribe & Save" if re.search(r"subscribe", r.get("steps") or "", re.I) else "Other Amazon orders"
         r["url"] = REWARD_URL.format(id=r["ad"])
         r["collectUrl"] = r["url"] + "&tag=" + TAG
     catalog = {
