@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-08T07:31:14+0000",
+  "checkedAt": "2026-10-08T09:01:47+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39667,
     "tg:bigtricks": 0,
-    "tg:dealbee": 193605,
-    "tg:dealsmagnet": 268365,
+    "tg:dealbee": 193623,
+    "tg:dealsmagnet": 268378,
     "tg:dealsnloot": 0,
-    "tg:desidime": 203449
+    "tg:desidime": 203464
   },
   "deals": [
     "2156282",
@@ -1185,6 +1185,7 @@
     "2175530",
     "2175531",
     "2175532",
+    "2175540",
     "2175556",
     "2175559",
     "2175585",
@@ -1222,7 +1223,10 @@
     "2175753",
     "2175760",
     "2175773",
+    "2175777",
     "2175797",
+    "2175802",
+    "2175803",
     "2175814",
     "2175848",
     "2175882",
@@ -1239,7 +1243,10 @@
     "2176044",
     "2176046",
     "2176067",
-    "2176071"
+    "2176071",
+    "2176081",
+    "2176139",
+    "2176177"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -1546,6 +1553,11 @@
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
       "source": "desidime:2171025"
+    },
+    "QORNTZUPGTYTG": {
+      "firstSeen": "2026-10-08T09:01:47+0000",
+      "post": "get-flat-rs-400-cashback-2176177",
+      "source": "desidime:2176177"
     },
     "QWOLFVFUT5RFY": {
       "firstSeen": "2026-10-02T04:15:48+0000",
