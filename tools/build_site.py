@@ -269,6 +269,9 @@ def build(out_dir, quick=False, harvest=True, new_only=False):
 
     for r in rewards:
         cat = (r.get("category") or "")
+        if r["sec"] == "C" and not cat and r.get("headline"):
+            # festive slugs (rewardAd.jewellery, .books ...) name their category only in the headline
+            cat = r["category"] = r["headline"]
         if re.search(r"gift ?card|voucher|app store code|e-?gift", cat, re.I):
             r["sec"] = "G"
         elif r["sec"] == "X" and cat and not r.get("unlock"):
