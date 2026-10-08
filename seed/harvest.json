@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-08T05:31:26+0000",
+  "checkedAt": "2026-10-08T06:16:11+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39667,
     "tg:bigtricks": 0,
-    "tg:dealbee": 193551,
-    "tg:dealsmagnet": 268345,
+    "tg:dealbee": 193568,
+    "tg:dealsmagnet": 268356,
     "tg:dealsnloot": 0,
-    "tg:desidime": 203412
+    "tg:desidime": 203431
   },
   "deals": [
     "2156282",
@@ -1228,7 +1228,9 @@
     "2175913",
     "2175919",
     "2175931",
-    "2175932"
+    "2175932",
+    "2175973",
+    "2175978"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -1321,6 +1323,11 @@
       "post": "amazon-bus-get-flat-100rs-2175486",
       "source": "desidime:2175486"
     },
+    "A33XPKZ4JBRCI": {
+      "firstSeen": "2026-10-08T06:16:11+0000",
+      "post": "amazon-get-flat-20-2175973",
+      "source": "desidime:2175973"
+    },
     "ADNZJWYCF66LE": {
       "firstSeen": "2026-10-03T20:15:48+0000",
       "post": "amazon-make-a-payment-at-2172727",
@@ -1386,6 +1393,11 @@
       "post": "amazon-get-upto-10rs-on-2171276",
       "source": "desidime:2171276"
     },
+    "FWHTLQRXHLZHI": {
+      "firstSeen": "2026-10-08T06:16:11+0000",
+      "post": "amazon-get-flat-20-2175973",
+      "source": "desidime:2175973"
+    },
     "FWPK6BAPMAVT6": {
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
@@ -1410,6 +1422,11 @@
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
       "source": "desidime:2171025"
+    },
+    "HTGJ5AR7AS6GQ": {
+      "firstSeen": "2026-10-08T06:16:11+0000",
+      "post": "amazon-get-flat-20-2175973",
+      "source": "desidime:2175973"
     },
     "I4QRMWLJRO6TO": {
       "firstSeen": "2026-09-25T06:31:10+0000",
@@ -1605,6 +1622,11 @@
       "firstSeen": "2026-09-30T18:46:09+0000",
       "post": "amazon-get-flat-25-on-2171034",
       "source": "desidime:2171034"
+    },
+    "X3RREPU5DDS4Q": {
+      "firstSeen": "2026-10-08T06:16:11+0000",
+      "post": "amazon-get-flat-20-2175973",
+      "source": "desidime:2175973"
     },
     "X4TY66VAE4DRY": {
       "firstSeen": "2026-10-01T07:15:46+0000",
