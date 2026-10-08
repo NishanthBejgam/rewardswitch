@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-08T09:01:47+0000",
+  "checkedAt": "2026-10-08T11:45:55+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
-    "tg:TrickXpert": 39667,
+    "tg:TrickXpert": 39668,
     "tg:bigtricks": 0,
-    "tg:dealbee": 193623,
-    "tg:dealsmagnet": 268378,
+    "tg:dealbee": 193647,
+    "tg:dealsmagnet": 268409,
     "tg:dealsnloot": 0,
-    "tg:desidime": 203464
+    "tg:desidime": 203492
   },
   "deals": [
     "2156282",
@@ -1227,12 +1227,20 @@
     "2175797",
     "2175802",
     "2175803",
+    "2175805",
     "2175814",
     "2175848",
+    "2175856",
+    "2175859",
+    "2175863",
+    "2175870",
     "2175882",
     "2175904",
     "2175913",
     "2175919",
+    "2175923",
+    "2175924",
+    "2175930",
     "2175931",
     "2175932",
     "2175973",
@@ -1246,7 +1254,19 @@
     "2176071",
     "2176081",
     "2176139",
-    "2176177"
+    "2176177",
+    "2176189",
+    "2176192",
+    "2176194",
+    "2176215",
+    "2176221",
+    "2176222",
+    "2176308",
+    "2176327",
+    "2176336",
+    "2176350",
+    "2176353",
+    "2176355"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -1293,6 +1313,11 @@
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "amazon-make-a-send-money-2159174",
       "source": "desidime:2159174"
+    },
+    "4OX4J2ROFC4BG": {
+      "firstSeen": "2026-10-08T11:45:55+0000",
+      "post": "bumper-rewards-unlock-bill-payments-2176355",
+      "source": "desidime:2176355"
     },
     "4WPIM3IWUTQYM": {
       "firstSeen": "2026-09-30T19:16:28+0000",
@@ -1514,6 +1539,11 @@
       "post": "amazon-electronics-get-up-2175626",
       "source": "desidime:2175626"
     },
+    "NTZIIUQIQGE24": {
+      "firstSeen": "2026-10-08T11:45:55+0000",
+      "post": "bumper-rewards-unlock-bill-payments-2176355",
+      "source": "desidime:2176355"
+    },
     "O4ZNV7VA5VKC2": {
       "firstSeen": "2026-10-07T18:16:08+0000",
       "post": "amazon-get-flat-75-2175219",
@@ -1523,6 +1553,11 @@
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
       "source": "desidime:2171025"
+    },
+    "P4BBC2B3QECLO": {
+      "firstSeen": "2026-10-08T11:45:55+0000",
+      "post": "bumper-rewards-unlock-bill-payments-2176355",
+      "source": "desidime:2176355"
     },
     "PCYE7FTOT7HAG": {
       "firstSeen": "2026-09-25T01:45:20+0530",
@@ -1578,6 +1613,11 @@
       "firstSeen": "2026-10-03T12:46:06+0000",
       "post": "save-cards-on-amazon-get-2172505",
       "source": "desidime:2172505"
+    },
+    "S3SYJSC7BZCSO": {
+      "firstSeen": "2026-10-08T11:45:55+0000",
+      "post": "bumper-rewards-unlock-bill-payments-2176355",
+      "source": "desidime:2176355"
     },
     "SKIBRBJATPTF2": {
       "firstSeen": "2026-09-26T01:15:48+0000",
@@ -1663,6 +1703,11 @@
       "firstSeen": "2026-10-03T12:46:06+0000",
       "post": "amazon-pay-later-get-10-2172529",
       "source": "desidime:2172529"
+    },
+    "XI7LUEZSQFJL4": {
+      "firstSeen": "2026-10-08T11:45:55+0000",
+      "post": "bumper-rewards-unlock-bill-payments-2176355",
+      "source": "desidime:2176355"
     },
     "Y2N6ZZCC55UPE": {
       "firstSeen": "2026-09-25T06:31:10+0000",
