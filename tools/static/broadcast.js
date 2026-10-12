@@ -113,6 +113,8 @@
       "",
       "Affiliate: I may earn a commission at no extra cost to you.",
       "",
+      "Have questions! Discuss here, https://www.reddit.com/r/YCJOfficial/",
+      "",
       `— ${CREDIT}`,
     ];
     return lines.filter((l) => l !== null).join("\n");
