@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-14T11:46:00+0000",
+  "checkedAt": "2026-10-14T13:01:40+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39679,
     "tg:bigtricks": 0,
-    "tg:dealbee": 194679,
-    "tg:dealsmagnet": 269590,
+    "tg:dealbee": 194694,
+    "tg:dealsmagnet": 269601,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204286
+    "tg:desidime": 204310
   },
   "deals": [
     "2156282",
@@ -1830,6 +1830,9 @@
     "2180736",
     "2180745",
     "2180751",
+    "2180764",
+    "2180775",
+    "2180777",
     "2180782",
     "2180807",
     "2180812",
@@ -1843,7 +1846,10 @@
     "2180944",
     "2180954",
     "2180956",
-    "2180985"
+    "2180985",
+    "2180995",
+    "2181019",
+    "2181029"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -2230,6 +2236,11 @@
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
       "source": "desidime:2171025"
+    },
+    "OSRPJ6QQ3SB52": {
+      "firstSeen": "2026-10-14T13:01:40+0000",
+      "post": "amazon-home-get-up-to-2181029",
+      "source": "desidime:2181029"
     },
     "P4BBC2B3QECLO": {
       "firstSeen": "2026-10-08T11:45:55+0000",
