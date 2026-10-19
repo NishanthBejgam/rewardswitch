@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-19T10:16:13+0000",
+  "checkedAt": "2026-10-19T12:01:36+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39682,
     "tg:bigtricks": 0,
-    "tg:dealbee": 195344,
-    "tg:dealsmagnet": 270488,
+    "tg:dealbee": 195349,
+    "tg:dealsmagnet": 270501,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204647
+    "tg:desidime": 204653
   },
   "deals": [
     "2156282",
@@ -2271,6 +2271,11 @@
     "2184000",
     "2184001",
     "2184014",
+    "2184021",
+    "2184026",
+    "2184030",
+    "2184032",
+    "2184034",
     "2184055",
     "2184065",
     "2184143",
@@ -2279,7 +2284,10 @@
     "2184175",
     "2184177",
     "2184193",
-    "2184199"
+    "2184199",
+    "2184213",
+    "2184228",
+    "2184252"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -2461,6 +2469,11 @@
       "firstSeen": "2026-10-07T21:46:04+0000",
       "post": "amazon-daily-essentials-get-2175718",
       "source": "desidime:2175718"
+    },
+    "AYACSN2GTDINY": {
+      "firstSeen": "2026-10-19T12:01:36+0000",
+      "post": "amazon-shopping-get-up-to-2184252",
+      "source": "desidime:2184252"
     },
     "BKHMXSJSN3ZBS": {
       "firstSeen": "2026-10-08T20:45:59+0000",
