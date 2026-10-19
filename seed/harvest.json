@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-19T12:01:36+0000",
+  "checkedAt": "2026-10-19T12:31:23+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39682,
     "tg:bigtricks": 0,
-    "tg:dealbee": 195349,
-    "tg:dealsmagnet": 270501,
+    "tg:dealbee": 195351,
+    "tg:dealsmagnet": 270506,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204653
+    "tg:desidime": 204654
   },
   "deals": [
     "2156282",
@@ -2276,8 +2276,11 @@
     "2184030",
     "2184032",
     "2184034",
+    "2184035",
+    "2184038",
     "2184055",
     "2184065",
+    "2184067",
     "2184143",
     "2184147",
     "2184155",
@@ -2287,7 +2290,9 @@
     "2184199",
     "2184213",
     "2184228",
-    "2184252"
+    "2184252",
+    "2184265",
+    "2184267"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -2614,6 +2619,11 @@
       "firstSeen": "2026-10-12T19:01:50+0000",
       "post": "amazon-home-get-up-2179823",
       "source": "desidime:2179823"
+    },
+    "IOAPE3274GTPK": {
+      "firstSeen": "2026-10-19T12:31:23+0000",
+      "post": "amazon-home-improvement-get-up-2184265",
+      "source": "desidime:2184265"
     },
     "IPY5YY4VXD4VU": {
       "firstSeen": "2026-10-12T19:01:50+0000",
