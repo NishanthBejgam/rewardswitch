@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-22T19:31:18+0000",
+  "checkedAt": "2026-10-23T00:15:55+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39684,
     "tg:bigtricks": 0,
-    "tg:dealbee": 195772,
+    "tg:dealbee": 195774,
     "tg:dealsmagnet": 271085,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204841
+    "tg:desidime": 204843
   },
   "deals": [
     "2156282",
@@ -2561,6 +2561,7 @@
     "2185779",
     "2185780",
     "2185782",
+    "2185790",
     "2185792",
     "2185810",
     "2185816",
@@ -2583,14 +2584,28 @@
     "2185991",
     "2185996",
     "2186006",
+    "2186010",
     "2186019",
+    "2186036",
+    "2186045",
     "2186051",
+    "2186052",
+    "2186054",
+    "2186063",
     "2186068",
+    "2186091",
+    "2186100",
+    "2186117",
     "2186122",
+    "2186125",
+    "2186127",
     "2186129",
     "2186130",
     "2186139",
-    "2186141"
+    "2186141",
+    "2186149",
+    "2186150",
+    "2186153"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -2643,6 +2658,11 @@
       "post": "10-cashback-on-amazon-pay-2175932",
       "source": "desidime:2175932"
     },
+    "4GAIEQDIRYRMM": {
+      "firstSeen": "2026-10-23T00:15:55+0000",
+      "post": "select-appliances-get-up-to-2186125",
+      "source": "desidime:2186125"
+    },
     "4IKFKTOODXZP2": {
       "firstSeen": "2026-10-01T15:15:54+0000",
       "post": "amazon-shopping-get-flat-2171588",
@@ -2682,6 +2702,11 @@
       "firstSeen": "2026-09-30T12:15:55+0000",
       "post": "amazon-shopping-get-up-to-2170880",
       "source": "desidime:2170880"
+    },
+    "5L2E3IXAPOLN2": {
+      "firstSeen": "2026-10-23T00:15:55+0000",
+      "post": "amazon-shopping-get-up-2186153",
+      "source": "desidime:2186153"
     },
     "5QD2R7BCVMAHG": {
       "firstSeen": "2026-10-10T18:45:56+0000",
