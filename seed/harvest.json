@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-24T03:31:14+0000",
+  "checkedAt": "2026-10-24T09:01:42+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39684,
     "tg:bigtricks": 0,
-    "tg:dealbee": 195857,
-    "tg:dealsmagnet": 271284,
+    "tg:dealbee": 195881,
+    "tg:dealsmagnet": 271338,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204918
+    "tg:desidime": 204948
   },
   "deals": [
     "2156282",
@@ -2699,7 +2699,26 @@
     "2186715",
     "2186716",
     "2186718",
-    "2186755"
+    "2186728",
+    "2186755",
+    "2186767",
+    "2186772",
+    "2186789",
+    "2186791",
+    "2186893",
+    "2186898",
+    "2186900",
+    "2186901",
+    "2186915",
+    "2186919",
+    "2186926",
+    "2186928",
+    "2186942",
+    "2186946",
+    "2186967",
+    "2186968",
+    "2186971",
+    "2186977"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3031,6 +3050,11 @@
       "firstSeen": "2026-10-21T05:01:39+0000",
       "post": "amazon-bus-booking-get-20-2185026",
       "source": "desidime:2185026"
+    },
+    "GL57OE42HS7OE": {
+      "firstSeen": "2026-10-24T09:01:42+0000",
+      "post": "amazon-fire-tv-get-2186977",
+      "source": "desidime:2186977"
     },
     "GRNSKBFINYQCC": {
       "firstSeen": "2026-10-01T00:15:47+0000",
@@ -3416,6 +3440,11 @@
       "firstSeen": "2026-10-19T10:16:13+0000",
       "post": "bosch-9-kg-5-star-2183982",
       "source": "desidime:2183982"
+    },
+    "ZPRR6FL6FIRW4": {
+      "firstSeen": "2026-10-24T09:01:42+0000",
+      "post": "amazon-safety-get-flat-49-2186968",
+      "source": "desidime:2186968"
     }
   }
 }
