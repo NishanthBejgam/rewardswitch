@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-25T07:01:26+0000",
+  "checkedAt": "2026-10-25T07:16:03+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39684,
     "tg:bigtricks": 0,
     "tg:dealbee": 195960,
-    "tg:dealsmagnet": 271473,
+    "tg:dealsmagnet": 271474,
     "tg:dealsnloot": 0,
-    "tg:desidime": 204991
+    "tg:desidime": 204993
   },
   "deals": [
     "2156282",
@@ -2772,6 +2772,9 @@
     "2187234",
     "2187240",
     "2187254",
+    "2187266",
+    "2187268",
+    "2187269",
     "2187278",
     "2187280",
     "2187298",
@@ -2779,7 +2782,9 @@
     "2187309",
     "2187357",
     "2187377",
-    "2187384"
+    "2187384",
+    "2187396",
+    "2187398"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3416,6 +3421,11 @@
       "firstSeen": "2026-10-03T04:01:17+0000",
       "post": "amazon-flat-15-cashback-on-2172222",
       "source": "desidime:2172222"
+    },
+    "U7HDRO4ILWTJC": {
+      "firstSeen": "2026-10-25T07:16:03+0000",
+      "post": "apple-app-store-gv-at-2187396",
+      "source": "desidime:2187396"
     },
     "UBVVZBN5MTOGA": {
       "firstSeen": "2026-10-11T11:31:24+0000",
