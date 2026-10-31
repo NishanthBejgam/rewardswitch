@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-10-31T17:45:59+0000",
+  "checkedAt": "2026-10-31T18:46:00+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196745,
-    "tg:dealsmagnet": 272619,
+    "tg:dealbee": 196755,
+    "tg:dealsmagnet": 272624,
     "tg:dealsnloot": 0,
     "tg:desidime": 205370
   },
@@ -3309,6 +3309,7 @@
     "2190998",
     "2191001",
     "2191002",
+    "2191004",
     "2191020",
     "2191021",
     "2191024",
@@ -3344,13 +3345,24 @@
     "2191204",
     "2191219",
     "2191221",
+    "2191229",
     "2191234",
     "2191236",
     "2191265",
     "2191312",
     "2191337",
     "2191359",
-    "2191360"
+    "2191360",
+    "2191368",
+    "2191370",
+    "2191373",
+    "2191383",
+    "2191385",
+    "2191388",
+    "2191389",
+    "2191391",
+    "2191392",
+    "2191394"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3548,6 +3560,11 @@
       "post": "large-appliances-get-rs-1000-2173652",
       "source": "desidime:2173652"
     },
+    "AVBQQZIWCJTMI": {
+      "firstSeen": "2026-10-31T18:46:00+0000",
+      "post": "amazon-pharmacy-get-15-cashback-2191388",
+      "source": "desidime:2191388"
+    },
     "AVYZGB7CTEBVM": {
       "firstSeen": "2026-10-07T21:46:04+0000",
       "post": "amazon-daily-essentials-get-2175718",
@@ -3607,6 +3624,11 @@
       "firstSeen": "2026-10-08T16:02:00+0000",
       "post": "jewellery-shopping-orders-flat-rs-800-2176568",
       "source": "desidime:2176568"
+    },
+    "CQQSNZ3X7G256": {
+      "firstSeen": "2026-10-31T18:46:00+0000",
+      "post": "amazon-pharmacy-get-10-cashback-2191391",
+      "source": "desidime:2191391"
     },
     "CSGMIFN646O4E": {
       "firstSeen": "2026-10-22T04:01:36+0000",
@@ -3742,6 +3764,11 @@
       "firstSeen": "2026-10-12T19:01:50+0000",
       "post": "amazon-home-get-up-2179823",
       "source": "desidime:2179823"
+    },
+    "ICNIFMPVNAYUS": {
+      "firstSeen": "2026-10-31T18:46:00+0000",
+      "post": "amazon-add-money-get-2191394",
+      "source": "desidime:2191394"
     },
     "IM3SZNI3FPA2E": {
       "firstSeen": "2026-10-31T17:45:59+0000",
@@ -4143,6 +4170,11 @@
       "post": "flight-booking-get-up-to-2183152",
       "source": "desidime:2183152"
     },
+    "YU4WPMELSSZFA": {
+      "firstSeen": "2026-10-31T18:46:00+0000",
+      "post": "amazon-add-money-get-2191394",
+      "source": "desidime:2191394"
+    },
     "YZSZOU4DCMB5U": {
       "firstSeen": "2026-10-13T09:31:26+0000",
       "post": "nivea-spin-and-win-cashback-2180153",
@@ -4157,6 +4189,11 @@
       "firstSeen": "2026-10-24T09:01:42+0000",
       "post": "amazon-safety-get-flat-49-2186968",
       "source": "desidime:2186968"
+    },
+    "ZTTAHA6HQLQLS": {
+      "firstSeen": "2026-10-31T18:46:00+0000",
+      "post": "amazon-pay-shopping-egift-card-2191385",
+      "source": "desidime:2191385"
     }
   }
 }
