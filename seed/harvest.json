@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-10-31T01:31:27+0000",
+  "checkedAt": "2026-10-31T02:15:46+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39686,
     "tg:bigtricks": 0,
     "tg:dealbee": 196637,
-    "tg:dealsmagnet": 272468,
+    "tg:dealsmagnet": 272472,
     "tg:dealsnloot": 0,
     "tg:desidime": 205350
   },
@@ -3290,7 +3290,9 @@
     "2190885",
     "2190901",
     "2190905",
-    "2190914"
+    "2190914",
+    "2190919",
+    "2190920"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3602,6 +3604,11 @@
       "firstSeen": "2026-10-09T00:01:30+0000",
       "post": "flat-150-back-on-google-2176860",
       "source": "desidime:2176860"
+    },
+    "FCBQFF5O7AILW": {
+      "firstSeen": "2026-10-31T02:15:46+0000",
+      "post": "amazon-beauty-get-up-2190920",
+      "source": "desidime:2190920"
     },
     "FNWSSWQKGHVSK": {
       "firstSeen": "2026-10-01T06:45:55+0000",
