@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-01T00:31:05+0000",
+  "checkedAt": "2026-11-01T03:01:29+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196762,
-    "tg:dealsmagnet": 272625,
+    "tg:dealbee": 196767,
+    "tg:dealsmagnet": 272638,
     "tg:dealsnloot": 0,
-    "tg:desidime": 205376
+    "tg:desidime": 205377
   },
   "deals": [
     "2156282",
@@ -3379,7 +3379,15 @@
     "2191416",
     "2191424",
     "2191425",
-    "2191428"
+    "2191428",
+    "2191435",
+    "2191442",
+    "2191451",
+    "2191452",
+    "2191453",
+    "2191459",
+    "2191461",
+    "2191463"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3751,6 +3759,11 @@
       "firstSeen": "2026-10-30T10:01:37+0000",
       "post": "74% Off Bergner Tripro Triply Cookware Set 5 Pcs - 22cm (2.3L) Kadai with Lid, 22cm Frypan",
       "source": "tg:dealsmagnet:272394"
+    },
+    "H6C2DJLM36B7C": {
+      "firstSeen": "2026-11-01T03:01:29+0000",
+      "post": "amazon-shopping-35-offer-upto-2191461",
+      "source": "desidime:2191461"
     },
     "HC4MAFMBJKXP2": {
       "firstSeen": "2026-10-16T18:46:03+0000",
