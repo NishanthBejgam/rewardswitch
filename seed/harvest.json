@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-01T06:45:53+0000",
+  "checkedAt": "2026-11-01T07:15:58+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196791,
-    "tg:dealsmagnet": 272668,
+    "tg:dealbee": 196792,
+    "tg:dealsmagnet": 272675,
     "tg:dealsnloot": 0,
-    "tg:desidime": 205383
+    "tg:desidime": 205385
   },
   "deals": [
     "2156282",
@@ -3395,7 +3395,9 @@
     "2191504",
     "2191543",
     "2191562",
-    "2191564"
+    "2191564",
+    "2191582",
+    "2191583"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3577,6 +3579,11 @@
       "firstSeen": "2026-10-03T20:15:48+0000",
       "post": "amazon-make-a-payment-at-2172727",
       "source": "desidime:2172727"
+    },
+    "AICJYVPM4YD5O": {
+      "firstSeen": "2026-11-01T07:15:58+0000",
+      "post": "amazon-get-flat-10-on-2191583",
+      "source": "desidime:2191583"
     },
     "AJVUPP2CKZPAC": {
       "firstSeen": "2026-09-25T01:45:20+0530",
@@ -3762,6 +3769,11 @@
       "firstSeen": "2026-10-01T00:15:47+0000",
       "post": "amazon-food-grocery-rewards-2171025",
       "source": "desidime:2171025"
+    },
+    "GSRZDT2X3ELWW": {
+      "firstSeen": "2026-11-01T07:15:58+0000",
+      "post": "amazon-get-flat-10-on-2191582",
+      "source": "desidime:2191582"
     },
     "H4HZP3OWUCYFO": {
       "firstSeen": "2026-10-30T10:01:37+0000",
