@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-01T07:15:58+0000",
+  "checkedAt": "2026-11-01T07:45:50+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196792,
-    "tg:dealsmagnet": 272675,
+    "tg:dealbee": 196793,
+    "tg:dealsmagnet": 272682,
     "tg:dealsnloot": 0,
     "tg:desidime": 205385
   },
@@ -3397,7 +3397,8 @@
     "2191562",
     "2191564",
     "2191582",
-    "2191583"
+    "2191583",
+    "2191590"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3834,6 +3835,11 @@
       "firstSeen": "2026-10-12T19:01:50+0000",
       "post": "amazon-home-get-up-2179817",
       "source": "desidime:2179817"
+    },
+    "ITGU5RLVO5ZBE": {
+      "firstSeen": "2026-11-01T07:45:50+0000",
+      "post": "amazon-pay-upi-get-up-2191590",
+      "source": "desidime:2191590"
     },
     "J7TMSE6ZXZ2MA": {
       "firstSeen": "2026-11-01T00:31:05+0000",
