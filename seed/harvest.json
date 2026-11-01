@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-01T03:01:29+0000",
+  "checkedAt": "2026-11-01T06:45:53+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196767,
-    "tg:dealsmagnet": 272638,
+    "tg:dealbee": 196791,
+    "tg:dealsmagnet": 272668,
     "tg:dealsnloot": 0,
-    "tg:desidime": 205377
+    "tg:desidime": 205383
   },
   "deals": [
     "2156282",
@@ -3380,6 +3380,7 @@
     "2191424",
     "2191425",
     "2191428",
+    "2191433",
     "2191435",
     "2191442",
     "2191451",
@@ -3387,7 +3388,14 @@
     "2191453",
     "2191459",
     "2191461",
-    "2191463"
+    "2191463",
+    "2191483",
+    "2191491",
+    "2191495",
+    "2191504",
+    "2191543",
+    "2191562",
+    "2191564"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3850,6 +3858,11 @@
       "post": "amazon-movie-get-10-upto-2170511",
       "source": "desidime:2170511"
     },
+    "KRS6EHT3WVYRU": {
+      "firstSeen": "2026-11-01T06:45:53+0000",
+      "post": "amazon-shopping-get-flat-25-2191564",
+      "source": "desidime:2191564"
+    },
     "LM6ZIN4DTORIS": {
       "firstSeen": "2026-10-03T03:45:46+0000",
       "post": "10% off on - (user specific) Get flat 10% cashback upto rs50 on bill payment and recharge ",
@@ -4189,6 +4202,11 @@
       "firstSeen": "2026-09-25T06:31:10+0000",
       "post": "amazon-fresh-flat-100-200-300-back-2168400",
       "source": "desidime:2168400"
+    },
+    "Y3NV2LL35ROLW": {
+      "firstSeen": "2026-11-01T06:45:53+0000",
+      "post": "amazon-get-flat-100-2191562",
+      "source": "desidime:2191562"
     },
     "Y6JQH4NTQWJOE": {
       "firstSeen": "2026-10-28T17:16:04+0000",
