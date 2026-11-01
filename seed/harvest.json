@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-31T18:56:55+0000",
+  "checkedAt": "2026-11-01T00:31:05+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 196756,
+    "tg:dealbee": 196762,
     "tg:dealsmagnet": 272625,
     "tg:dealsnloot": 0,
-    "tg:desidime": 205370
+    "tg:desidime": 205376
   },
   "deals": [
     "2156282",
@@ -3349,10 +3349,18 @@
     "2191234",
     "2191236",
     "2191265",
+    "2191279",
+    "2191290",
+    "2191298",
     "2191312",
+    "2191322",
+    "2191323",
+    "2191324",
     "2191337",
+    "2191339",
     "2191359",
     "2191360",
+    "2191364",
     "2191368",
     "2191370",
     "2191373",
@@ -3363,8 +3371,15 @@
     "2191391",
     "2191392",
     "2191394",
+    "2191397",
     "2191400",
-    "2191401"
+    "2191401",
+    "2191408",
+    "2191415",
+    "2191416",
+    "2191424",
+    "2191425",
+    "2191428"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3787,6 +3802,11 @@
       "post": "amazon-home-get-up-2179817",
       "source": "desidime:2179817"
     },
+    "J7TMSE6ZXZ2MA": {
+      "firstSeen": "2026-11-01T00:31:05+0000",
+      "post": "send-money-transaction-get-flat-2191397",
+      "source": "desidime:2191397"
+    },
     "JCANUPUYHZWLY": {
       "firstSeen": "2026-09-25T01:45:20+0530",
       "post": "flat-150-cashback-amazon-now-mov-2166313",
@@ -4086,6 +4106,11 @@
       "firstSeen": "2026-10-01T17:01:35+0000",
       "post": "send-money-get-flat-50-back-2171633",
       "source": "desidime:2171633"
+    },
+    "UYD2RXJRZKP26": {
+      "firstSeen": "2026-11-01T00:31:05+0000",
+      "post": "send-money-transaction-get-flat-2191397",
+      "source": "desidime:2191397"
     },
     "VULBOUGJZOCRY": {
       "firstSeen": "2026-10-31T18:56:55+0000",
