@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-03T01:01:24+0000",
+  "checkedAt": "2026-11-03T03:01:34+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
     "tg:dealbee": 196992,
-    "tg:dealsmagnet": 272914,
+    "tg:dealsmagnet": 272924,
     "tg:dealsnloot": 0,
     "tg:desidime": 205436
   },
@@ -3539,7 +3539,9 @@
     "2192309",
     "2192314",
     "2192315",
-    "2192332"
+    "2192332",
+    "2192347",
+    "2192375"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -4016,6 +4018,11 @@
       "firstSeen": "2026-10-01T07:01:29+0000",
       "post": "amazon-recharge-bill-get-up-to-2171294",
       "source": "desidime:2171294"
+    },
+    "JU5HADR64MYR6": {
+      "firstSeen": "2026-11-03T03:01:34+0000",
+      "post": "flat-15-back-on-recharge-2192375",
+      "source": "desidime:2192375"
     },
     "JUFLKTXZCNQ66": {
       "firstSeen": "2026-11-01T18:46:22+0000",
