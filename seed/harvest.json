@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-04T18:46:04+0000",
+  "checkedAt": "2026-11-04T22:01:21+0000",
   "cursors": {
     "tg:Amazonlootdeals7": 0,
     "tg:IndianDealsTrick": 0,
     "tg:TrickXpert": 39688,
     "tg:bigtricks": 0,
-    "tg:dealbee": 197159,
-    "tg:dealsmagnet": 273210,
+    "tg:dealbee": 197161,
+    "tg:dealsmagnet": 273215,
     "tg:dealsnloot": 0,
     "tg:desidime": 205533
   },
@@ -3661,18 +3661,33 @@
     "2193126",
     "2193129",
     "2193137",
+    "2193142",
+    "2193160",
+    "2193161",
+    "2193163",
     "2193169",
     "2193170",
+    "2193194",
+    "2193197",
     "2193198",
+    "2193200",
     "2193203",
+    "2193205",
     "2193210",
+    "2193223",
     "2193226",
     "2193231",
+    "2193232",
     "2193241",
     "2193292",
     "2193313",
     "2193315",
-    "2193320"
+    "2193320",
+    "2193327",
+    "2193331",
+    "2193352",
+    "2193360",
+    "2193369"
   ],
   "seen": {
     "235DEBC5E5LGS": {
@@ -3994,6 +4009,11 @@
       "firstSeen": "2026-09-30T18:46:09+0000",
       "post": "amazon-pay-gift-card-deals-2171028",
       "source": "desidime:2171028"
+    },
+    "EAHNAT2GAMD2M": {
+      "firstSeen": "2026-11-04T22:01:21+0000",
+      "post": "furniture-shopping-get-up-to-2193232",
+      "source": "desidime:2193232"
     },
     "EMFBAVVFAUSOG": {
       "firstSeen": "2026-10-27T17:31:33+0000",
@@ -4554,6 +4574,11 @@
       "firstSeen": "2026-10-28T17:16:04+0000",
       "post": "💰 Flat ₹15 back on Add Money payments A simple user-specific cashback offer on Amazon 💸 ₹1",
       "source": "tg:desidime:205233"
+    },
+    "Y6MWRHA2WMRYU": {
+      "firstSeen": "2026-11-04T22:01:21+0000",
+      "post": "furniture-shopping-get-up-to-2193232",
+      "source": "desidime:2193232"
     },
     "Y6NGJ5BBTHYJE": {
       "firstSeen": "2026-11-04T07:01:34+0000",
