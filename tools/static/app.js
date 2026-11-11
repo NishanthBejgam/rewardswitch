@@ -51,7 +51,8 @@
     All: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
   };
 
-  const S = { rewards: [], amount: 0, cat: "", sub: new Set(), kind: "All", state: "live", q: "" };
+  let savedPay = "card"; try { savedPay = localStorage.getItem("rs-pay") || "card"; } catch (e) { /* private window */ }
+  const S = { rewards: [], amount: 0, cat: "", sub: new Set(), kind: "All", state: "live", q: "", pay: savedPay };
   const KIND_ICON = { shop: "S", gift: "G", bills: "B", food: "F", travel: "T", store: "O", money: "M", mission: "W" };
   const kindIcon = (k) => ICON[KIND_ICON[k] || k] || ICON.All;
 
@@ -76,6 +77,31 @@
   function logoName(r) { const n = (r.logo || "").split("/").pop().split(".")[0].replace(/_CB\d+/g, "").replace(/logo|text|temp|merch|final|new|\d+|D\d+_IN_[A-Z]+/gi, " ").replace(/[-_]+/g, " ").trim(); return n.split(" ").filter(Boolean).map((w) => (w === w.toLowerCase() ? w[0].toUpperCase() + w.slice(1) : w)).join(" "); }
   function displayName(r) { if (isMission(r)) return r.headline && !/offers worth|surprise/i.test(r.headline) ? r.headline : (r.unlock || logoName(r) || "Mission"); return categoryOf(r) || logoName(r) || r.headline || r.ad; }
   function methodOf(r) { const b = (r.badge || "").trim(); if (!b || /just for prime|top brand/i.test(b)) return ""; return titleCase(b.replace(/^using\s*/i, "").toLowerCase()).replace(/\bSbi\b/, "SBI").replace(/\bHdfc\b/, "HDFC").replace(/\bScb\b/, "SCB"); }
+  // How the reward must be paid. Amazon's T&C names it once ("pay using X", "chooses to make
+  // payment using X", "customer who uses X"); boilerplate about cashback landing in the Amazon
+  // Pay balance never matches. null = any method (card, net banking, any UPI app).
+  // apay = only an Amazon Pay instrument (UPI handle, Pay Later, balance) qualifies.
+  const PAY_RE = /(?:only when you pay using|chooses? to make (?:the )?payment using|transaction using|paid using|pay using|who uses)\s+(?:the\s+)?"?(amazon pay[^".,(:]*|any [a-z ]*payment method)/gi;
+  function payOf(r) {
+    if (r._pay !== undefined) return r._pay;
+    const badge = (/^using\s+(.*)/i.exec((r.badge || "").trim()) || [])[1] || "";
+    const said = [badge, ...[...`${r.steps || ""} ${r.terms || ""}`.matchAll(PAY_RE)].map((m) => m[1])].map((s) => s.toLowerCase().trim()).filter(Boolean);
+    const has = (re) => said.some((s) => re.test(s));
+    let p = null;
+    if (!said.length || has(/payment method/)) p = null;
+    else if (has(/icici/)) p = { label: "Amazon Pay ICICI card", apay: false };
+    else if (has(/pay later/)) p = { label: "Amazon Pay Later", apay: true };
+    else if (has(/upi emi/)) p = { label: "Amazon Pay UPI EMI", apay: true };
+    else if (has(/balance emi/)) p = { label: "Amazon Pay balance EMI", apay: true };
+    else if (has(/upi|unified payment/)) p = { label: "Amazon Pay UPI", apay: true };
+    else if (has(/balance|wallet/)) p = { label: "Amazon Pay balance", apay: true };
+    else if (has(/^amazon pay/)) p = { label: "Amazon Pay (UPI, Pay Later or balance)", apay: true };
+    else if (badge) p = { label: methodOf(r), apay: false };   // a bank card badge: still a card
+    return (r._pay = p);
+  }
+  function payLabel(r) { const p = payOf(r); return p ? p.label : methodOf(r); }
+  function payOk(r) { return S.pay === "all" || !(payOf(r) || {}).apay; }
+  function payTag(r) { const p = payOf(r); return p ? `<span class="tag ${p.apay ? "apay" : "method"}">${esc(p.apay ? p.label + " only" : p.label)}</span>` : ""; }
   function effective(r, amt) {
     if (!amt) return null; const min = r.minOrder || 0; if (amt < min) return { short: min - amt, value: 0 };
     let v = 0; if (r.pct && r.cap) v = Math.min((r.pct / 100) * amt, r.cap); else if (r.pct) v = (r.pct / 100) * amt; else v = r.cap || 0;
@@ -95,8 +121,8 @@
   // ---- planner
   // Step 2 choices: the shopping groups first, then the kinds paid outside an Amazon order.
   function choices() {
-    const live = (f) => S.rewards.filter((r) => !isMission(r) && isLive(r) && f(r)).length;
-    const shop = SHOP_GROUPS.map(([g, n]) => ({ id: g, name: n, live: live((r) => g === "gift" ? kindOf(r) === "gift" : kindOf(r) === "shop" && shopGroup(r) === g), any: S.rewards.some((r) => !isMission(r) && (g === "gift" ? kindOf(r) === "gift" : shopGroup(r) === g)) }))
+    const live = (f) => S.rewards.filter((r) => !isMission(r) && isLive(r) && payOk(r) && f(r)).length;
+    const shop = SHOP_GROUPS.map(([g, n]) => ({ id: g, name: n, live: live((r) => g === "gift" ? kindOf(r) === "gift" : kindOf(r) === "shop" && shopGroup(r) === g), any: S.rewards.some((r) => !isMission(r) && payOk(r) && (g === "gift" ? kindOf(r) === "gift" : shopGroup(r) === g)) }))
       .filter((c) => c.any || c.id === "jewellery");   // Jewellery always offered: the gold boards send buyers here
     shop.push({ id: "other", name: "Anything else", live: live((r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === "other")) });
     const pay = KINDS.filter(([k]) => !["shop", "gift", "mission"].includes(k)).map(([k, n]) => ({ id: "k:" + k, name: n, live: live((r) => kindOf(r) === k) })).filter((c) => c.live);
@@ -122,11 +148,19 @@
       : S.cat === "gift" ? (r) => kindOf(r) === "gift"
       : (r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === S.cat);
     const pick = (r) => all || !S.sub.size || !subOf(r) || S.sub.has(subOf(r));
-    return S.rewards.filter((r) => !isMission(r) && match(r) && pick(r))
+    return S.rewards.filter((r) => !isMission(r) && payOk(r) && match(r) && pick(r))
       .map((r) => ({ r, e: amt ? effective(r, amt) : null }))
       .sort((a, b) => (isLive(b.r) - isLive(a.r)) || (amt ? (b.e.value - a.e.value) || (a.e.short || 0) - (b.e.short || 0) : maxValue(b.r) - maxValue(a.r)));
   }
+  function renderPay() {
+    $$("#paySeg button").forEach((b) => b.classList.toggle("is-active", b.dataset.v === S.pay));
+    const apay = S.rewards.filter((r) => isLive(r) && (payOf(r) || {}).apay).length;
+    $("#payNote").textContent = S.pay === "card"
+      ? (apay ? `${apay} live rewards hidden: they pay out only with Amazon Pay UPI, Pay Later or balance.` : "")
+      : "Red tags need that Amazon Pay method at checkout. A credit card will not qualify.";
+  }
   function renderPlanner() {
+    renderPay();
     $("#quick").innerHTML = [500, 1000, 2500, 5000, 10000].map((v) => `<button data-v="${v}"${S.amount === v ? ' class="is-active"' : ""}>${inr(v)}</button>`).join("");
     $$("#quick button").forEach((b) => (b.onclick = () => { $("#amount").value = b.dataset.v; S.amount = +b.dataset.v; renderPlanner(); }));
     const { shop, pay } = choices();
@@ -147,11 +181,11 @@
     list.innerHTML = rs.map(({ r, e }, i) => {
       const name = displayName(r); const short = amt && e && e.short; const off = !isLive(r);
       const val = !amt ? `<b>${r.lucky ? "≤" : ""}${inr(maxValue(r))}</b><small>max</small>` : short ? `<b class="dim">${inr(r.minOrder)}</b><small>min order</small>` : `<b>${inr(e.value)}</b><small>you get</small>`;
-      const bits = [offerLine(r)]; if (r.minOrder) bits.push("min " + inr(r.minOrder)); const m = methodOf(r); if (m) bits.push("pay with " + m); const w = windowText(r); if (w) bits.push(w);
+      const bits = [offerLine(r)]; if (r.minOrder) bits.push("min " + inr(r.minOrder)); const w = windowText(r); if (w) bits.push(w);
       return `<div class="prow${r.ad === bestId ? " is-best" : ""}${short ? " is-short" : ""}${off ? " is-off" : ""}">
         <span class="rank">${i + 1}</span>
         <div class="p-main">
-          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : shopGroup(r) && S.cat !== "gift" ? ' <span class="tag">this category only</span>' : ""}${newTag(r)}${primeTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
+          <div class="p-name">${esc(name)}${isSitewide(r) ? ' <span class="tag">any order</span>' : shopGroup(r) && S.cat !== "gift" ? ' <span class="tag">this category only</span>' : ""}${newTag(r)}${primeTag(r)}${payTag(r)}${off ? statusTag(r) : ""}${r.ad === bestId ? ' <span class="tag best">pick this</span>' : ""}</div>
           <div class="p-sub">${esc(bits.join(" · "))}${short ? ` · <span class="warn">needs ${inr(e.short)} more</span>` : ""}</div>
         </div>
         <div class="p-val">${val}</div>
@@ -164,7 +198,7 @@
   }
   function renderVerdict(rs, bestId) {
     const v = $("#verdict"), runners = $("#runners");
-    const liveCount = S.rewards.filter(isLive).length;
+    const liveCount = S.rewards.filter((r) => isLive(r) && payOk(r)).length;
     S.pick = null; if (window.RSBroadcast) window.RSBroadcast.changed();
     if (!S.cat) {
       v.className = "verdict empty";
@@ -185,7 +219,7 @@
     v.innerHTML = `<div class="v-eyebrow">Switch on this one</div>
       <div class="v-amount">${e ? (e.lucky ? "up to " : "") + inr(e.value) : (r.lucky ? "≤" : "") + inr(maxValue(r))}<small>${e ? "back on " + inr(amt) : "max back"}</small></div>
       <div class="v-title">${esc(displayName(r))} · ${esc(offerLine(r))}</div>
-      <div class="v-sub">${esc([r.minOrder ? "min order " + inr(r.minOrder) : "", windowText(r), r.timesPerUser === 1 ? "once per user" : r.timesPerUser ? r.timesPerUser + "× per user" : "", methodOf(r) ? "pay with " + methodOf(r) : ""].filter(Boolean).join(" · "))}${e && e.capped ? " · capped at " + inr(r.cap) : ""}</div>
+      <div class="v-sub">${esc([r.minOrder ? "min order " + inr(r.minOrder) : "", windowText(r), r.timesPerUser === 1 ? "once per user" : r.timesPerUser ? r.timesPerUser + "× per user" : "", payLabel(r) ? "pay with " + payLabel(r) : ""].filter(Boolean).join(" · "))}${e && e.capped ? " · capped at " + inr(r.cap) : ""}</div>
       <div class="v-actions"><a class="btn btn-white btn-sm link-btn" href="${esc(r.collectUrl)}" target="_blank" rel="noopener sponsored">Collect on Amazon ↗</a><button class="btn btn-ghost btn-sm" data-details="${esc(r.ad)}">Details</button></div>`;
     $$("button[data-details]", v).forEach((b) => (b.onclick = () => openSheet(b.dataset.details)));
     const rest = rs.filter((x) => x.r !== r && isLive(x.r) && (!amt || (x.e && x.e.value > 0))).slice(0, 3);
@@ -194,15 +228,16 @@
 
   // ---- browse
   function renderFilters() {
-    const counts = {}; for (const r of S.rewards) { const k = kindOf(r); counts[k] = (counts[k] || 0) + 1; }
+    const counts = {}; for (const r of S.rewards.filter(payOk)) { const k = kindOf(r); counts[k] = (counts[k] || 0) + 1; }
     const keys = ["All", ...KINDS.map(([k]) => k).filter((k) => counts[k])];
-    $("#sectionRow").innerHTML = keys.map((k) => `<button class="chip${S.kind === k ? " is-active" : ""}" data-kind="${k}"><span class="glyph">${kindIcon(k)}</span>${k === "All" ? "All" : esc(KIND_NAME[k])}<span class="count">${k === "All" ? S.rewards.length : counts[k]}</span></button>`).join("");
+    $("#sectionRow").innerHTML = keys.map((k) => `<button class="chip${S.kind === k ? " is-active" : ""}" data-kind="${k}"><span class="glyph">${kindIcon(k)}</span>${k === "All" ? "All" : esc(KIND_NAME[k])}<span class="count">${k === "All" ? S.rewards.filter(payOk).length : counts[k]}</span></button>`).join("");
     $$("#sectionRow button").forEach((b) => (b.onclick = () => { S.kind = b.dataset.kind; renderFilters(); renderBoard(); }));
     $$("#stateSeg button").forEach((b) => { b.classList.toggle("is-active", b.dataset.v === S.state); b.onclick = () => { S.state = b.dataset.v; renderFilters(); renderBoard(); }; });
   }
   function filtered() {
     const q = S.q.trim().toLowerCase();
     return S.rewards.filter((r) => {
+      if (!payOk(r)) return false;
       if (S.kind !== "All" && kindOf(r) !== S.kind) return false;
       if (S.state === "live" && !isLive(r) && r.status !== "LOCKED") return false;
       if (q) { const hay = [displayName(r), r.headline, r.sub, r.badge, r.category, r.unlock, logoName(r)].join(" ").toLowerCase(); if (!hay.includes(q)) return false; }
@@ -221,7 +256,7 @@
   }
   function card(r) {
     const name = displayName(r); const mission = isMission(r);
-    const tags = [newTag(r), statusTag(r), primeTag(r)]; const m = methodOf(r); if (m) tags.push(`<span class="tag method">${esc(m)}</span>`); if (r.lucky) tags.push('<span class="tag lucky">Scratch</span>'); if (r.timesPerUser > 1) tags.push(`<span class="tag">${r.timesPerUser}× uses</span>`);
+    const tags = [newTag(r), statusTag(r), primeTag(r)]; if (payOf(r)) tags.push(payTag(r)); else if (methodOf(r)) tags.push(`<span class="tag method">${esc(methodOf(r))}</span>`); if (r.lucky) tags.push('<span class="tag lucky">Scratch</span>'); if (r.timesPerUser > 1) tags.push(`<span class="tag">${r.timesPerUser}× uses</span>`);
     const big = mission ? (r.worth ? `${inr(r.worth)}<small>${r.worthCount ? r.worthCount + " offers" : "to unlock"}</small>` : esc(r.headline || "Surprise")) : r.pct ? `${r.pct}%<small>back</small>` : r.cap ? `${r.lucky ? "≤" : ""}${inr(r.cap)}<small>${r.flat ? "flat" : "back"}</small>` : esc(r.headline);
     const capTxt = !mission && r.pct && r.cap ? `up to ${inr(r.cap)}` : "";
     const meta = []; if (r.minOrder) meta.push(`min <b>${inr(r.minOrder)}</b>`); const w = windowText(r); if (w) meta.push(esc(w));
@@ -240,7 +275,7 @@
   // ---- details sheet
   function openSheet(ad) {
     const r = S.rewards.find((x) => x.ad === ad); if (!r) return;
-    const kv = [[isMission(r) ? "Mission" : "Category", isMission(r) ? (r.unlock || displayName(r)) : (categoryOf(r) || "—")], ["Offer", offerLine(r)], ["Min order", r.minOrder ? inr(r.minOrder) : "—"], ["Window", r.window || ("till " + (r.validTill || "—"))], ["Uses per user", r.timesPerUser || "—"], ["Pay with", methodOf(r) || "any"], ["Status on Amazon", r.status || "—"], ["Last checked", r.readAt ? new Date(r.readAt).toLocaleString("en-IN") : "—"]];
+    const kv = [[isMission(r) ? "Mission" : "Category", isMission(r) ? (r.unlock || displayName(r)) : (categoryOf(r) || "—")], ["Offer", offerLine(r)], ["Min order", r.minOrder ? inr(r.minOrder) : "—"], ["Window", r.window || ("till " + (r.validTill || "—"))], ["Uses per user", r.timesPerUser || "—"], ["Pay with", payLabel(r) ? payLabel(r) + ((payOf(r) || {}).apay ? " only" : "") : "any method"], ["Status on Amazon", r.status || "—"], ["Last checked", r.readAt ? new Date(r.readAt).toLocaleString("en-IN") : "—"]];
     const host = $("#sheetHost");
     host.innerHTML = `<div class="sheet-scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-head"><h3>${esc(displayName(r))}</h3><button class="icon-btn" id="closeSheet" title="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
@@ -257,7 +292,7 @@
   // ---- broadcast bridge: the megaphone shows only in this browser after visiting /#broadcast
   window.RS = {
     pick: () => S.pick && { r: S.pick.r, e: S.pick.e, amount: S.amount, cat: S.cat ? choiceName(S.cat) : "", subs: [...S.sub] },
-    displayName, offerLine, windowText, methodOf, inr, maxValue, snack,
+    displayName, offerLine, windowText, methodOf: payLabel, inr, maxValue, snack,
   };
   // Re-checked on hashchange too: typing #broadcast onto an open page doesn't reload it.
   const broadcastMode = () => {
@@ -275,6 +310,10 @@
   $$(".aff-chip").forEach((b) => (b.onclick = () => b.classList.toggle("open")));
   $("#amount").addEventListener("input", (e) => { S.amount = +e.target.value || 0; renderPlanner(); });
   $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderBoard(); });
+  $$("#paySeg button").forEach((b) => (b.onclick = () => {
+    S.pay = b.dataset.v; try { localStorage.setItem("rs-pay", S.pay); } catch (e) { /* private window */ }
+    S.sub.clear(); renderPlanner(); renderFilters(); renderBoard();
+  }));
 
   fetch("catalog.json", { cache: "no-store" }).then((r) => r.json()).then((c) => {
     S.rewards = (c.rewards || []).filter((r) => r.readAt);

@@ -354,6 +354,11 @@ html[data-theme="dark"] .tag.ok { background: #065f46; color: #d1fae5; }
 .tag.prime { background: #dbeafe; color: #1e3a8a; }
 html[data-theme="dark"] .tag.prime { background: #1e3a8a; color: #dbeafe; }
 .tag.method { background: var(--m3-primary-container); color: var(--m3-primary-deep); }
+.tag.apay { background: #fee2e2; color: #991b1b; }
+html[data-theme="dark"] .tag.apay { background: #7f1d1d; color: #fee2e2; }
+.pay-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.pay-row .seg { flex-wrap: wrap; }
+.pay-note { font-size: 12.5px; color: var(--m3-on-surface-var); }
 .tag.soon { background: #fde68a; color: #7c2d12; }
 html[data-theme="dark"] .tag.soon { background: #7c2d12; color: #fde68a; }
 .tag.new { background: var(--brand-grad); color: #fff; }

@@ -58,6 +58,21 @@ jobs:
           path: seed/harvest.json
           key: harvest-${{ github.run_id }}
 
+      # GitHub's cron delivers build.yml's two-hourly slots only every 6-12 h, so Pulse
+      # flagged the catalogue stale (down) every day. This watcher is woken every 15 min
+      # from outside, so it starts the full re-read itself once the live catalogue is ~2 h old.
+      - name: Keep the catalogue fresh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          built=$(curl -fsSL https://rewardswitch.yourcardjourney.store/catalog.json | python3 -c 'import json,sys,datetime;print(int(datetime.datetime.fromisoformat(json.load(sys.stdin)["builtAt"]).timestamp()))') || { echo "catalogue unreadable"; exit 0; }
+          age=$(( ($(date +%s) - built) / 60 ))
+          busy=$(gh run list --workflow build.yml -L 5 --json status -q '[.[] | select(.status != "completed")] | length')
+          echo "catalogue ${age} min old, ${busy} build(s) running"
+          if [ "$age" -ge 110 ] && [ "$busy" = "0" ]; then
+            gh workflow run build.yml -f mode=full && echo "::notice::Started full build (catalogue ${age} min old)"
+          fi
+
       - name: Publish new rewards
         env:
           GH_TOKEN: ${{ github.token }}
