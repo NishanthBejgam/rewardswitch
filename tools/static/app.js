@@ -94,7 +94,7 @@
     else if (has(/upi emi/)) p = { label: "Amazon Pay UPI EMI", apay: true };
     else if (has(/balance emi/)) p = { label: "Amazon Pay balance EMI", apay: true };
     else if (has(/upi|unified payment/)) p = { label: "Amazon Pay UPI", apay: true };
-    else if (has(/balance|wallet/)) p = { label: "Amazon Pay balance", apay: true };
+    else if (has(/balance|wallet/)) p = { label: "Amazon Pay balance", apay: false };   // balance can be loaded by card
     else if (has(/^amazon pay/)) p = { label: "Amazon Pay (UPI, Pay Later or balance)", apay: true };
     else if (badge) p = { label: methodOf(r), apay: false };   // a bank card badge: still a card
     return (r._pay = p);
@@ -156,7 +156,7 @@
     $$("#paySeg button").forEach((b) => b.classList.toggle("is-active", b.dataset.v === S.pay));
     const apay = S.rewards.filter((r) => isLive(r) && (payOf(r) || {}).apay).length;
     $("#payNote").textContent = S.pay === "card"
-      ? (apay ? `${apay} live rewards hidden: they pay out only with Amazon Pay UPI, Pay Later or balance.` : "")
+      ? (apay ? `${apay} live rewards hidden: they pay out only with Amazon Pay UPI or Pay Later.` : "")
       : "Red tags need that Amazon Pay method at checkout. A credit card will not qualify.";
   }
   function renderPlanner() {
