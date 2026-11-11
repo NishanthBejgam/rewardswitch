@@ -99,6 +99,22 @@
     else if (badge) p = { label: methodOf(r), apay: false };   // a bank card badge: still a card
     return (r._pay = p);
   }
+  // What an "any order" reward rules out. The T&C lists it in one numbered clause, partly in
+  // words ("all products ... except a) Gold/silver coins ...", "Not applicable on jewelry, gift
+  // cards ...") and partly as browse-node links (2908910031 / 17419987031 = jewellery).
+  // "excluding few products (refer Terms & Conditions)" names nothing and is skipped.
+  const EXCLUDE = [
+    ["jewellery", /jewel|gold|silver|\/l\/(?:2908910031|17419987031)\b/i],
+    ["electronics", /electronic|laptop|tablet|smartphone|mobiles|personal computing/i],   // "Amazon Devices (FireTV, Echo)" alone is not all electronics
+    ["health", /drug ?store|pharma|prescription|medicine|\/l\/4264050031\b/i],
+    ["gift", /gift ?card/i],
+  ];
+  const EXCLUDE_NAME = { jewellery: "Jewellery & gold", electronics: "Electronics", health: "Medicines", gift: "Gift cards" };
+  function excludedOf(r) {
+    if (r._ex) return r._ex;
+    const clauses = [...(r.terms || "").matchAll(/(?:\bexcept\b|not applicable on|\bexcluding\b)(?!\s+few products)([\s\S]{0,1500}?)(?=\s\d{1,2}\.\s+[A-Z]|$)/gi)].map((m) => m[1]).join(" ");
+    return (r._ex = new Set(EXCLUDE.filter(([, re]) => re.test(clauses)).map(([g]) => g)));
+  }
   function payLabel(r) { const p = payOf(r); return p ? p.label : methodOf(r); }
   function payOk(r) { return S.pay === "all" || !(payOf(r) || {}).apay; }
   function payTag(r) { const p = payOf(r); return p ? `<span class="tag ${p.apay ? "apay" : "method"}">${esc(p.apay ? p.label + " only" : p.label)}</span>` : ""; }
@@ -146,7 +162,7 @@
     const amt = S.amount;
     const match = S.cat.startsWith("k:") ? (r) => kindOf(r) === S.cat.slice(2)
       : S.cat === "gift" ? (r) => kindOf(r) === "gift"
-      : (r) => kindOf(r) === "shop" && (isSitewide(r) || shopGroup(r) === S.cat);
+      : (r) => kindOf(r) === "shop" && ((isSitewide(r) && !excludedOf(r).has(S.cat)) || shopGroup(r) === S.cat);
     const pick = (r) => all || !S.sub.size || !subOf(r) || S.sub.has(subOf(r));
     return S.rewards.filter((r) => !isMission(r) && payOk(r) && match(r) && pick(r))
       .map((r) => ({ r, e: amt ? effective(r, amt) : null }))
@@ -275,7 +291,7 @@
   // ---- details sheet
   function openSheet(ad) {
     const r = S.rewards.find((x) => x.ad === ad); if (!r) return;
-    const kv = [[isMission(r) ? "Mission" : "Category", isMission(r) ? (r.unlock || displayName(r)) : (categoryOf(r) || "—")], ["Offer", offerLine(r)], ["Min order", r.minOrder ? inr(r.minOrder) : "—"], ["Window", r.window || ("till " + (r.validTill || "—"))], ["Uses per user", r.timesPerUser || "—"], ["Pay with", payLabel(r) ? payLabel(r) + ((payOf(r) || {}).apay ? " only" : "") : "any method"], ["Status on Amazon", r.status || "—"], ["Last checked", r.readAt ? new Date(r.readAt).toLocaleString("en-IN") : "—"]];
+    const kv = [[isMission(r) ? "Mission" : "Category", isMission(r) ? (r.unlock || displayName(r)) : (categoryOf(r) || "—")], ["Offer", offerLine(r)], ["Min order", r.minOrder ? inr(r.minOrder) : "—"], ["Window", r.window || ("till " + (r.validTill || "—"))], ["Uses per user", r.timesPerUser || "—"], ["Pay with", payLabel(r) ? payLabel(r) + ((payOf(r) || {}).apay ? " only" : "") : "any method"], ...(excludedOf(r).size ? [["Not valid on", [...excludedOf(r)].map((g) => EXCLUDE_NAME[g]).join(", ")]] : []), ["Status on Amazon", r.status || "—"], ["Last checked", r.readAt ? new Date(r.readAt).toLocaleString("en-IN") : "—"]];
     const host = $("#sheetHost");
     host.innerHTML = `<div class="sheet-scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-head"><h3>${esc(displayName(r))}</h3><button class="icon-btn" id="closeSheet" title="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
